@@ -118,7 +118,7 @@ def main_loop():
             send_rtt_coordinates()
         except Exception as err:
             print("OS error: {0}".format(err));
-            cellular.SMS('+79169542241', "OS error: {0}".format(err)).send()
+            cellular.SMS('...', "OS error: {0}".format(err)).send()
             set_gprs_state(False)
 
 #        machine.set_idle(True)
