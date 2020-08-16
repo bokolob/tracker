@@ -6,6 +6,8 @@ import select
 import gps
 import utime
 import time
+import urequests
+import ujson
 
 #todo adc for battery
 #todo gps - try glonass, other settings
@@ -62,22 +64,76 @@ def set_gps_state(state):
     prev_state = gps_state;
 
     if state and (not gps_state):
-        gps.on()
+        gps.on(0, 1|2)
     else:
         if not state and gps_state:
+            print("Switchng off gps!")
             gps.off()
 
     gps_state=state;
     return prev_state
+
+def has_gps_fix():
+    nmea = gps.nmea_data()
+    return nmea != None and len(nmea) >= 2 and nmea[0][1] and len(nmea[1]) > 0 and nmea[1][0][1] > 1
+
+def prepare_yndx_locator_request():
+    gps_data=cellular.agps_station_data()
+
+    mcc = gps_data[0]
+    mnc = int(gps_data[1]/10)
+    stations = gps_data[2]
+
+    gsm_cells = [{ "countrycode": mcc,
+                   "operatorid": mnc,
+                   "lac": x[0],
+                   "cellid": x[1],
+                   "signal_strength": x[2],
+                 } for x in stations
+            ]
+
+    return {
+            "common": {
+                "version": "1.0",  
+            },
+            "gsm_cells": gsm_cells,
+            "ip": {
+                     "address_v4": None
+                  }
+           }
+
+def get_lbs_location():
+    req = prepare_yndx_locator_request()
+    wait_gprs()
+    req["ip"]["address_v4"]=socket.get_local_ip()
+
+    coords = (0,0)
+    resp = None
+
+    try:
+        resp=urequests.post("http://api.lbs.yandex.net/geolocation", 
+                            data="json="+ujson.dumps(req), 
+                            headers={"Content-Type": "application/x-www-form-urlencoded", 
+                                    "Accept":"*/*"})
+
+        if resp.status_code == 200:
+            parsed = resp.json()
+            coords=(parsed['position']['longitude'], parsed['position']['latitude'])
+    finally:
+        if resp != None:
+            resp.close()
+
+    return coords
 
 
 def get_coordinates():
     global gps_state
 
     if gps_state :
-        return gps.get_location();
-
-    #todo agps
+        if has_gps_fix():
+            return gps.get_location()
+        else:
+            return get_lbs_location()
 
     return (0,0)
 
@@ -102,7 +158,7 @@ def send_coords_by_sms(number):
 
         text = SETTINGS['sms_template'].format(lat=coords[0], lng=coords[1])
         print("Sending "+text)
-        cellular.SMS(number, text).send()
+        cellular.SMS(number, text).send(0)
     finally:
         machine.watchdog_reset()
         set_gps_state(prev_state)
@@ -144,7 +200,7 @@ def connect_with_timeout(s, server, port, timeout):
         pass
 
     readable,writable,exceptionavailable = select.select([s],[s],[s],timeout)
-    
+
     for s in writable:
         s.setblocking(1)
         return s
@@ -163,8 +219,12 @@ def send_rtt_coordinates():
 
 def delay(ms):
     machine.set_idle(True)
-    
+
     step = 10000
+    prev_gps_state = gps_state
+
+    if ms > 5 * 60 * 1000:
+        set_gps_state(False)
 
     while ms > 0:
         if ms < step:
@@ -174,6 +234,7 @@ def delay(ms):
         ms -= step
         machine.watchdog_reset()
 
+    set_gps_state(prev_gps_state)
     machine.set_idle(False)
 
 def reset_gsm():
@@ -221,7 +282,6 @@ def main_iteration():
     except Exception as err:
         print("OS error: {0}".format(err));
         try:
-            cellular.SMS('+79169542241', "OS error: {0}".format(err)).send()
         except Exception as e:
             pass
     finally:
@@ -231,14 +291,15 @@ def main_iteration():
 
 def main_loop():
     while (True):
-        set_gps_state(True)
         main_iteration()
-        set_gps_state(False)
         delay(SETTINGS['track_delay_minutes'] * 60 * 1000)
 
-reset_gsm()
-machine.watchdog_on(120)
-machine.set_min_freq(machine.PM_SYS_FREQ_13M)
+def start():
+    print("GPS tracking software")
+    set_gps_state(True)
+    reset_gsm()
+    machine.watchdog_on(120)
+    machine.set_min_freq(machine.PM_SYS_FREQ_13M)
 
-main_loop()
+    main_loop()
 

@@ -144,6 +144,7 @@ def main():
     sda=machine.Pin(19, machine.Pin.OUT, 0)
     sdo=machine.Pin(15, machine.Pin.IN, 0)
     cs=machine.Pin(14, machine.Pin.OUT,1)
+    stat=machine.Pin(17,machine.Pin.IN,1)
 
     spi = machine.SPI(-1, sck=scl, miso=sdo, mosi=sda)
     spi.init(400000, polarity=0, phase=0)
