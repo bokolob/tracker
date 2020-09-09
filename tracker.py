@@ -7,10 +7,11 @@ import gps
 import utime
 import time
 import urequests
+from settings import get_property,set_property
+from commands import run_cmd, check_admin_number
 import ujson
 
 #todo adc for battery
-#todo gps - try glonass, other settings
 #todo agps
 #todo accel
 #Обновлять конфигурацию через СМС
@@ -26,20 +27,6 @@ import ujson
 #
 
 
-SETTINGS = {
-              'apn': "internet.beeline.ru", 
-              'login': "beeline",
-              'password': "beeline",
-              'send_sms_on_call': True,
-              'sms_template': "http://www.google.com/maps/place/{lat},{lng}",
-              'rtt_server': "5.9.136.109",
-              'rtt_port': 3359,
-              'min_bat_adc': 678,
-              'max_bat_adc': 751,
-              'bat_adc_scale': 95,
-              'track_delay_minutes': 1,
-           }
-
 NTW_REG_BIT =  0x01
 NTW_ROAM_BIT = 0x02
 NTW_REG_PROGRESS_BIT = 0x04
@@ -53,10 +40,23 @@ led = machine.Pin(27, machine.Pin.OUT, 0)
 led2 = machine.Pin(28, machine.Pin.OUT, 0)
 stat=machine.Pin(17,machine.Pin.IN,1)
 
+sms_requested = None
+interrupt = False
+
+def sms_handler(sms):
+    msg=sms.message
+
+    if not check_admin_number(sms.phone_number):
+        return
+
+    result = run_cmd([ word.lower() for word in msg.split() ])
+
+    if result is not None:
+        cellular.SMS(sms.phone_number, result).send(0)
+
 def network_handler(status):
     print("network status: "+ str(status))
     cellular.on_status_event(network_handler)
-
 
 def set_gps_state(state):
     global gps_state
@@ -95,6 +95,7 @@ def prepare_yndx_locator_request():
     return {
             "common": {
                 "version": "1.0",  
+                "api_key": get_property('locator_api_key'),
             },
             "gsm_cells": gsm_cells,
             "ip": {
@@ -103,22 +104,21 @@ def prepare_yndx_locator_request():
            }
 
 def get_lbs_location():
-    req = prepare_yndx_locator_request()
     wait_gprs()
+    req = prepare_yndx_locator_request()
     req["ip"]["address_v4"]=socket.get_local_ip()
 
-    coords = (0,0)
+    coords = (0,0, False)
     resp = None
 
     try:
         resp=urequests.post("http://api.lbs.yandex.net/geolocation", 
                             data="json="+ujson.dumps(req), 
-                            headers={"Content-Type": "application/x-www-form-urlencoded", 
-                                    "Accept":"*/*"})
+                            headers={"Content-Type": "application/x-www-form-urlencoded", "Accept":"*/*"})
 
         if resp.status_code == 200:
             parsed = resp.json()
-            coords=(parsed['position']['longitude'], parsed['position']['latitude'])
+            coords=(parsed['position']['longitude'], parsed['position']['latitude'], False)
     finally:
         if resp != None:
             resp.close()
@@ -129,51 +129,45 @@ def get_lbs_location():
 def get_coordinates():
     global gps_state
 
-    if gps_state :
-        if has_gps_fix():
-            return gps.get_location()
-        else:
-            return get_lbs_location()
+    if gps_state and has_gps_fix():
+            coors = gps.get_location()
+            return (coords[0], coords[1], True)
 
-    return (0,0)
+    return get_lbs_location()
 
 def on_call_handler(number):
     cellular.on_call(on_call_handler)
 
     if isinstance(number, str):
         cellular.dial(False)
-        last_call='+' + number
-        send_coords_by_sms(last_call)
+
+        phone = '+' + number
+        if check_admin_number(phone) and get_property('send_sms_on_call'):
+            sms_requested = phone
 
 
 def send_coords_by_sms(number):
-    if not SETTINGS['send_sms_on_call']:
-        return
-
     try:
         print("Sending coords")
-        prev_state = set_gps_state(True)
-
         coords = get_coordinates()
-
-        text = SETTINGS['sms_template'].format(lat=coords[0], lng=coords[1])
+        text = get_property('sms_template').format(lat=coords[0], lng=coords[1])
         print("Sending "+text)
         cellular.SMS(number, text).send(0)
-    finally:
-        machine.watchdog_reset()
-        set_gps_state(prev_state)
+    except Exception as err:
+        pass
 
 
 def get_battery():
     value =  adc0.read();
-    v = max( SETTINGS['min_bat_adc'], value)
-    v = min( SETTINGS['max_bat_adc'], v)
-    return (v-SETTINGS['min_bat_adc'])/( SETTINGS['max_bat_adc']-SETTINGS['min_bat_adc']) * 100;
+    v = max( get_property('min_bat_adc'), value)
+    v = min( get_property('max_bat_adc'), v)
+    return (v-get_property('min_bat_adc'))/( get_property('max_bat_adc')-get_property('min_bat_adc')) * 100;
 
 
 def get_rtt_string():
     coords = get_coordinates()
     tm = utime.localtime();
+    source = 'A' if coords[2] else 'V'
 
     return "rtt003," + \
             str(cellular.get_imei()) + "," + \
@@ -188,7 +182,7 @@ def get_rtt_string():
             "000," + \
             "{:02d},".format(gps.get_satellites()[1]) + \
             "{:02d},".format(cellular.get_signal_quality()[0]) + \
-            "A," + \
+            source + "," + \
             "0\r\n"
 
 def connect_with_timeout(s, server, port, timeout):
@@ -211,7 +205,7 @@ def send_rtt_coordinates():
     s = socket.socket()
     s.settimeout(10.0)
     try:
-        connect_with_timeout(s, SETTINGS['rtt_server'], SETTINGS['rtt_port'], 10)
+        connect_with_timeout(s, get_property('rtt_server'), get_property('rtt_port'), 10)
         print(get_rtt_string())
         s.write(get_rtt_string())
     finally:
@@ -220,13 +214,17 @@ def send_rtt_coordinates():
 def delay(ms):
     machine.set_idle(True)
 
-    step = 10000
+    step = 1000
     prev_gps_state = gps_state
 
     if ms > 5 * 60 * 1000:
         set_gps_state(False)
 
     while ms > 0:
+        if interrupt:
+            interrupt = False
+            raise OSError(4) #EINTR
+
         if ms < step:
             step = ms
 
@@ -239,6 +237,7 @@ def delay(ms):
 
 def reset_gsm():
     cellular.reset()
+    cellular.on_new_sms(sms_handler)
     cellular.on_call(on_call_handler)
     cellular.on_status_event(network_handler)
 
@@ -262,7 +261,7 @@ def wait_gprs():
         led2.value(0)
 
         try:
-            cellular.gprs(SETTINGS['apn'], SETTINGS['login'], SETTINGS['password'])
+            cellular.gprs(get_property('apn'), get_property('login'), get_property('password'))
         except Exception as err:
             print("OS error: {0}".format(err));
             reset_gsm()
@@ -270,18 +269,29 @@ def wait_gprs():
         machine.watchdog_reset()
         machine.set_idle(False)
 
+
 def main_iteration():
     global led
+    global sms_requested
+
     led.value(1)
     machine.watchdog_reset()
 
-    try: 
+    try:
+        if sms_requested is not None:
+            send_coords_by_sms(sms_requested)
+
         wait_gprs()
         machine.set_min_freq(machine.PM_SYS_FREQ_13M)
         send_rtt_coordinates()
     except Exception as err:
         print("OS error: {0}".format(err));
         try:
+            admins = get_property("admin_numbers")
+            
+            if len(admins) > 0:
+                cellular.SMS(admins[0], "OS error: {0}".format(err)).send(0)
+
         except Exception as e:
             pass
     finally:
@@ -292,7 +302,7 @@ def main_iteration():
 def main_loop():
     while (True):
         main_iteration()
-        delay(SETTINGS['track_delay_minutes'] * 60 * 1000)
+        delay(get_property('track_delay_minutes') * 60 * 1000)
 
 def start():
     print("GPS tracking software")
