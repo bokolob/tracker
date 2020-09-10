@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name TrackerFull-rescue)(type Legacy)(uri ${KIPRJMOD}/TrackerFull-rescue.lib)(options "")(descr ""))
+  (lib (name Tracker)(type Legacy)(uri ${KIPRJMOD}/imported/Tracker.lib)(options "")(descr ""))
+  (lib (name full-cache)(type Legacy)(uri ${KIPRJMOD}/imported/full-cache.lib)(options "")(descr ""))
+  (lib (name mailboxNotifier-eagle-import)(type Legacy)(uri ${KIPRJMOD}/imported/mailboxNotifier-eagle-import.lib)(options "")(descr ""))
+)
