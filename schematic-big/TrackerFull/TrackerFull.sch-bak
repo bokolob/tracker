@@ -1174,8 +1174,6 @@ Wire Wire Line
 	6850 5950 6900 5950
 Wire Wire Line
 	7600 5950 7750 5950
-Text Label 7850 5950 0    50   ~ 0
-2.2V
 Text Label 7000 7000 0    50   ~ 0
 2.2V
 Text Label 3250 2600 0    50   ~ 0
@@ -1468,5 +1466,7 @@ $EndComp
 Wire Wire Line
 	1500 6350 1950 6350
 Text Label 1500 6350 0    50   ~ 0
+2.2V
+Text Label 7850 5950 0    50   ~ 0
 2.2V
 $EndSCHEMATC
