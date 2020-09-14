@@ -9,7 +9,7 @@ SETTINGS = {
               'min_bat_adc': 678,
               'max_bat_adc': 751,
               'bat_adc_scale': 95,
-              'track_delay_minutes': 1,
+              'track_delay_minutes': 5,
               'locator_api_key':"AEsDOV8BAAAAelrSSQIAOzZ-PNLKVHQDKvFCBNbvhCGL7ZIAAAAAAAAAAABh6tFx3GfXVrXF72VITNRsa2otqQ==",
               'balance_ussd': "*102#",
               'admin_numbers':[],

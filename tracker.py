@@ -39,23 +39,29 @@ adc0 = machine.ADC(0)
 led = machine.Pin(27, machine.Pin.OUT, 0)
 led2 = machine.Pin(28, machine.Pin.OUT, 0)
 stat=machine.Pin(17,machine.Pin.IN,1)
+network_status = -1
 
 sms_requested = None
 interrupt = False
 
 def sms_handler(sms):
+    cellular.on_new_sms(sms_handler)
     msg=sms.message
 
-    if not check_admin_number(sms.phone_number):
-        return
-
-    result = run_cmd([ word.lower() for word in msg.split() ])
+    print("sms_handler")
+    result = run_cmd(sms.phone_number, [ word.lower() for word in msg.split() ])
 
     if result is not None:
         cellular.SMS(sms.phone_number, result).send(0)
 
 def network_handler(status):
-    print("network status: "+ str(status))
+    global network_status
+
+    if network_status != status:
+        print("network status: "+ str(status))
+        network_status = status
+        interrupt=True
+
     cellular.on_status_event(network_handler)
 
 def set_gps_state(state):
@@ -118,7 +124,7 @@ def get_lbs_location():
 
         if resp.status_code == 200:
             parsed = resp.json()
-            coords=(parsed['position']['longitude'], parsed['position']['latitude'], False)
+            coords=(parsed['position']['latitude'], parsed['position']['longitude'], False)
     finally:
         if resp != None:
             resp.close()
@@ -130,12 +136,13 @@ def get_coordinates():
     global gps_state
 
     if gps_state and has_gps_fix():
-            coors = gps.get_location()
+            coords = gps.get_location()
             return (coords[0], coords[1], True)
 
     return get_lbs_location()
 
 def on_call_handler(number):
+    global sms_requested
     cellular.on_call(on_call_handler)
 
     if isinstance(number, str):
@@ -164,8 +171,7 @@ def get_battery():
     return (v-get_property('min_bat_adc'))/( get_property('max_bat_adc')-get_property('min_bat_adc')) * 100;
 
 
-def get_rtt_string():
-    coords = get_coordinates()
+def get_rtt_string(coords):
     tm = utime.localtime();
     source = 'A' if coords[2] else 'V'
 
@@ -205,16 +211,19 @@ def send_rtt_coordinates():
     s = socket.socket()
     s.settimeout(10.0)
     try:
+        coords = get_coordinates()
+        print(get_rtt_string(coords))
         connect_with_timeout(s, get_property('rtt_server'), get_property('rtt_port'), 10)
-        print(get_rtt_string())
-        s.write(get_rtt_string())
+        s.write(get_rtt_string(coords))
     finally:
         s.close()
 
 def delay(ms):
+    global interrupt
+    f=open("t/gps.log","a")
     machine.set_idle(True)
 
-    step = 1000
+    step = 5000 #TODO 1000
     prev_gps_state = gps_state
 
     if ms > 5 * 60 * 1000:
@@ -223,10 +232,16 @@ def delay(ms):
     while ms > 0:
         if interrupt:
             interrupt = False
+            f.close()
             raise OSError(4) #EINTR
 
         if ms < step:
             step = ms
+
+        rec=gps.nmea_data()[0]
+        coords = gps.get_location()
+        if rec[1]:
+            f.write(str(rec)+" "+str(coords)+"\n")
 
         utime.sleep_ms(step)
         ms -= step
@@ -234,6 +249,7 @@ def delay(ms):
 
     set_gps_state(prev_gps_state)
     machine.set_idle(False)
+    f.close()
 
 def reset_gsm():
     cellular.reset()
@@ -280,15 +296,16 @@ def main_iteration():
     try:
         if sms_requested is not None:
             send_coords_by_sms(sms_requested)
+            sms_requested = None
 
         wait_gprs()
-        machine.set_min_freq(machine.PM_SYS_FREQ_13M)
+        machine.set_min_freq(machine.PM_SYS_FREQ_39M)
         send_rtt_coordinates()
     except Exception as err:
         print("OS error: {0}".format(err));
         try:
             admins = get_property("admin_numbers")
-            
+
             if len(admins) > 0:
                 cellular.SMS(admins[0], "OS error: {0}".format(err)).send(0)
 
@@ -307,9 +324,14 @@ def main_loop():
 def start():
     print("GPS tracking software")
     set_gps_state(True)
+
+    while not cellular.is_sim_present():
+        print("No sim card..")
+        utime.sleep_ms(1000)
+
     reset_gsm()
     machine.watchdog_on(120)
-    machine.set_min_freq(machine.PM_SYS_FREQ_13M)
+    machine.set_min_freq(machine.PM_SYS_FREQ_39M)
 
     main_loop()
 
