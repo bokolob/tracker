@@ -101,11 +101,11 @@ X Pin_2 2 -200 -100 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Connector_USB_B_Mini
+# Connector_USB_B_Micro
 #
-DEF Connector_USB_B_Mini J 0 40 Y Y 1 F N
+DEF Connector_USB_B_Micro J 0 40 Y Y 1 F N
 F0 "J" -200 450 50 H V L CNN
-F1 "Connector_USB_B_Mini" -200 350 50 H V L CNN
+F1 "Connector_USB_B_Micro" -200 350 50 H V L CNN
 F2 "" 150 -50 50 H I C CNN
 F3 "" 150 -50 50 H I C CNN
 ALIAS USB_B_Mini
@@ -508,6 +508,25 @@ P 2 1 0 0 -100 12 -100 0 N
 P 2 1 0 0 100 12 100 0 N
 X 1 P$1 -200 0 100 R 0 0 1 0 P
 X 2 P$2 200 0 100 L 0 0 1 0 P
+ENDDRAW
+ENDDEF
+#
+# mailboxNotifier-eagle-import_INDUCTOR1210K
+#
+DEF mailboxNotifier-eagle-import_INDUCTOR1210K L 0 40 Y Y 1 L N
+F0 "L" -100 100 42 H V L BNN
+F1 "mailboxNotifier-eagle-import_INDUCTOR1210K" -100 -100 42 H V L BNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+A -75 11 25 23 1777 1 0 10 N -50 12 -100 12
+A -25 11 25 23 1777 1 0 10 N 0 12 -50 12
+A 25 11 25 23 1777 1 0 10 N 50 12 0 12
+A 75 11 25 23 1777 1 0 10 N 100 12 50 12
+P 2 1 0 0 -100 12 -100 0 N
+P 2 1 0 0 100 12 100 0 N
+X 1 1 -200 0 100 R 0 0 1 0 P
+X 2 2 200 0 100 L 0 0 1 0 P
 ENDDRAW
 ENDDEF
 #
