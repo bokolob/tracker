@@ -1,0 +1,3 @@
+[submodule "avr/USIWire"]
+	path = avr/USIWire
+	url = https://github.com/puuu/USIWire.git
