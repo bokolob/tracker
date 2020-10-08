@@ -22,16 +22,23 @@ AVRDUDE_PROGRAMMER      = usbasp
 AVRDUDE_PROGRAMMER_PORT = usb
 
 # Fuses
+#FUSE_L = 0xe1
 FUSE_L = 0xe2
 FUSE_H = 0xdf
 FUSE_E = 0xff
 
 # Список дополнительных C-файлов для компиляции (указывать через пробел).
-C_FILES = USI_TWI_Slave.c
+C_FILES = USI_TWI_Slave.c light_ws2812.c
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CFLAGS        = -Os -Wall -mcall-prologues -std=c99 -mmcu=$(GCC_MCU) -DF_CPU=$(CLOCK_HZ)UL -D$(DEVICE_TYPE)
+CFLAGS = -Os -Wall -mcall-prologues -std=gnu99  -I. -mmcu=$(GCC_MCU) -DF_CPU=$(CLOCK_HZ)UL -D$(DEVICE_TYPE)
+#CFLAGS        = -Os -Wall -mcall-prologues -std=gnu99 -mmcu=$(GCC_MCU) -DF_CPU=$(CLOCK_HZ)UL -D$(DEVICE_TYPE)
+#CFLAGS+=        -ffunction-sections -fdata-sections -fpack-struct -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions
+#CFLAGS+=        -Wall -Wno-pointer-to-int-cast
+
+#LDFLAGS = -Wl,--relax,--section-start=.text=0,-Map=main.map
+
 #CFLAGS        =  -ggdb3  -Wall -std=c99 -mmcu=$(GCC_MCU) -DF_CPU=$(CLOCK_HZ)UL -D$(DEVICE_TYPE)
 FUSES         = -U lfuse:w:$(FUSE_L):m -U hfuse:w:$(FUSE_H):m -U efuse:w:$(FUSE_E):m
 FLASH         = -U flash:w:$(PROJECT).hex
