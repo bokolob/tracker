@@ -180,14 +180,12 @@ __interrupt void USI_Start_Condition_ISR(void)
 	      // If a Stop condition arises then leave the interrupt to prevent waiting forever.
 	if (tmpPin) {
 		// Stop Condition (waiting for next Start Condition)
-        PORTB &=  ~(1 << PORTB4);
 		USICR = (1 << USISIE) | (0 << USIOIE) | // Enable Start Condition Interrupt. Disable Overflow Interrupt.
 		        (1 << USIWM1) | (0 << USIWM0) | // Set USI in Two-wire mode. No USI Counter overflow prior
 		                                        // to first Start Condition (potentail failure)
 		        (1 << USICS1) | (0 << USICS0) | (0 << USICLK) | // Shift Register Clock Source = External, positive edge
 		        (0 << USITC);
 	} else {
-        PORTB |=  (1 << PORTB4);
 		// really Start Condition (Enable Overflow Interrupt)
 		USICR = (1 << USISIE) | (1 << USIOIE)
 		        | // Enable Overflow and Start Condition Interrupt. (Keep StartCondInt to detect RESTART)
@@ -213,8 +211,6 @@ __interrupt void USI_Counter_Overflow_ISR(void)
 	unsigned char tmpRxHead;
 	unsigned char tmpTxTail; // Temporary variables to store volatiles
 	unsigned char tmpUSIDR;
-
-    PORTB |=  (1 << PORTB3);
 
 	switch (USI_TWI_Overflow_State) {
 	// ---------- Address mode ----------

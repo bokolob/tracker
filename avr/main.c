@@ -35,9 +35,37 @@ volatile uint8_t i2c_regs[] =
 // Tracks the current register pointer position
 volatile uint8_t reg_position;
 uint8_t reg_size = sizeof(i2c_regs);
-int timeout = 0;
+volatile int timeout = 0;
+
+void enable_a9g() {
+   PORTB &= ~(1 << POWER_PIN);
+}
+
+void disable_a9g() {
+   PORTB |= (1 << POWER_PIN);
+}
+
+void start_watchdog() {
+    //Watchdog change enabled
+    WDTCR |= (1 << WDCE);
+    //Watchdog enabled, Watchdog interrupt enabled
+    WDTCR |= (1 << WDE) | (1 << WDIE);
+    WDTCR |= (1 << WDP3) | (0 << WDP2) | (0 << WDP1) | (1 << WDP0); //8 seconds delay
+    //Watchdog change disabled
+    WDTCR &= ~(1 << WDCE);
+}
+
+void watchdog_disable() {
+    //Flags cleared
+    MCUSR = 0x00;
+    //Watchdog change enabled and Watchdog enabled at the same time to disable
+    WDTCR |= (1 << WDCE)  | (1 << WDE);
+    //Watchdog disabled
+    WDTCR &= ~((1 << WDCE) | (1 << WDE) | (1 << WDIE));
+}
 
 int main() {
+    start_watchdog();
     USI_TWI_Slave_Initialise(SLAVE_ADDR);
     USI_TWI_On_Slave_Transmit = requestEvent;
     USI_TWI_On_Slave_Receive = receiveEvent;
@@ -46,8 +74,8 @@ int main() {
     DDRB = MASK;
 
     while(1) {
-       sleep_enable(); // разрешаем сон
-      
+       sleep_enable();
+
        if (timeout <= 0) {
            timeout = 0;
            enable_a9g();
@@ -62,8 +90,10 @@ int main() {
             blink();
        }
 
-       if (i2c_regs[POWER_REG]) {
+       if (i2c_regs[POWER_REG] != 0) {
+           watchdog_disable();
            timeout = i2c_regs[POWER_REG] * i2c_regs[POWER_TIME_MULTIPLIER];
+           start_watchdog();
            i2c_regs[POWER_REG] = 0;
            disable_a9g();
        }
@@ -75,12 +105,13 @@ int main() {
     return 0;
 }
 
-void enable_a9g() {
-   PORTB &= ~(1 << POWER_PIN);
-}
 
-void disable_a9g() {
-   PORTB |= (1 << POWER_PIN);
+ISR(WDT_vect) {
+    WDTCR |= (1 << WDIE); //Watchdog interrupt enabled
+
+    if (timeout > 0) {
+        timeout -= 8;
+    }
 }
 
 void requestEvent() //write to master
@@ -144,6 +175,7 @@ void blink(void)
     }
 
     led[0].r=0;led[0].g=0;led[0].b=0;led[0].w=0;    // Write red to array
+    led[1].r=0;led[1].g=0;led[1].b=0;led[1].w=0;    // Write red to array
     ws2812_setleds_rgbw_mask(led,2, (1 << NEOPIXEL_PIN));
 }
 
