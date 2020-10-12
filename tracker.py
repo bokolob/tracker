@@ -6,10 +6,15 @@ import select
 import gps
 import utime
 import time
+
 import urequests
+import gprs
+import location
+import lis3dsh
+import softi2c
+
 from settings import get_property,set_property
 from commands import run_cmd, check_admin_number
-import ujson
 
 #todo adc for battery
 #todo agps
@@ -26,20 +31,12 @@ import ujson
 #Там же: показ не только положение трекера, но и приёмника. Это очень важно при отсутствии рядом видимых ориентиров, например, за пределами города.
 #
 
-
-NTW_REG_BIT =  0x01
-NTW_ROAM_BIT = 0x02
-NTW_REG_PROGRESS_BIT = 0x04
-NTW_ATT_BIT =  0x08
-NTW_ACT_BIT = 0x10
-
-gps_state = False
-st = time.time()
 adc0 = machine.ADC(0)
 led = machine.Pin(27, machine.Pin.OUT, 0)
-led2 = machine.Pin(28, machine.Pin.OUT, 0)
 stat=machine.Pin(17,machine.Pin.IN,1)
 network_status = -1
+si = softi2c.SoftI2C()
+lis = lis3dsh.main()
 
 sms_requested = None
 interrupt = False
@@ -48,11 +45,16 @@ def sms_handler(sms):
     cellular.on_new_sms(sms_handler)
     msg=sms.message
 
+    if usb_connected():
+        s.writeRegister("sms effect")
+
     print("sms_handler")
     result = run_cmd(sms.phone_number, [ word.lower() for word in msg.split() ])
 
+    remove_all_sms()
     if result is not None:
         cellular.SMS(sms.phone_number, result).send(0)
+    
 
 def network_handler(status):
     global network_status
@@ -64,82 +66,6 @@ def network_handler(status):
 
     cellular.on_status_event(network_handler)
 
-def set_gps_state(state):
-    global gps_state
-
-    prev_state = gps_state;
-
-    if state and (not gps_state):
-        gps.on(0, 1|2)
-    else:
-        if not state and gps_state:
-            print("Switchng off gps!")
-            gps.off()
-
-    gps_state=state;
-    return prev_state
-
-def has_gps_fix():
-    nmea = gps.nmea_data()
-    return nmea != None and len(nmea) >= 2 and nmea[0][1] and len(nmea[1]) > 0 and nmea[1][0][1] > 1
-
-def prepare_yndx_locator_request():
-    gps_data=cellular.agps_station_data()
-
-    mcc = gps_data[0]
-    mnc = int(gps_data[1]/10)
-    stations = gps_data[2]
-
-    gsm_cells = [{ "countrycode": mcc,
-                   "operatorid": mnc,
-                   "lac": x[0],
-                   "cellid": x[1],
-                   "signal_strength": x[2],
-                 } for x in stations
-            ]
-
-    return {
-            "common": {
-                "version": "1.0",  
-                "api_key": get_property('locator_api_key'),
-            },
-            "gsm_cells": gsm_cells,
-            "ip": {
-                     "address_v4": None
-                  }
-           }
-
-def get_lbs_location():
-    wait_gprs()
-    req = prepare_yndx_locator_request()
-    req["ip"]["address_v4"]=socket.get_local_ip()
-
-    coords = (0,0, False)
-    resp = None
-
-    try:
-        resp=urequests.post("http://api.lbs.yandex.net/geolocation", 
-                            data="json="+ujson.dumps(req), 
-                            headers={"Content-Type": "application/x-www-form-urlencoded", "Accept":"*/*"})
-
-        if resp.status_code == 200:
-            parsed = resp.json()
-            coords=(parsed['position']['latitude'], parsed['position']['longitude'], False)
-    finally:
-        if resp != None:
-            resp.close()
-
-    return coords
-
-
-def get_coordinates():
-    global gps_state
-
-    if gps_state and has_gps_fix():
-            coords = gps.get_location()
-            return (coords[0], coords[1], True)
-
-    return get_lbs_location()
 
 def on_call_handler(number):
     global sms_requested
@@ -150,13 +76,14 @@ def on_call_handler(number):
 
         phone = '+' + number
         if check_admin_number(phone) and get_property('send_sms_on_call'):
+            interrupt=True
             sms_requested = phone
 
 
 def send_coords_by_sms(number):
     try:
         print("Sending coords")
-        coords = get_coordinates()
+        coords = location.get_coordinates()
         text = get_property('sms_template').format(lat=coords[0], lng=coords[1])
         print("Sending "+text)
         cellular.SMS(number, text).send(0)
@@ -211,7 +138,7 @@ def send_rtt_coordinates():
     s = socket.socket()
     s.settimeout(10.0)
     try:
-        coords = get_coordinates()
+        coords = location.get_coordinates()
         print(get_rtt_string(coords))
         connect_with_timeout(s, get_property('rtt_server'), get_property('rtt_port'), 10)
         s.write(get_rtt_string(coords))
@@ -223,11 +150,11 @@ def delay(ms):
     f=open("t/gps.log","a")
     machine.set_idle(True)
 
-    step = 5000 #TODO 1000
-    prev_gps_state = gps_state
+    step = 1000
+    prev_gps_state = location.gps_state
 
     if ms > 5 * 60 * 1000:
-        set_gps_state(False)
+        location.set_gps_state(False)
 
     while ms > 0:
         if interrupt:
@@ -247,43 +174,9 @@ def delay(ms):
         ms -= step
         machine.watchdog_reset()
 
-    set_gps_state(prev_gps_state)
+    location.set_gps_state(prev_gps_state)
     machine.set_idle(False)
     f.close()
-
-def reset_gsm():
-    cellular.reset()
-    cellular.on_new_sms(sms_handler)
-    cellular.on_call(on_call_handler)
-    cellular.on_status_event(network_handler)
-
-
-def wait_gprs():
-    while not cellular.gprs():
-        machine.set_idle(True)
-
-        iteration = 0
-
-        led2.value(1)
-
-        while not (cellular.get_network_status() & NTW_REG_BIT):
-            delay(60000)
-            iteration += 1
-
-            if iteration > 5:
-                reset_gsm()
-                tm = 1
-
-        led2.value(0)
-
-        try:
-            cellular.gprs(get_property('apn'), get_property('login'), get_property('password'))
-        except Exception as err:
-            print("OS error: {0}".format(err));
-            reset_gsm()
-
-        machine.watchdog_reset()
-        machine.set_idle(False)
 
 
 def main_iteration():
@@ -298,7 +191,7 @@ def main_iteration():
             send_coords_by_sms(sms_requested)
             sms_requested = None
 
-        wait_gprs()
+        gprs.wait_gprs()
         machine.set_min_freq(machine.PM_SYS_FREQ_39M)
         send_rtt_coordinates()
     except Exception as err:
@@ -318,18 +211,51 @@ def main_iteration():
 
 def main_loop():
     while (True):
+
+        if charging():
+            s.writeRegister("charging effect")
+        else:
+            si.writeRegister("stop_charging_effect")
+
+        remove_all_sms()
         main_iteration()
         delay(get_property('track_delay_minutes') * 60 * 1000)
 
+        if deep_sleep_allowed and no_move_for_a_long_time():
+            send_sms()
+
+            if usb_connected():
+                s.writeRegister("sleep effect")
+            
+            si.writeRegister("deep_sleep")
+
+        if is_nth_iteration:
+            si.writeRegister("ping_effect")
+
 def start():
     print("GPS tracking software")
-    set_gps_state(True)
+    
+    power_on_reason = si.readRegister(0x8, 3)
+    lis.set_wake_up()
 
-    while not cellular.is_sim_present():
-        print("No sim card..")
-        utime.sleep_ms(1000)
+    if power_on_reason == "sleep_timeout":
+        check_for_sms()
+        if deep_sleep_allowed:
+            si.writeRegister("deep_sleep")
+    else:
+        if usb_connected():
+            s.writeRegister("wake_up effect")
 
-    reset_gsm()
+    location.set_gps_state(True)
+    
+    callbacks = gprs.Callbacks()
+    callbacks.sms_handler = sms_handler;
+    callbacks.call_handler = on_call_handler;
+    callbacks.network_handler = network_handler
+    
+    gprs.set_callbacks(callbacks)
+    gprs.init()
+
     machine.watchdog_on(120)
     machine.set_min_freq(machine.PM_SYS_FREQ_39M)
 

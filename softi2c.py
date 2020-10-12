@@ -97,7 +97,7 @@ class SoftI2C:
         self.sdaHi()
         return self.readBit() # 0 if ACK, 1 if NACK
 
-    def doStartWriteAckStop(data_byte):
+    def doStartWriteAckStop(self, data_byte):
         self.start()
         self.writeByte(data_byte);
 
@@ -107,4 +107,28 @@ class SoftI2C:
         self.stop();
 
         return 0
+    
+    def readRegister(self, slave_addr, register):
+        si.start();
+        si.writeByte(slave_addr << 1);
+        si.readAck();
+        si.writeByte(register)
+        si.readAck()
+        si.start()
+        si.writeByte(slave_addr << 1 | 0x1)
+        si.readAck()
+        result = si.readByte()
+        si.readAck()
+        si.stop()
+        return result
+    
+    def writeRegister(self, slave_addr, register, value):
+        si.start();
+        si.writeByte(slave_addr << 1);
+        si.readAck()
+        si.writeByte(register)
+        si.readAck()
+        si.writeByte(value)
+        si.readAck()
+        si.stop()
 
