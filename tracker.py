@@ -229,8 +229,6 @@ def main_loop():
             
             si.writeRegister("deep_sleep")
 
-        if is_nth_iteration:
-            si.writeRegister("ping_effect")
 
 def start():
     print("GPS tracking software")
@@ -248,6 +246,8 @@ def start():
 
     location.set_gps_state(True)
     
+    si.writeRegister("set ping_effect")
+
     callbacks = gprs.Callbacks()
     callbacks.sms_handler = sms_handler;
     callbacks.call_handler = on_call_handler;
