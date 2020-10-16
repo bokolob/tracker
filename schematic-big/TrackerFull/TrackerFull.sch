@@ -33,7 +33,8 @@ P 8500 4400
 F 0 "C7" V 8752 4400 50  0000 C CNN
 F 1 "4.7uF" V 8661 4400 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 8538 4250 50  0001 C CNN
-F 3 "https://www.chipdip.ru/product/grm188r60j475ke19d" H 8500 4400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 8500 4400 50  0001 C CNN
+F 4 "0.29*5" H 8500 4400 50  0001 C CNN "Поле4"
 	1    8500 4400
 	1    0    0    -1  
 $EndComp
@@ -55,9 +56,10 @@ L Device:C C6
 U 1 1 5F3D5D2D
 P 7600 3550
 F 0 "C6" V 7852 3550 50  0000 C CNN
-F 1 "C" V 7761 3550 50  0000 C CNN
+F 1 "4.7uF" V 7761 3550 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 7638 3400 50  0001 C CNN
-F 3 "~" H 7600 3550 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 7600 3550 50  0001 C CNN
+F 4 "0.29*5" H 7600 3550 50  0001 C CNN "Поле4"
 	1    7600 3550
 	0    -1   -1   0   
 $EndComp
@@ -163,7 +165,8 @@ P 12050 2400
 F 0 "C15" H 12168 2446 50  0000 L CNN
 F 1 "470uF" H 12168 2355 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_8x10.5" H 12088 2250 50  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2813656.pdf?_ga=2.62417260.1183818915.1601631705-777223394.1594581616" H 12050 2400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/panasonic-electronic-components/EEE-FK1C471AP/1141964?s=N4IgTCBcDaIKIIGIGkCMBhALAdlQQQAUQBdAXyA" H 12050 2400 50  0001 C CNN
+F 4 "0.75*2" H 12050 2400 50  0001 C CNN "Поле4"
 	1    12050 2400
 	1    0    0    -1  
 $EndComp
@@ -174,7 +177,8 @@ P 12500 2400
 F 0 "C16" H 12618 2446 50  0000 L CNN
 F 1 "470uF" H 12618 2355 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_8x10.5" H 12538 2250 50  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2813656.pdf?_ga=2.62417260.1183818915.1601631705-777223394.1594581616" H 12500 2400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/panasonic-electronic-components/EEE-FK1C471AP/1141964?s=N4IgTCBcDaIKIIGIGkCMBhALAdlQQQAUQBdAXyA" H 12500 2400 50  0001 C CNN
+F 4 "0.75*2" H 12500 2400 50  0001 C CNN "Поле4"
 	1    12500 2400
 	1    0    0    -1  
 $EndComp
@@ -202,7 +206,8 @@ P 11550 2450
 F 0 "C14" H 11665 2496 50  0000 L CNN
 F 1 "1uF" H 11665 2405 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 11588 2300 50  0001 C CNN
-F 3 "~" H 11550 2450 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X5R1A105K080AC/513793" H 11550 2450 50  0001 C CNN
+F 4 "0.11" H 11550 2450 50  0001 C CNN "Поле4"
 	1    11550 2450
 	1    0    0    -1  
 $EndComp
@@ -235,8 +240,8 @@ L Device:R R10
 U 1 1 5F3D5DBE
 P 7450 2700
 F 0 "R10" H 7400 2700 50  0000 L CNN
-F 1 "100kOm" H 7300 2600 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 7520 2609 50  0001 L CNN
+F 1 "100K" H 7300 2600 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7520 2609 50  0001 L CNN
 F 3 "~" H 7450 2700 50  0001 C CNN
 	1    7450 2700
 	1    0    0    -1  
@@ -307,7 +312,8 @@ P 4450 5500
 F 0 "D1" H 4500 6106 50  0000 C CNN
 F 1 "A9G" H 4500 6015 50  0000 C CNN
 F 2 "Tracker:A9G2" V 3950 4450 50  0001 C CNN
-F 3 "" V 3950 4450 50  0001 C CNN
+F 3 "https://www.alibaba.com/product-detail/GPRS-GPS-Module-A9G-Module-SMS_62458730712.html?spm=a2700.galleryofferlist.normal_offer.3.6881306fMlvXSR" V 3950 4450 50  0001 C CNN
+F 4 "3" H 4450 5500 50  0001 C CNN "Поле4"
 	1    4450 5500
 	1    0    0    -1  
 $EndComp
@@ -555,8 +561,9 @@ U 1 1 5F5001FA
 P 10850 2450
 F 0 "C12" H 10965 2496 50  0000 L CNN
 F 1 "100uF" H 10965 2405 50  0000 L CNN
-F 2 "Capacitor_SMD:C_1206_3216Metric_Pad1.42x1.75mm_HandSolder" H 10888 2300 50  0001 C CNN
-F 3 "~" H 10850 2450 50  0001 C CNN
+F 2 "Capacitor_Tantalum_SMD:CP_EIA-7343-31_Kemet-D" H 10888 2300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3D107K010C0065/1579691" H 10850 2450 50  0001 C CNN
+F 4 "1.41" H 10850 2450 50  0001 C CNN "Поле4"
 	1    10850 2450
 	1    0    0    -1  
 $EndComp
@@ -583,8 +590,9 @@ U 1 1 5F520BC8
 P 10350 2450
 F 0 "C10" H 10465 2496 50  0000 L CNN
 F 1 "33pF" H 10465 2405 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0201_0603Metric" H 10388 2300 50  0001 C CNN
-F 3 "~" H 10350 2450 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 10388 2300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/avx-corporation/0402ZC330KAT2A/1597937" H 10350 2450 50  0001 C CNN
+F 4 "0.29" H 10350 2450 50  0001 C CNN "Поле4"
 	1    10350 2450
 	1    0    0    -1  
 $EndComp
@@ -597,7 +605,8 @@ P 9800 2450
 F 0 "C8" H 9915 2496 50  0000 L CNN
 F 1 "10pF" H 9915 2405 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0402_1005Metric" H 9838 2300 50  0001 C CNN
-F 3 "~" H 9800 2450 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/würth-elektronik/885012005007/5453280" H 9800 2450 50  0001 C CNN
+F 4 "0.10" H 9800 2450 50  0001 C CNN "Поле4"
 	1    9800 2450
 	1    0    0    -1  
 $EndComp
@@ -699,7 +708,8 @@ P 2900 2200
 F 0 "C2" H 3015 2246 50  0000 L CNN
 F 1 "10uF" H 3015 2155 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 2938 2050 50  0001 C CNN
-F 3 "https://www.chipdip.ru/product/grm21br71a106ke51l" H 2900 2200 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576..." H 2900 2200 50  0001 C CNN
+F 4 "0.46*4" H 2900 2200 50  0001 C CNN "Поле4"
 	1    2900 2200
 	1    0    0    -1  
 $EndComp
@@ -713,7 +723,8 @@ P 3200 2200
 F 0 "C3" H 3315 2246 50  0000 L CNN
 F 1 "100nF" H 3315 2155 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0402_1005Metric" H 3238 2050 50  0001 C CNN
-F 3 "https://www.chipdip.ru/product/grm188r71c104ka01d" H 3200 2200 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X5R1A104K050BA/513705" H 3200 2200 50  0001 C CNN
+F 4 "0.10" H 3200 2200 50  0001 C CNN "Поле4"
 	1    3200 2200
 	1    0    0    -1  
 $EndComp
@@ -848,7 +859,7 @@ U 1 1 5F827D55
 P 2050 8000
 F 0 "R4" H 1980 7954 50  0000 R CNN
 F 1 "100K" H 1980 8045 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 1980 8091 50  0001 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1980 8091 50  0001 R CNN
 F 3 "~" H 2050 8000 50  0001 C CNN
 	1    2050 8000
 	0    -1   -1   0   
@@ -890,7 +901,7 @@ U 1 1 5F612A4A
 P 10650 7700
 F 0 "R13" H 10580 7654 50  0000 R CNN
 F 1 "100K" H 10580 7745 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 10580 7791 50  0001 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 10580 7791 50  0001 R CNN
 F 3 "~" H 10650 7700 50  0001 C CNN
 	1    10650 7700
 	0    -1   -1   0   
@@ -902,7 +913,8 @@ P 10850 7850
 F 0 "C13" V 11102 7850 50  0000 C CNN
 F 1 "4.7uF" V 11011 7850 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 10888 7700 50  0001 C CNN
-F 3 "~" H 10850 7850 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 10850 7850 50  0001 C CNN
+F 4 "0.29*5" H 10850 7850 50  0001 C CNN "Поле4"
 	1    10850 7850
 	1    0    0    -1  
 $EndComp
@@ -913,7 +925,8 @@ P 10150 7850
 F 0 "C9" V 10402 7850 50  0000 C CNN
 F 1 "4.7uF" V 10311 7850 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 10188 7700 50  0001 C CNN
-F 3 "~" H 10150 7850 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 10150 7850 50  0001 C CNN
+F 4 "0.29*5" H 10150 7850 50  0001 C CNN "Поле4"
 	1    10150 7850
 	1    0    0    -1  
 $EndComp
@@ -1034,9 +1047,10 @@ L Device:C C1
 U 1 1 5F7C93B8
 P 2550 1400
 F 0 "C1" H 2665 1446 50  0000 L CNN
-F 1 "4.7u" H 2665 1355 50  0000 L CNN
+F 1 "4.7uF" H 2665 1355 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 2588 1250 50  0001 C CNN
-F 3 "https://www.chipdip.ru/product/grm31mf51e475z?from=suggest_product" H 2550 1400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 2550 1400 50  0001 C CNN
+F 4 "0.29*5" H 2550 1400 50  0001 C CNN "Поле4"
 	1    2550 1400
 	1    0    0    -1  
 $EndComp
@@ -1067,8 +1081,8 @@ L Device:R R16
 U 1 1 5F8B8213
 P 14000 4300
 F 0 "R16" H 13930 4254 50  0000 R CNN
-F 1 "10000" H 13930 4345 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 13930 4391 50  0001 R CNN
+F 1 "10K" H 13930 4345 50  0000 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 13930 4391 50  0001 R CNN
 F 3 "~" H 14000 4300 50  0001 C CNN
 	1    14000 4300
 	1    0    0    -1  
@@ -1078,7 +1092,7 @@ L Device:R R15
 U 1 1 5F8B8DB4
 P 14000 3850
 F 0 "R15" H 13930 3804 50  0000 R CNN
-F 1 "43000" H 13930 3895 50  0000 R CNN
+F 1 "43K" H 13930 3895 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" H 13930 3941 50  0001 R CNN
 F 3 "~" H 14000 3850 50  0001 C CNN
 	1    14000 3850
@@ -1105,8 +1119,9 @@ U 1 1 5F9D37C3
 P 13500 3450
 F 0 "C18" H 13615 3496 50  0000 L CNN
 F 1 "22uF" H 13615 3405 50  0000 L CNN
-F 2 "Capacitor_Tantalum_SMD:CP_EIA-3216-18_Kemet-A" H 13538 3300 50  0001 C CNN
-F 3 "~" H 13500 3450 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 13538 3300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM188R61A226ME15D/5027561" H 13500 3450 50  0001 C CNN
+F 4 "0.3" H 13500 3450 50  0001 C CNN "Поле4"
 	1    13500 3450
 	1    0    0    -1  
 $EndComp
@@ -1133,8 +1148,9 @@ U 1 1 5FA3ACD0
 P 10800 3600
 F 0 "C11" H 10915 3646 50  0000 L CNN
 F 1 "10uF" H 10915 3555 50  0000 L CNN
-F 2 "Capacitor_Tantalum_SMD:CP_EIA-3216-18_Kemet-A" H 10838 3450 50  0001 C CNN
-F 3 "~" H 10800 3600 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 10838 3450 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576..." H 10800 3600 50  0001 C CNN
+F 4 "0.46*4" H 10800 3600 50  0001 C CNN "Поле4"
 	1    10800 3600
 	1    0    0    -1  
 $EndComp
@@ -1256,8 +1272,8 @@ L Device:R R14
 U 1 1 5F75E58D
 P 12800 3750
 F 0 "R14" H 12730 3704 50  0000 R CNN
-F 1 "10000" H 12730 3795 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 12730 3841 50  0001 R CNN
+F 1 "10K" H 12730 3795 50  0000 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 12730 3841 50  0001 R CNN
 F 3 "~" H 12800 3750 50  0001 C CNN
 	1    12800 3750
 	0    -1   -1   0   
@@ -1268,8 +1284,9 @@ U 1 1 5F75EA55
 P 13100 3750
 F 0 "C17" H 13215 3796 50  0000 L CNN
 F 1 "10uF" H 13215 3705 50  0000 L CNN
-F 2 "Capacitor_SMD:C_1206_3216Metric_Pad1.42x1.75mm_HandSolder" H 13138 3600 50  0001 C CNN
-F 3 "~" H 13100 3750 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 13138 3600 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576..." H 13100 3750 50  0001 C CNN
+F 4 "0.46*4" H 13100 3750 50  0001 C CNN "Поле4"
 	1    13100 3750
 	0    1    1    0   
 $EndComp
@@ -1445,7 +1462,8 @@ P 7150 6750
 F 0 "C5" V 7402 6750 50  0000 C CNN
 F 1 "10uF" V 7311 6750 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 7188 6600 50  0001 C CNN
-F 3 "~" H 7150 6750 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576..." H 7150 6750 50  0001 C CNN
+F 4 "0.46*4" H 7150 6750 50  0001 C CNN "Поле4"
 	1    7150 6750
 	0    1    1    0   
 $EndComp
@@ -1472,7 +1490,8 @@ P 7150 6500
 F 0 "C4" V 7100 6600 50  0000 C CNN
 F 1 "150nF" V 7000 6500 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0402_1005Metric" H 7188 6350 50  0001 C CNN
-F 3 "~" H 7150 6500 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X7R1A154K050BB/3951151" H 7150 6500 50  0001 C CNN
+F 4 "0.12" H 7150 6500 50  0001 C CNN "Поле4"
 	1    7150 6500
 	0    1    1    0   
 $EndComp
@@ -1499,7 +1518,7 @@ P 9450 5800
 F 0 "J4" H 9450 6365 50  0000 C CNN
 F 1 "78646-3001" H 9450 6274 50  0000 C CNN
 F 2 "imported:MOLEX_78646-3001" H 9450 5800 50  0001 L BNN
-F 3 "WM9364CT-ND" H 9450 5800 50  0001 L BNN
+F 3 "https://www.digikey.in/product-detail/en/molex/0786463001/WM9364CT-ND/3770350?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 9450 5800 50  0001 L BNN
 F 4 "Conn Micro SIM Card SKT 6 POS 2.54mm Solder RA SMD 0.5A/Contact Embossed T/R" H 9450 5800 50  0001 L BNN "Поле4"
 F 5 "Molex" H 9450 5800 50  0001 L BNN "Поле5"
 F 6 "78646-3001" H 9450 5800 50  0001 L BNN "Поле6"
@@ -1638,7 +1657,7 @@ U 1 1 5F85A184
 P 3300 6150
 F 0 "R17" V 3350 6350 50  0000 R CNN
 F 1 "10K" V 3300 6200 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3230 6241 50  0001 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3230 6241 50  0001 R CNN
 F 3 "~" H 3300 6150 50  0001 C CNN
 	1    3300 6150
 	0    -1   -1   0   
