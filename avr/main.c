@@ -2,10 +2,13 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/sleep.h>
+#include <stddef.h>
 
 #include "USI_TWI_Slave.h"
 #include "light_ws2812.h"
 #include "greenfade.h"
+#include "palette.h"
+#include "TimerOne.h"
 
 void receiveEvent(int howMany);
 void requestEvent();
@@ -23,6 +26,9 @@ void blink(void);
 #define POWER_TIME_MULTIPLIER 2
 #define PING_REG  3
 
+#define A9G_DISABLED 0x1
+#define PLAYING_EFFECT 0x2
+
 volatile uint8_t i2c_regs[] =
 {
     0x0,  //Light
@@ -36,13 +42,29 @@ volatile uint8_t i2c_regs[] =
 volatile uint8_t reg_position;
 uint8_t reg_size = sizeof(i2c_regs);
 volatile int timeout = 0;
+volatile uint8_t state = 0;
+
+int effect_position = 0;
+const int (*effect)[4] = NULL;
+struct cRGBW led[1];
+void play(void);
+
+void usi_init() {
+    USI_TWI_Slave_Initialise(SLAVE_ADDR);
+    USI_TWI_On_Slave_Transmit = requestEvent;
+    USI_TWI_On_Slave_Receive = receiveEvent;
+}
 
 void enable_a9g() {
    PORTB &= ~(1 << POWER_PIN);
+   usi_init();
+   state &= ~A9G_DISABLED;
 }
 
 void disable_a9g() {
+   USI_TWI_Slave_Disable();
    PORTB |= (1 << POWER_PIN);
+   state |= A9G_DISABLED;
 }
 
 void start_watchdog() {
@@ -64,11 +86,10 @@ void watchdog_disable() {
     WDTCR &= ~((1 << WDCE) | (1 << WDE) | (1 << WDIE));
 }
 
+
 int main() {
     start_watchdog();
-    USI_TWI_Slave_Initialise(SLAVE_ADDR);
-    USI_TWI_On_Slave_Transmit = requestEvent;
-    USI_TWI_On_Slave_Receive = receiveEvent;
+    enable_a9g();
     sei();
 
     DDRB = MASK;
@@ -76,7 +97,7 @@ int main() {
     while(1) {
        sleep_enable();
 
-       if (timeout <= 0) {
+       if (state & A9G_DISABLED && timeout <= 0) {
            timeout = 0;
            enable_a9g();
        }
@@ -87,18 +108,31 @@ int main() {
 
        if (i2c_regs[LIGHT_REG] != 0) {
             i2c_regs[LIGHT_REG] = 0;
-            blink();
+
+            timer_stop();
+            state |= PLAYING_EFFECT;
+            effect = RAINBOW;
+            effect_position = 0;
+            attachTimerInterrupt(play, 20000);
+            //blink();
        }
 
        if (i2c_regs[POWER_REG] != 0) {
            watchdog_disable();
            timeout = i2c_regs[POWER_REG] * i2c_regs[POWER_TIME_MULTIPLIER];
+
+           if (timeout & 0x7) {
+                timeout &= ~(0x7);
+                timeout += 8;
+           }
+
            start_watchdog();
            i2c_regs[POWER_REG] = 0;
+
            disable_a9g();
        }
 
-       set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+       set_sleep_mode(state & PLAYING_EFFECT ? SLEEP_MODE_IDLE : SLEEP_MODE_PWR_DOWN);
        sleep_mode();
     }
 
@@ -109,8 +143,11 @@ int main() {
 ISR(WDT_vect) {
     WDTCR |= (1 << WDIE); //Watchdog interrupt enabled
 
-    if (timeout > 0) {
+    if (timeout >=8) {
         timeout -= 8;
+    }
+    else {
+        timeout = 0;
     }
 }
 
@@ -158,25 +195,23 @@ void receiveEvent(int howMany)
     }
 }
 
-
-void blink(void)
-{
-    struct cRGBW led[2];
-    led[1].r=0;led[1].g=128;led[1].b=0;led[1].w=0;    // Write red to array
-
-    for (int i = 0; i < 100; i++) {
-        led[0].r= pgm_read_byte(&GREEN[i][0]);
-        led[0].g= pgm_read_byte(&GREEN[i][1]);
-        led[0].b= pgm_read_byte(&GREEN[i][2]);
-        led[0].w=0;
-
-        ws2812_setleds_rgbw_mask(led, 1, (1 << NEOPIXEL_PIN));
-        _delay_ms(50);
+void play(void) {
+    
+    if (effect_position < 500) {
+        led[0].r = pgm_read_byte(&effect[effect_position][0]);
+        led[0].g = pgm_read_byte(&effect[effect_position][1]);
+        led[0].b = pgm_read_byte(&effect[effect_position][2]);
+        led[0].w = pgm_read_byte(&effect[effect_position][3]);
+        effect_position++;
     }
-
-    led[0].r=0;led[0].g=0;led[0].b=0;led[0].w=0;    // Write red to array
-    led[1].r=0;led[1].g=0;led[1].b=0;led[1].w=0;    // Write red to array
-    ws2812_setleds_rgbw_mask(led,2, (1 << NEOPIXEL_PIN));
+    else {
+        led[0].r=0;led[0].g=0;led[0].b=0;led[0].w=0;
+        state &= ~PLAYING_EFFECT;
+        timer_stop();
+    }
+    
+    ws2812_setleds_rgbw_mask(led, 1, (1 << NEOPIXEL_PIN));
 }
+
 
 

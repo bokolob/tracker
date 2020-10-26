@@ -85,6 +85,8 @@ void USI_TWI_Slave_Disable()
 {
 	DDR_USI_CL &= ~(1 << PORT_USI_SCL);  // Set SCL as input
 	DDR_USI &= ~(1 << PORT_USI_SDA);  // Set SDA as input
+	PORT_USI_CL &= ~(1 << PORT_USI_SCL);     // Set SCL high imp
+	PORT_USI &= ~(1 << PORT_USI_SDA);        // Set SDA high imp
 	USICR = 0x00; // Disable USI
 	USISR = 0xF0; // Clear all flags and reset overflow counter
 }

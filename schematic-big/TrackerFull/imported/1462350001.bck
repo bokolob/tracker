@@ -1,0 +1,24 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# 1462350001
+#
+DEF 1462350001 ANT 0 40 Y N 1 L N
+F0 "ANT" -390 130 50 H V L BNN
+F1 "1462350001" -395 50 50 H V L BNN
+F2 "ANT_1462350001" 0 0 50 H I L BNN
+F3 "B" 0 0 50 H I L BNN
+F4 "Molex" 0 0 50 H I L BNN
+F5 "Manufacturer Recommendation" 0 0 50 H I L BNN
+DRAW
+P 2 0 0 10 95 315 0 100 N
+P 2 0 0 10 0 100 -105 315 N
+P 2 0 0 10 0 315 0 100 N
+P 2 0 0 10 0 100 0 -200 N
+X ~ 1 0 -200 100 U 40 40 0 0 I 
+ENDDRAW
+ENDDEF
+#
+# End Library

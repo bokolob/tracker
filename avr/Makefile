@@ -28,7 +28,7 @@ FUSE_H = 0xdf
 FUSE_E = 0xff
 
 # Список дополнительных C-файлов для компиляции (указывать через пробел).
-C_FILES = USI_TWI_Slave.c light_ws2812.c
+C_FILES = USI_TWI_Slave.c light_ws2812.c TimerOne.c
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
