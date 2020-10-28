@@ -1,0 +1,36 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# BGU8019
+#
+DEF BGU8019 U 0 40 Y N 1 L N
+F0 "U" 200 125 50 H V L BNN
+F1 "BGU8019" 200 -200 50 H V L BNN
+F2 "SOT1232" 0 0 50 H I L BNN
+DRAW
+P 2 0 0 16 -200 200 -200 -200 N
+P 2 0 0 16 -200 -200 -100 -150 N
+P 2 0 0 16 -100 -150 0 -100 N
+P 2 0 0 16 0 -100 100 -50 N
+P 2 0 0 16 100 -50 200 0 N
+P 2 0 0 16 200 0 100 50 N
+P 2 0 0 16 100 50 -100 150 N
+P 2 0 0 16 -100 150 -200 200 N
+P 2 0 0 6 -100 -200 -100 -150 N
+T 900 50 125 32 0 0 0 VCC Normal 0 L B
+T 900 -50 -275 32 0 0 0 GND Normal 0 L B
+T 900 -40 165 32 0 0 0 EN Normal 0 L B
+P 2 0 0 6 -100 200 -100 150 N
+T 900 50 -275 32 0 0 0 GND_RF Normal 0 L B
+X ~ 5 -300 0 100 R 40 40 0 0 I 
+X ~ 3 300 0 100 L 40 40 0 0 O 
+X ~ 2 0 300 200 D 40 40 0 0 W 
+X ~ 1 0 -300 200 U 40 40 0 0 W 
+X ~ 6 -100 300 100 D 40 40 0 0 I 
+X ~ 4 -100 -300 100 U 40 40 0 0 W 
+ENDDRAW
+ENDDEF
+#
+# End Library
