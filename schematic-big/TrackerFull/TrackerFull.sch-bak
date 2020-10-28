@@ -1015,7 +1015,7 @@ L Connector:Screw_Terminal_01x02 J5
 U 1 1 5F81CCC8
 P 11250 5700
 F 0 "J5" V 11214 5512 50  0000 R CNN
-F 1 "Screw_Terminal_01x02" V 11350 5950 50  0000 R CNN
+F 1 "USB power" V 11350 5950 50  0000 R CNN
 F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 11250 5700 50  0001 C CNN
 F 3 "https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S-LF-SN/926611" H 11250 5700 50  0001 C CNN
 F 4 "B2B-PH-K-S(LF)(SN)" H 11250 5700 50  0001 C CNN "Поле5"
@@ -1028,9 +1028,9 @@ U 1 1 5F7A221E
 P 8400 7600
 F 0 "R11" V 8400 7650 50  0000 R CNN
 F 1 "470" V 8450 7900 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8330 7691 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/nte-electronics-inc/SR1-0603-147/11646967" H 8400 7600 50  0001 C CNN
-F 4 "SR1-0603-147" H 8400 7600 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8330 7691 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8400 7600 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8400 7600 50  0001 C CNN "Поле5"
 	1    8400 7600
 	0    -1   -1   0   
 $EndComp
@@ -1116,9 +1116,9 @@ U 1 1 5F6F9FFF
 P 8200 7700
 F 0 "R3" V 8130 7654 50  0000 R CNN
 F 1 "470" V 8300 7750 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8130 7791 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/nte-electronics-inc/SR1-0603-147/11646967" H 8200 7700 50  0001 C CNN
-F 4 "SR1-0603-147" H 8200 7700 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8130 7791 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8200 7700 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8200 7700 50  0001 C CNN "Поле5"
 	1    8200 7700
 	0    1    1    0   
 $EndComp
@@ -1317,8 +1317,8 @@ P 7050 3050
 F 0 "D2" H 7043 2795 50  0000 C CNN
 F 1 "LED" H 7043 2886 50  0000 C CNN
 F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7050 3050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/würth-elektronik/150060RS75000/4489901" H 7050 3050 50  0001 C CNN
-F 4 "150060RS75000" H 7050 3050 50  0001 C CNN "Поле5"
+F 3 "https://ru.mouser.com/datasheet/2/239/LTST-C190KRKT-1141828.pdf" H 7050 3050 50  0001 C CNN
+F 4 "LTST-C190KRKT" H 7050 3050 50  0001 C CNN "Поле5"
 	1    7050 3050
 	0    -1   -1   0   
 $EndComp
@@ -1365,7 +1365,7 @@ L Connector:Screw_Terminal_01x02 J3
 U 1 1 5F3D5DC8
 P 6000 2550
 F 0 "J3" V 5964 2362 50  0000 R CNN
-F 1 "Screw_Terminal_01x02" V 6100 2800 50  0000 R CNN
+F 1 "Battery" V 6100 2800 50  0000 R CNN
 F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 6000 2550 50  0001 C CNN
 F 3 "https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S-LF-SN/926611" H 6000 2550 50  0001 C CNN
 F 4 "B2B-PH-K-S(LF)(SN)" H 6000 2550 50  0001 C CNN "Поле5"
@@ -1454,8 +1454,8 @@ P 8450 3800
 F 0 "D4" H 8443 3545 50  0000 C CNN
 F 1 "LED" H 8443 3636 50  0000 C CNN
 F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8450 3800 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/würth-elektronik/150060RS75000/4489901" H 8450 3800 50  0001 C CNN
-F 4 "150060RS75000" H 8450 3800 50  0001 C CNN "Поле5"
+F 3 "https://ru.mouser.com/datasheet/2/239/LTST-C190KRKT-1141828.pdf" H 8450 3800 50  0001 C CNN
+F 4 "LTST-C190KRKT" H 8450 3800 50  0001 C CNN "Поле5"
 	1    8450 3800
 	0    -1   -1   0   
 $EndComp
@@ -1508,17 +1508,6 @@ F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 6100 3300 50  00
 F 4 "DMG2305UXQ" H 6100 3300 50  0001 C CNN "Поле5"
 	1    6100 3300
 	-1   0    0    1   
-$EndComp
-$Comp
-L Regulator_Switching:TLV62568DBV U1
-U 1 1 5F955AB5
-P 15000 5950
-F 0 "U1" H 15000 6317 50  0000 C CNN
-F 1 "TLV62568DBV" H 15000 6226 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 15050 5700 50  0001 L CIN
-F 3 "http://www.ti.com/lit/ds/symlink/tlv62568.pdf" H 14750 6400 50  0001 C CNN
-	1    15000 5950
-	1    0    0    -1  
 $EndComp
 $Comp
 L 1462350001:1462350001 ANT1
@@ -1599,10 +1588,8 @@ Text Label 12100 6950 0    50   ~ 0
 GPS_POWER
 Wire Wire Line
 	12100 6950 12100 7150
-Text Label 12500 7600 0    50   ~ 0
+Text Label 14050 7600 0    50   ~ 0
 GPS_RF
-Wire Wire Line
-	12400 7600 12500 7600
 $Comp
 L Device:C C9
 U 1 1 5FA71C5A
@@ -1777,8 +1764,8 @@ $Comp
 L Device:C C17
 U 1 1 5FBEB468
 P 13550 3950
-F 0 "C17" H 13665 3996 50  0000 L CNN
-F 1 "22uF" H 13665 3905 50  0000 L CNN
+F 0 "C17" H 13300 3900 50  0000 L CNN
+F 1 "22uF" H 13250 4000 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 13588 3800 50  0001 C CNN
 F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM188R61A226ME15D/5027561" H 13550 3950 50  0001 C CNN
 F 4 "0.3" H 13550 3950 50  0001 C CNN "Поле4"
@@ -1790,7 +1777,7 @@ $Comp
 L Device:C C18
 U 1 1 5FBEB952
 P 13750 3950
-F 0 "C18" H 13865 3996 50  0000 L CNN
+F 0 "C18" H 13900 4000 50  0000 L CNN
 F 1 "22uF" H 13865 3905 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 13788 3800 50  0001 C CNN
 F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM188R61A226ME15D/5027561" H 13750 3950 50  0001 C CNN
@@ -1829,10 +1816,10 @@ Text Label 13550 3800 0    50   ~ 0
 APW_OUT
 Connection ~ 13750 3800
 $Comp
-L Regulator_Switching:AP62301 U?
+L Regulator_Switching:AP62301 U8
 U 1 1 5FCCD0E3
 P 11950 3900
-F 0 "U?" H 11950 4267 50  0000 C CNN
+F 0 "U8" H 11950 4267 50  0000 C CNN
 F 1 "AP62301" H 11950 4176 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:TSOT-23-6" H 11950 3000 50  0001 C CNN
 F 3 "https://www.diodes.com/assets/Datasheets/AP65111A.pdf" H 11950 3900 50  0001 C CNN
@@ -1861,4 +1848,47 @@ Wire Wire Line
 Wire Wire Line
 	12700 3800 12800 3800
 Connection ~ 12800 3800
+Wire Wire Line
+	13000 7600 13000 7650
+Wire Wire Line
+	12400 7600 13000 7600
+Wire Wire Line
+	14050 7650 14050 7600
+Wire Wire Line
+	13100 8100 13400 8100
+$Comp
+L power:GNDREF #PWR0111
+U 1 1 5F9D7264
+P 13400 8250
+F 0 "#PWR0111" H 13400 8000 50  0001 C CNN
+F 1 "GNDREF" H 13405 8077 50  0000 C CNN
+F 2 "" H 13400 8250 50  0001 C CNN
+F 3 "" H 13400 8250 50  0001 C CNN
+	1    13400 8250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13400 8100 13400 8250
+Connection ~ 13400 8100
+Wire Wire Line
+	13400 8100 13700 8100
+Wire Wire Line
+	13700 7650 14050 7650
+Wire Wire Line
+	13700 8100 13700 7850
+Wire Wire Line
+	13100 7850 13100 8100
+Wire Wire Line
+	13000 7650 13100 7650
+$Comp
+L Filter:SF14-1575F5UUC1 FL1
+U 1 1 5F9AA44C
+P 13400 7750
+F 0 "FL1" H 13400 8117 50  0000 C CNN
+F 1 "SF14-1582M5UUD2" H 13400 8026 50  0000 C CNN
+F 2 "Filter:Filter_1411-5_1.4x1.1mm" H 13400 7750 50  0001 C CNN
+F 3 "https://ru.mouser.com/datasheet/2/909/AVX_140127_Connectivity-1316412.pdf" H 13400 7750 50  0001 C CNN
+	1    13400 7750
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
