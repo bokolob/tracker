@@ -13,8 +13,6 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text Label 5900 950  0    50   ~ 0
-+5V
 $Comp
 L power:GNDREF #PWR024
 U 1 1 5F3D5D26
@@ -139,8 +137,6 @@ Wire Wire Line
 	5200 1800 5200 2100
 Wire Wire Line
 	5200 1050 5200 1100
-Wire Wire Line
-	5200 1050 5600 1050
 Text Label 5850 5850 0    50   ~ 0
 VSIM
 Text Label 5100 4950 0    50   ~ 0
@@ -478,7 +474,6 @@ Text Label 5300 7300 0    50   ~ 0
 GPS_RF
 Text Label 3100 6850 0    50   ~ 0
 VBAT
-NoConn ~ 4700 7500
 Text GLabel 1200 1250 0    50   Input ~ 0
 BAT_IN
 Wire Wire Line
@@ -616,53 +611,49 @@ Wire Wire Line
 	7500 5250 7500 5500
 Text Label 5500 3250 1    50   ~ 0
 CHARGER_PROG
-Text Label 4700 9200 0    50   ~ 0
+Text Label 3300 9550 0    50   ~ 0
 SIM_CLK
-Text Label 4700 9100 0    50   ~ 0
+Text Label 3300 9450 0    50   ~ 0
 SIM_RST
-Text Label 6100 8750 0    50   ~ 0
+Text Label 4700 9100 0    50   ~ 0
 VSIM
-Text Label 6100 9200 0    50   ~ 0
+Text Label 4700 9550 0    50   ~ 0
 SIM_IO
 $Comp
 L power:GNDREF #PWR027
 U 1 1 5F6CC3B1
-P 6650 9500
-F 0 "#PWR027" H 6650 9250 50  0001 C CNN
-F 1 "GNDREF" H 6655 9327 50  0000 C CNN
-F 2 "" H 6650 9500 50  0001 C CNN
-F 3 "" H 6650 9500 50  0001 C CNN
-	1    6650 9500
+P 5250 9850
+F 0 "#PWR027" H 5250 9600 50  0001 C CNN
+F 1 "GNDREF" H 5255 9677 50  0000 C CNN
+F 2 "" H 5250 9850 50  0001 C CNN
+F 3 "" H 5250 9850 50  0001 C CNN
+	1    5250 9850
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6650 9500 6050 9500
-NoConn ~ 6050 8900
+	5250 9850 4650 9850
+NoConn ~ 4650 9250
 Wire Wire Line
-	6050 8800 6100 8800
+	4650 9150 4700 9150
 Wire Wire Line
-	6100 8800 6100 8750
+	4700 9150 4700 9100
 Wire Wire Line
-	6050 9200 6100 9200
+	4650 9550 4700 9550
 Wire Wire Line
-	4700 9200 5050 9200
+	3300 9550 3650 9550
 Wire Wire Line
-	4700 9100 5050 9100
+	3300 9450 3650 9450
 Wire Wire Line
-	2800 5750 2800 5700
+	4600 8150 4600 7500
 Wire Wire Line
-	2800 5750 3450 5750
-Wire Wire Line
-	2450 5850 2450 5700
-Wire Wire Line
-	2450 5850 3450 5850
+	4700 8500 4700 7500
 Text Label 2750 1750 0    50   ~ 0
 2.5v
 Wire Wire Line
 	4200 8000 4200 7500
-Text Label 2950 5750 0    50   ~ 0
+Text Label 4600 8000 1    50   ~ 0
 AVR_SCK
-Text Label 2500 5850 0    50   ~ 0
+Text Label 4700 8450 1    50   ~ 0
 AVR_MOSI_SDA
 Text Label 8300 6150 0    50   ~ 0
 AVR_MISO
@@ -685,17 +676,6 @@ Wire Wire Line
 Text Label 8600 6650 0    50   ~ 0
 ICSP_RST
 Connection ~ 10850 3450
-$Comp
-L power:GNDREF #PWR032
-U 1 1 5F86C257
-P 5800 900
-F 0 "#PWR032" H 5800 650 50  0001 C CNN
-F 1 "GNDREF" H 5805 727 50  0000 C CNN
-F 2 "" H 5800 900 50  0001 C CNN
-F 3 "" H 5800 900 50  0001 C CNN
-	1    5800 900 
-	1    0    0    -1  
-$EndComp
 NoConn ~ 4100 7500
 Wire Wire Line
 	3050 6150 2850 6150
@@ -788,7 +768,6 @@ NoConn ~ 5300 6350
 NoConn ~ 5300 6450
 NoConn ~ 5300 6550
 NoConn ~ 5300 6650
-NoConn ~ 5300 6850
 NoConn ~ 5300 6750
 NoConn ~ 3450 6950
 NoConn ~ 3450 7050
@@ -804,10 +783,10 @@ Wire Wire Line
 Connection ~ 2400 7100
 Wire Wire Line
 	3350 6150 3450 6150
-Text Label 4600 8000 1    50   ~ 0
+Text Label 5800 6850 2    50   ~ 0
 GPS_POWER
 Wire Wire Line
-	4600 7500 4600 8000
+	5300 6850 5800 6850
 Connection ~ 1350 1250
 Wire Wire Line
 	1350 1250 1200 1250
@@ -895,18 +874,6 @@ F 4 "CR0805-8W-103JT" H 3200 6150 50  0001 C CNN "Поле5"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:Screw_Terminal_01x02 J5
-U 1 1 5F81CCC8
-P 5800 650
-F 0 "J5" V 5764 462 50  0000 R CNN
-F 1 "USB power" V 5900 900 50  0000 R CNN
-F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 5800 650 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S-LF-SN/926611" H 5800 650 50  0001 C CNN
-F 4 "B2B-PH-K-S(LF)(SN)" H 5800 650 50  0001 C CNN "Поле5"
-	1    5800 650 
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Device:R R11
 U 1 1 5F7A221E
 P 8900 6350
@@ -921,17 +888,17 @@ $EndComp
 $Comp
 L 78646-3001:78646-3001 J4
 U 1 1 5F6BAE14
-P 5550 9100
-F 0 "J4" H 5550 9665 50  0000 C CNN
-F 1 "78646-3001" H 5550 9574 50  0000 C CNN
-F 2 "imported:MOLEX_78646-3001" H 5550 9100 50  0001 L BNN
-F 3 "https://www.digikey.in/product-detail/en/molex/0786463001/WM9364CT-ND/3770350?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 5550 9100 50  0001 L BNN
-F 4 "Conn Micro SIM Card SKT 6 POS 2.54mm Solder RA SMD 0.5A/Contact Embossed T/R" H 5550 9100 50  0001 L BNN "Поле4"
-F 5 "78646-3001" H 5550 9100 50  0001 L BNN "Поле5"
-F 6 "78646-3001" H 5550 9100 50  0001 L BNN "Поле6"
-F 7 "https://www.digikey.in/product-detail/en/molex/0786463001/WM9364CT-ND/3770350?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 5550 9100 50  0001 L BNN "Поле7"
-F 8 "None" H 5550 9100 50  0001 L BNN "Поле8"
-	1    5550 9100
+P 4150 9450
+F 0 "J4" H 4150 10015 50  0000 C CNN
+F 1 "78646-3001" H 4150 9924 50  0000 C CNN
+F 2 "imported:MOLEX_78646-3001" H 4150 9450 50  0001 L BNN
+F 3 "https://www.digikey.in/product-detail/en/molex/0786463001/WM9364CT-ND/3770350?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 4150 9450 50  0001 L BNN
+F 4 "Conn Micro SIM Card SKT 6 POS 2.54mm Solder RA SMD 0.5A/Contact Embossed T/R" H 4150 9450 50  0001 L BNN "Поле4"
+F 5 "78646-3001" H 4150 9450 50  0001 L BNN "Поле5"
+F 6 "78646-3001" H 4150 9450 50  0001 L BNN "Поле6"
+F 7 "https://www.digikey.in/product-detail/en/molex/0786463001/WM9364CT-ND/3770350?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 4150 9450 50  0001 L BNN "Поле7"
+F 8 "None" H 4150 9450 50  0001 L BNN "Поле8"
+	1    4150 9450
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -959,28 +926,6 @@ F 4 "0.46*4" H 7650 5500 50  0001 C CNN "Поле4"
 F 5 "C1608X6S1A106M080AC" H 7650 5500 50  0001 C CNN "Поле5"
 	1    7650 5500
 	0    1    1    0   
-$EndComp
-$Comp
-L Mechanical:MountingHole H4
-U 1 1 5F68C213
-P 14450 1500
-F 0 "H4" H 14550 1546 50  0000 L CNN
-F 1 "MountingHole" H 14550 1455 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2" H 14450 1500 50  0001 C CNN
-F 3 "~" H 14450 1500 50  0001 C CNN
-	1    14450 1500
-	1    0    0    -1  
-$EndComp
-$Comp
-L Mechanical:MountingHole H3
-U 1 1 5F68BEBB
-P 14450 1250
-F 0 "H3" H 14550 1296 50  0000 L CNN
-F 1 "MountingHole" H 14550 1205 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2" H 14450 1250 50  0001 C CNN
-F 3 "~" H 14450 1250 50  0001 C CNN
-	1    14450 1250
-	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R R1
@@ -1300,9 +1245,9 @@ U 1 1 5F3D5D48
 P 5500 3400
 F 0 "R9" H 5430 3354 50  0000 R CNN
 F 1 "2000" H 5430 3445 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 5430 3491 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/nte-electronics-inc/SR1-0603-220/11653425" H 5500 3400 50  0001 C CNN
-F 4 "SR1-0603-220" H 5500 3400 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0402_1005Metric" H 5430 3491 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-2001FT/12328554" H 5500 3400 50  0001 C CNN
+F 4 "CR0402-16W-2001FT" H 5500 3400 50  0001 C CNN "Поле5"
 	1    5500 3400
 	-1   0    0    1   
 $EndComp
@@ -1357,62 +1302,46 @@ F 5 "C1608X7S1A475K080AC" H 6650 3000 50  0001 C CNN "Поле5"
 	1    0    0    -1  
 $EndComp
 $Comp
-L 1462350001:1462350001 ANT1
-U 1 1 5F981FC5
-P 7600 8750
-F 0 "ANT1" H 7350 8900 50  0000 L CNN
-F 1 "146235-0001" H 7050 8800 50  0000 L CNN
-F 2 "ANT_1462350001" H 7600 8750 50  0001 L BNN
-F 3 "https://www.molex.com/pdm_docs/ps/1462350001-PS.pdf" H 7600 8750 50  0001 L BNN
-F 4 "Molex" H 7600 8750 50  0001 L BNN "Поле4"
-F 5 "146235-0001" H 7600 8750 50  0001 L BNN "Поле5"
-	1    7600 8750
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:L L1
 U 1 1 5F985C54
-P 7950 9050
-F 0 "L1" V 8140 9050 50  0000 C CNN
-F 1 "LQG15HS5N1B02" V 8049 9050 50  0000 C CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 7950 9050 50  0001 C CNN
-F 3 "https://ru.mouser.com/ProductDetail/Murata-Electronics/LQG15HS5N1B02D?qs=%2Fha2pyFadujHBdivGMGkpjTFFsU27Q7iUyeFXLcifZsbSfQvtedXXg%3D%3D" H 7950 9050 50  0001 C CNN
-	1    7950 9050
+P 7300 9050
+F 0 "L1" V 7490 9050 50  0000 C CNN
+F 1 "LQG15HS5N1B02" V 7399 9050 50  0000 C CNN
+F 2 "Inductor_SMD:L_0402_1005Metric" H 7300 9050 50  0001 C CNN
+F 3 "https://ru.mouser.com/ProductDetail/Murata-Electronics/LQG15HS5N1B02D?qs=%2Fha2pyFadujHBdivGMGkpjTFFsU27Q7iUyeFXLcifZsbSfQvtedXXg%3D%3D" H 7300 9050 50  0001 C CNN
+	1    7300 9050
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	7600 8950 7600 9050
+	6950 9050 7150 9050
 Wire Wire Line
-	7600 9050 7800 9050
-Wire Wire Line
-	8100 9050 8200 9050
+	7450 9050 7550 9050
 $Comp
 L Device:L L3
 U 1 1 5F9A59B9
-P 8200 9300
-F 0 "L3" H 8253 9346 50  0000 L CNN
-F 1 "LQG15HS1N8B02" H 8253 9255 50  0000 L CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 8200 9300 50  0001 C CNN
-F 3 "https://ru.mouser.com/ProductDetail/Murata-Electronics/LQG15HS1N8B02D?qs=%2Fha2pyFadujSYq1Izc1mhWK%252Ban6NDrCvjPkzLQQ45AWqsjbiGwQPQA%3D%3D~" H 8200 9300 50  0001 C CNN
-	1    8200 9300
+P 7550 9300
+F 0 "L3" H 7400 9400 50  0000 L CNN
+F 1 "LQG15HS1N8B02" H 6850 9300 50  0000 L CNN
+F 2 "Inductor_SMD:L_0402_1005Metric" H 7550 9300 50  0001 C CNN
+F 3 "https://ru.mouser.com/ProductDetail/Murata-Electronics/LQG15HS1N8B02D?qs=%2Fha2pyFadujSYq1Izc1mhWK%252Ban6NDrCvjPkzLQQ45AWqsjbiGwQPQA%3D%3D~" H 7550 9300 50  0001 C CNN
+	1    7550 9300
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8200 9150 8200 9050
-Connection ~ 8200 9050
+	7550 9150 7550 9050
 $Comp
 L power:GNDREF #PWR0104
 U 1 1 5F9C430B
-P 8200 9600
-F 0 "#PWR0104" H 8200 9350 50  0001 C CNN
-F 1 "GNDREF" H 8205 9427 50  0000 C CNN
-F 2 "" H 8200 9600 50  0001 C CNN
-F 3 "" H 8200 9600 50  0001 C CNN
-	1    8200 9600
+P 7550 9600
+F 0 "#PWR0104" H 7550 9350 50  0001 C CNN
+F 1 "GNDREF" H 7555 9427 50  0000 C CNN
+F 2 "" H 7550 9600 50  0001 C CNN
+F 3 "" H 7550 9600 50  0001 C CNN
+	1    7550 9600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8200 9450 8200 9600
+	7550 9450 7550 9600
 $Comp
 L power:GNDREF #PWR0105
 U 1 1 5FA336FC
@@ -1429,56 +1358,52 @@ Wire Wire Line
 Connection ~ 9200 9450
 Wire Wire Line
 	9200 9450 9250 9450
-Wire Wire Line
-	9150 8500 9150 8650
-Text Label 9250 8400 0    50   ~ 0
+Text Label 9150 8050 2    50   ~ 0
 GPS_POWER
-Wire Wire Line
-	9250 8400 9250 8600
 Text Label 11200 9050 0    50   ~ 0
 GPS_RF
 $Comp
 L Device:C C9
 U 1 1 5FA71C5A
-P 9000 8650
-F 0 "C9" V 9100 8550 50  0000 C CNN
-F 1 "1nF" V 9150 8650 50  0000 C CNN
-F 2 "" H 9038 8500 50  0001 C CNN
-F 3 "~" H 9000 8650 50  0001 C CNN
-	1    9000 8650
-	0    1    1    0   
+P 9400 8450
+F 0 "C9" V 9500 8350 50  0000 C CNN
+F 1 "1nF" V 9250 8450 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 9438 8300 50  0001 C CNN
+F 3 "~" H 9400 8450 50  0001 C CNN
+	1    9400 8450
+	0    -1   -1   0   
 $EndComp
-Connection ~ 9150 8650
+Connection ~ 9250 8450
 Wire Wire Line
-	9150 8650 9150 8750
+	9250 8450 9250 8350
 $Comp
 L power:GNDREF #PWR0106
 U 1 1 5FA7279C
-P 8700 8800
-F 0 "#PWR0106" H 8700 8550 50  0001 C CNN
-F 1 "GNDREF" H 8705 8627 50  0000 C CNN
-F 2 "" H 8700 8800 50  0001 C CNN
-F 3 "" H 8700 8800 50  0001 C CNN
-	1    8700 8800
+P 8650 8600
+F 0 "#PWR0106" H 8650 8350 50  0001 C CNN
+F 1 "GNDREF" H 8655 8427 50  0000 C CNN
+F 2 "" H 8650 8600 50  0001 C CNN
+F 3 "" H 8650 8600 50  0001 C CNN
+	1    8650 8600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8700 8650 8700 8800
+	8650 8450 8650 8600
 Wire Wire Line
-	8700 8650 8850 8650
-Text Label 9150 8500 2    50   ~ 0
+	9700 8450 9550 8450
+Text Label 9250 8350 0    50   ~ 0
 2.5v
 $Comp
 L Device:R R6
 U 1 1 5F9B2052
-P 9600 8600
-F 0 "R6" V 9530 8554 50  0000 R CNN
-F 1 "10K" V 9700 8650 50  0000 R CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 9530 8691 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 9600 8600 50  0001 C CNN
-F 4 "CR0805-8W-103JT" H 9600 8600 50  0001 C CNN "Поле5"
-	1    9600 8600
-	0    1    1    0   
+P 8800 8450
+F 0 "R6" V 8730 8404 50  0000 R CNN
+F 1 "10K" V 8900 8500 50  0000 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8730 8541 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 8800 8450 50  0001 C CNN
+F 4 "CR0805-8W-103JT" H 8800 8450 50  0001 C CNN "Поле5"
+	1    8800 8450
+	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GNDREF #PWR0107
@@ -1492,10 +1417,8 @@ F 3 "" H 9750 8750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9750 8600 9750 8750
-Wire Wire Line
-	9450 8600 9250 8600
-Connection ~ 9250 8600
+	8950 8450 9150 8450
+Connection ~ 9150 8450
 $Comp
 L BGU8019:BGU8019 U5
 U 1 1 5F9DF24D
@@ -1508,10 +1431,6 @@ F 4 "BGU8019X" H 9250 9050 50  0001 C CNN "Поле5"
 	1    9250 9050
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9250 8600 9250 8750
-Wire Wire Line
-	8200 9050 8950 9050
 Wire Wire Line
 	9150 9350 9150 9450
 Wire Wire Line
@@ -1697,7 +1616,7 @@ Connection ~ 8250 1050
 Wire Wire Line
 	10150 9050 10150 9100
 Wire Wire Line
-	9550 9050 10150 9050
+	9550 9050 9900 9050
 Wire Wire Line
 	11200 9100 11200 9050
 Wire Wire Line
@@ -1724,10 +1643,6 @@ Wire Wire Line
 	7000 3300 7000 3550
 Wire Wire Line
 	7350 2850 7350 3300
-Wire Wire Line
-	5800 850  5800 900 
-Wire Wire Line
-	5900 850  5900 1050
 Connection ~ 5900 1050
 $Comp
 L Transistor_FET:IRLML5203 Q3
@@ -1739,7 +1654,7 @@ F 2 "Package_TO_SOT_SMD:SOT-23" H 9750 2675 50  0001 L CIN
 F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 9550 2750 50  0001 L CNN
 F 4 "DMG2305UXQ" H 9550 2750 50  0001 C CNN "Поле5"
 	1    9550 2750
-	0    -1   1    0   
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	9750 2850 9900 2850
@@ -1822,4 +1737,178 @@ F 3 "https://ru.mouser.com/datasheet/2/909/AVX_140127_Connectivity-1316412.pdf" 
 	1    10550 9200
 	1    0    0    -1  
 $EndComp
+$Comp
+L MUC-20PFFR-JS7001:MUC-20PFFR-JS7001 J2
+U 1 1 5FA008B3
+P 3800 950
+F 0 "J2" H 4128 972 50  0000 L CNN
+F 1 "MUC-20PFFR-JS7001" H 4128 881 50  0000 L CNN
+F 2 "AMPHENOL_MUC-20PFFR-JS7001" H 3800 950 50  0001 L BNN
+F 3 "Amphenol" H 3800 950 50  0001 L BNN
+F 4 "MUC-20PFFR-JS7001" H 3800 950 50  0001 C CNN "Поле5"
+	1    3800 950 
+	-1   0    0    1   
+$EndComp
+NoConn ~ 4000 850 
+NoConn ~ 4000 1050
+NoConn ~ 4000 950 
+Text Label 5050 1050 2    50   ~ 0
++5V
+$Comp
+L power:GNDREF #PWR0112
+U 1 1 5FA4A5FC
+P 4650 750
+F 0 "#PWR0112" H 4650 500 50  0001 C CNN
+F 1 "GNDREF" H 4655 577 50  0000 C CNN
+F 2 "" H 4650 750 50  0001 C CNN
+F 3 "" H 4650 750 50  0001 C CNN
+	1    4650 750 
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4000 650 
+Wire Wire Line
+	4750 1150 4750 1050
+Wire Wire Line
+	4750 1050 5200 1050
+Connection ~ 5200 1050
+Wire Wire Line
+	8200 9050 8950 9050
+Wire Wire Line
+	9250 8450 9250 8750
+Wire Wire Line
+	9150 8050 9150 8450
+Wire Wire Line
+	9150 8450 9150 8750
+$Comp
+L Device:L L4
+U 1 1 5FAF40C7
+P 8050 9050
+F 0 "L4" H 8103 9096 50  0000 L CNN
+F 1 "13nF" H 8103 9005 50  0000 L CNN
+F 2 "Inductor_SMD:L_0402_1005Metric" H 8050 9050 50  0001 C CNN
+F 3 "https://ru.mouser.com/ProductDetail/Murata-Electronics/LQG15HS1N8B02D?qs=%2Fha2pyFadujSYq1Izc1mhWK%252Ban6NDrCvjPkzLQQ45AWqsjbiGwQPQA%3D%3D~" H 8050 9050 50  0001 C CNN
+	1    8050 9050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7550 9050 7850 9050
+Connection ~ 7550 9050
+$Comp
+L Device:C C20
+U 1 1 5FB03A7B
+P 7850 9200
+F 0 "C20" V 7950 9100 50  0000 C CNN
+F 1 "0.5 pF" V 7700 9200 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 7888 9050 50  0001 C CNN
+F 3 "~" H 7850 9200 50  0001 C CNN
+	1    7850 9200
+	1    0    0    -1  
+$EndComp
+Connection ~ 7850 9050
+Wire Wire Line
+	7850 9050 7900 9050
+Wire Wire Line
+	9700 8450 9700 8750
+Wire Wire Line
+	9700 8750 9750 8750
+$Comp
+L power:GNDREF #PWR0113
+U 1 1 5FB13C33
+P 7850 9550
+F 0 "#PWR0113" H 7850 9300 50  0001 C CNN
+F 1 "GNDREF" H 8050 9450 50  0000 C CNN
+F 2 "" H 7850 9550 50  0001 C CNN
+F 3 "" H 7850 9550 50  0001 C CNN
+	1    7850 9550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7850 9350 7850 9550
+$Comp
+L Device:L L5
+U 1 1 5FB2393F
+P 9900 9350
+F 0 "L5" H 9953 9396 50  0000 L CNN
+F 1 "6.2nH" H 9953 9305 50  0000 L CNN
+F 2 "Inductor_SMD:L_0402_1005Metric" H 9900 9350 50  0001 C CNN
+F 3 "https://ru.mouser.com/ProductDetail/Murata-Electronics/LQG15HS1N8B02D?qs=%2Fha2pyFadujSYq1Izc1mhWK%252Ban6NDrCvjPkzLQQ45AWqsjbiGwQPQA%3D%3D~" H 9900 9350 50  0001 C CNN
+	1    9900 9350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9900 9200 9900 9050
+Connection ~ 9900 9050
+Wire Wire Line
+	9900 9050 10150 9050
+$Comp
+L power:GNDREF #PWR0114
+U 1 1 5FB33C85
+P 9900 9700
+F 0 "#PWR0114" H 9900 9450 50  0001 C CNN
+F 1 "GNDREF" H 10100 9600 50  0000 C CNN
+F 2 "" H 9900 9700 50  0001 C CNN
+F 3 "" H 9900 9700 50  0001 C CNN
+	1    9900 9700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9900 9500 9900 9700
+Wire Wire Line
+	4000 750  4550 750 
+Wire Wire Line
+	4550 850  4550 750 
+Connection ~ 4550 750 
+Wire Wire Line
+	4550 750  4650 750 
+Wire Wire Line
+	4000 1150 4350 1150
+$Comp
+L ANT-GNSSCP-TH18L1:ANT-GNSSCP-TH18L1 E1
+U 1 1 5FA52FC2
+P 6750 8950
+F 0 "E1" H 6835 8979 50  0000 L CNN
+F 1 "ANT-GNSSCP-TH18L1" H 6835 8888 50  0000 L CNN
+F 2 "XDCR_ANT-GNSSCP-TH18L1" H 6750 8950 50  0001 L BNN
+F 3 "" H 6750 8950 50  0001 L BNN
+F 4 "Manufacturer Recommendations" H 6750 8950 50  0001 L BNN "STANDARD"
+F 5 "N/A" H 6750 8950 50  0001 L BNN "PARTREV"
+F 6 "4 mm" H 6750 8950 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
+F 7 "Linx" H 6750 8950 50  0001 L BNN "MANUFACTURER"
+	1    6750 8950
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3450 5850
+NoConn ~ 3450 5750
+Wire Wire Line
+	6650 8950 6650 8700
+Wire Wire Line
+	6650 8700 6950 8700
+Wire Wire Line
+	6950 8700 6950 9050
+$Comp
+L power:GNDREF #PWR?
+U 1 1 5FE038D3
+P 6650 9150
+F 0 "#PWR?" H 6650 8900 50  0001 C CNN
+F 1 "GNDREF" H 6655 8977 50  0000 C CNN
+F 2 "" H 6650 9150 50  0001 C CNN
+F 3 "" H 6650 9150 50  0001 C CNN
+	1    6650 9150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6650 9150 6650 9050
+$Comp
+L Device:Q_NMOS_DGS Q1
+U 1 1 5FD93A6A
+P 4550 1050
+F 0 "Q1" V 4799 1050 50  0000 C CNN
+F 1 "Q_NMOS_DGS" V 4890 1050 50  0000 C CNN
+F 2 "" H 4750 1150 50  0001 C CNN
+F 3 "~" H 4550 1050 50  0001 C CNN
+	1    4550 1050
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5200 1050 5600 1050
 $EndSCHEMATC
