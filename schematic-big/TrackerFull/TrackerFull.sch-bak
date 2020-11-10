@@ -65,7 +65,7 @@ Wire Wire Line
 	5900 3600 5900 3750
 Connection ~ 5900 3600
 Text Label 7350 3150 0    50   ~ 0
-V_BAT
+BATTERY_IN
 Wire Wire Line
 	6300 2850 6650 2850
 Connection ~ 6650 2850
@@ -265,7 +265,7 @@ Wire Wire Line
 	3850 5150 3850 4900
 Text Label 5850 6050 0    50   ~ 0
 HST_RXD
-Text Label 1550 5500 2    50   ~ 0
+Text Label 1550 5300 2    50   ~ 0
 HST_RXD
 Text Label 5850 6150 0    50   ~ 0
 HST_TXD
@@ -273,15 +273,15 @@ Wire Wire Line
 	5300 6150 5850 6150
 Wire Wire Line
 	5300 6050 5850 6050
-Text Label 1550 5400 2    50   ~ 0
+Text Label 1550 5200 2    50   ~ 0
 HST_TXD
 Text Label 3700 4900 1    50   ~ 0
 UART1_TXD
-Text Label 1650 5200 2    50   ~ 0
+Text Label 1650 5000 2    50   ~ 0
 UART1_TXD
 Text Label 3850 4900 1    50   ~ 0
 UART1_RXD
-Text Label 1650 5300 2    50   ~ 0
+Text Label 1650 5100 2    50   ~ 0
 UART1_RXD
 $Comp
 L power:GNDREF #PWR034
@@ -410,17 +410,6 @@ Wire Wire Line
 	2950 7300 2950 7400
 Text Label 1550 7100 0    50   ~ 0
 PWR_CTRL
-$Comp
-L power:GNDREF #PWR015
-U 1 1 5F5C5802
-P 7500 6950
-F 0 "#PWR015" H 7500 6700 50  0001 C CNN
-F 1 "GNDREF" H 7505 6777 50  0000 C CNN
-F 2 "" H 7500 6950 50  0001 C CNN
-F 3 "" H 7500 6950 50  0001 C CNN
-	1    7500 6950
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	3000 6850 3450 6850
 Text Label 1700 2900 0    50   ~ 0
@@ -443,8 +432,6 @@ Wire Wire Line
 	1700 3300 2150 3300
 Wire Wire Line
 	1700 3400 1900 3400
-Text Label 8700 6150 0    50   ~ 0
-ACCEL_INT1
 Connection ~ 4750 5600
 Wire Wire Line
 	4750 5600 4900 5600
@@ -466,8 +453,6 @@ Text Label 3800 7750 2    50   ~ 0
 VBAT
 Wire Wire Line
 	3800 7500 3800 7750
-Text GLabel 7500 5600 0    50   Input ~ 0
-BAT_IN
 Wire Wire Line
 	5300 7050 5300 7300
 Text Label 5300 7300 0    50   ~ 0
@@ -517,9 +502,7 @@ Text Label 4000 4900 1    50   ~ 0
 ACCEL_INT2
 Wire Wire Line
 	4000 5150 4000 4900
-Text Label 8300 6050 0    50   ~ 0
-AVR_MOSI_SDA
-Text Label 8300 6250 0    50   ~ 0
+Text Label 8300 5350 0    50   ~ 0
 AVR_SCK
 Text GLabel 11000 5900 0    50   Input ~ 0
 BAT_IN
@@ -534,10 +517,6 @@ F 3 "" H 11000 6650 50  0001 C CNN
 	1    11000 6650
 	1    0    0    -1  
 $EndComp
-Text Label 9500 6350 0    50   ~ 0
-LED_CTL
-Text Label 9000 6450 0    50   ~ 0
-PWR_CTRL
 $Comp
 L power:GNDREF #PWR028
 U 1 1 5F727E0F
@@ -552,8 +531,6 @@ F 3 "" H 6500 1450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8850 6450 9000 6450
-Wire Wire Line
 	2400 7400 2400 7500
 $Comp
 L power:GNDREF #PWR01
@@ -566,49 +543,17 @@ F 3 "" H 2400 7500 50  0001 C CNN
 	1    2400 7500
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	8100 6550 8600 6550
 $Comp
 L power:GNDREF #PWR023
 U 1 1 5F6DE0E6
-P 9800 7400
-F 0 "#PWR023" H 9800 7150 50  0001 C CNN
-F 1 "GNDREF" H 9805 7227 50  0000 C CNN
-F 2 "" H 9800 7400 50  0001 C CNN
-F 3 "" H 9800 7400 50  0001 C CNN
-	1    9800 7400
+P 9800 7600
+F 0 "#PWR023" H 9800 7350 50  0001 C CNN
+F 1 "GNDREF" H 9805 7427 50  0000 C CNN
+F 2 "" H 9800 7600 50  0001 C CNN
+F 3 "" H 9800 7600 50  0001 C CNN
+	1    9800 7600
 	1    0    0    -1  
 $EndComp
-Connection ~ 7500 5500
-Wire Wire Line
-	7500 5500 7500 5750
-$Comp
-L power:GNDREF #PWR018
-U 1 1 5F6ED2C2
-P 7800 5500
-F 0 "#PWR018" H 7800 5250 50  0001 C CNN
-F 1 "GNDREF" H 8000 5400 50  0000 C CNN
-F 2 "" H 7800 5500 50  0001 C CNN
-F 3 "" H 7800 5500 50  0001 C CNN
-	1    7800 5500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7500 5100 7500 5250
-$Comp
-L power:GNDREF #PWR017
-U 1 1 5F6FBFAE
-P 7800 5250
-F 0 "#PWR017" H 7800 5000 50  0001 C CNN
-F 1 "GNDREF" H 8000 5200 50  0000 C CNN
-F 2 "" H 7800 5250 50  0001 C CNN
-F 3 "" H 7800 5250 50  0001 C CNN
-	1    7800 5250
-	1    0    0    -1  
-$EndComp
-Connection ~ 7500 5250
-Wire Wire Line
-	7500 5250 7500 5500
 Text Label 5500 3250 1    50   ~ 0
 CHARGER_PROG
 Text Label 3300 9550 0    50   ~ 0
@@ -655,26 +600,10 @@ Text Label 4600 8000 1    50   ~ 0
 AVR_SCK
 Text Label 4700 8450 1    50   ~ 0
 AVR_MOSI_SDA
-Text Label 8300 6150 0    50   ~ 0
-AVR_MISO
-Text Label 8200 6550 0    50   ~ 0
-AVR_RST
-Wire Wire Line
-	8100 6150 8700 6150
-Wire Wire Line
-	8100 6050 8300 6050
-Wire Wire Line
-	8100 6250 8300 6250
 Text Label 10350 6350 0    50   ~ 0
 LED_CTL
 Wire Wire Line
 	10250 6350 10700 6350
-Wire Wire Line
-	8100 6350 8750 6350
-Wire Wire Line
-	9050 6350 9500 6350
-Text Label 8600 6650 0    50   ~ 0
-ICSP_RST
 Connection ~ 10850 3450
 NoConn ~ 4100 7500
 Wire Wire Line
@@ -692,24 +621,24 @@ CHARGER_STAT
 $Comp
 L power:GNDREF #PWR0101
 U 1 1 5F93EA86
-P 1900 5100
-F 0 "#PWR0101" H 1900 4850 50  0001 C CNN
-F 1 "GNDREF" H 1905 4927 50  0000 C CNN
-F 2 "" H 1900 5100 50  0001 C CNN
-F 3 "" H 1900 5100 50  0001 C CNN
-	1    1900 5100
+P 1900 4900
+F 0 "#PWR0101" H 1900 4650 50  0001 C CNN
+F 1 "GNDREF" H 1905 4727 50  0000 C CNN
+F 2 "" H 1900 4900 50  0001 C CNN
+F 3 "" H 1900 4900 50  0001 C CNN
+	1    1900 4900
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1200 5100 1900 5100
+	1200 4900 1900 4900
 Wire Wire Line
-	1200 5200 1650 5200
+	1200 5000 1650 5000
 Wire Wire Line
-	1200 5300 1650 5300
+	1200 5100 1650 5100
 Wire Wire Line
-	1200 5400 1550 5400
+	1200 5200 1550 5200
 Wire Wire Line
-	1200 5500 1550 5500
+	1200 5300 1550 5300
 $Comp
 L power:GNDREF #PWR0102
 U 1 1 5FA8A45D
@@ -727,15 +656,15 @@ Text GLabel 11150 2850 2    50   Input ~ 0
 BAT_IN
 NoConn ~ 4000 7500
 Wire Wire Line
-	8600 6550 8600 7150
-Connection ~ 8600 7150
+	8600 6750 8600 7350
+Connection ~ 8600 7350
 Wire Wire Line
-	8600 7150 8600 7250
+	8600 7350 8600 7450
 Wire Wire Line
-	9800 7150 9800 7250
-Connection ~ 9800 7250
+	9800 7350 9800 7450
+Connection ~ 9800 7450
 Wire Wire Line
-	9800 7250 9800 7400
+	9800 7450 9800 7600
 Wire Wire Line
 	3200 2050 3750 2050
 Connection ~ 3200 2050
@@ -777,8 +706,6 @@ NoConn ~ 3900 7500
 Wire Wire Line
 	2400 7100 2650 7100
 Wire Wire Line
-	8100 6450 8550 6450
-Wire Wire Line
 	1550 7100 2400 7100
 Connection ~ 2400 7100
 Wire Wire Line
@@ -801,10 +728,10 @@ L Regulator_Linear:MIC5504-3.3YM5 U7
 U 1 1 5F99592F
 P 1950 1350
 F 0 "U7" H 1950 1717 50  0000 C CNN
-F 1 "MIC5232-2.5YD5" H 1950 1626 50  0000 C CNN
+F 1 "MIC5232-2.8YD5" H 1950 1626 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23-5" H 1950 950 50  0001 C CNN
 F 3 "https://ru.mouser.com/datasheet/2/268/mic5232-1082293.pdf" H 1700 1600 50  0001 C CNN
-F 4 "MIC5232-2.5YD5" H 1950 1350 50  0001 C CNN "Поле5"
+F 4 "MIC5232-2.8YD5" H 1950 1350 50  0001 C CNN "Поле5"
 	1    1950 1350
 	1    0    0    -1  
 $EndComp
@@ -836,26 +763,26 @@ $EndComp
 $Comp
 L PTS647SK38SMTR2LFS:PTS647SK38SMTR2LFS SW1
 U 1 1 5F9A40F7
-P 8600 7150
-F 0 "SW1" H 9200 7417 50  0000 C CNN
-F 1 "PTS647SK38SMTR2LFS" H 9200 7326 50  0000 C CNN
-F 2 "PTS647SK38SMTR2LFS" H 8600 7150 50  0001 L BNN
-F 3 "https://www.digikey.com/en/products/detail/c-k/PTS-647-SK38-SMTR2-LFS/9649862" H 8600 7150 50  0001 L BNN
-F 4 "https://www.mouser.com/Search/Refine.aspx?Keyword=611-PTS647SK38SMTR2L" H 8600 7150 50  0001 L BNN "Поле4"
-F 5 "611-PTS647SK38SMTR2L" H 8600 7150 50  0001 L BNN "Поле5"
-F 6 "3.8mm" H 8600 7150 50  0001 L BNN "Поле6"
-F 7 "Tactile Switches 50mA 12VDC, 2.5N 3.8mm H, G leads" H 8600 7150 50  0001 L BNN "Поле7"
-F 8 "C & K COMPONENTS" H 8600 7150 50  0001 L BNN "Поле8"
-	1    8600 7150
+P 8600 7350
+F 0 "SW1" H 9200 7617 50  0000 C CNN
+F 1 "PTS647SK38SMTR2LFS" H 9200 7526 50  0000 C CNN
+F 2 "PTS647SK38SMTR2LFS" H 8600 7350 50  0001 L BNN
+F 3 "https://www.digikey.com/en/products/detail/c-k/PTS-647-SK38-SMTR2-LFS/9649862" H 8600 7350 50  0001 L BNN
+F 4 "https://www.mouser.com/Search/Refine.aspx?Keyword=611-PTS647SK38SMTR2L" H 8600 7350 50  0001 L BNN "Поле4"
+F 5 "611-PTS647SK38SMTR2L" H 8600 7350 50  0001 L BNN "Поле5"
+F 6 "3.8mm" H 8600 7350 50  0001 L BNN "Поле6"
+F 7 "Tactile Switches 50mA 12VDC, 2.5N 3.8mm H, G leads" H 8600 7350 50  0001 L BNN "Поле7"
+F 8 "C & K COMPONENTS" H 8600 7350 50  0001 L BNN "Поле8"
+	1    8600 7350
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x05_Male J1
+L Connector:Conn_01x09_Male J1
 U 1 1 5F93CDF7
 P 1000 5300
-F 0 "J1" H 1108 5681 50  0000 C CNN
-F 1 "Conn_01x05_Male" H 1108 5590 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical" H 1000 5300 50  0001 C CNN
+F 0 "J1" H 900 5300 50  0000 C CNN
+F 1 "Conn_01x09_Male" H 1050 5850 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical" H 1000 5300 50  0001 C CNN
 F 3 "https://www.digikey.com/en/products/detail/adam-tech/PH1-05-UA/9830343" H 1000 5300 50  0001 C CNN
 F 4 "PH1-05-UA" H 1000 5300 50  0001 C CNN "Поле5"
 	1    1000 5300
@@ -871,18 +798,6 @@ F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3130 6241 50  0
 F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 3200 6150 50  0001 C CNN
 F 4 "CR0805-8W-103JT" H 3200 6150 50  0001 C CNN "Поле5"
 	1    3200 6150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R11
-U 1 1 5F7A221E
-P 8900 6350
-F 0 "R11" V 8900 6400 50  0000 R CNN
-F 1 "470" V 8950 6650 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 8830 6441 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8900 6350 50  0001 C CNN
-F 4 "CR0402-16W-4700FT" H 8900 6350 50  0001 C CNN "Поле5"
-	1    8900 6350
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -902,32 +817,6 @@ F 8 "None" H 4150 9450 50  0001 L BNN "Поле8"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C4
-U 1 1 5F6FBFA4
-P 7650 5250
-F 0 "C4" V 7600 5350 50  0000 C CNN
-F 1 "150nF" V 7500 5250 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 7688 5100 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X7R1A154K050BB/3951151" H 7650 5250 50  0001 C CNN
-F 4 "0.12" H 7650 5250 50  0001 C CNN "Поле4"
-F 5 "C1005X7R1A154K050BB" H 7650 5250 50  0001 C CNN "Поле5"
-	1    7650 5250
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C C5
-U 1 1 5F6ECB47
-P 7650 5500
-F 0 "C5" V 7902 5500 50  0000 C CNN
-F 1 "10uF" V 7811 5500 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 7688 5350 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576" H 7650 5500 50  0001 C CNN
-F 4 "0.46*4" H 7650 5500 50  0001 C CNN "Поле4"
-F 5 "C1608X6S1A106M080AC" H 7650 5500 50  0001 C CNN "Поле5"
-	1    7650 5500
-	0    1    1    0   
-$EndComp
-$Comp
 L Device:R R1
 U 1 1 5F753720
 P 2400 7250
@@ -940,18 +829,6 @@ F 4 "CR161003F" H 2400 7250 50  0001 C CNN "Поле5"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R3
-U 1 1 5F6F9FFF
-P 8700 6450
-F 0 "R3" V 8630 6404 50  0000 R CNN
-F 1 "470" V 8800 6500 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 8630 6541 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8700 6450 50  0001 C CNN
-F 4 "CR0402-16W-4700FT" H 8700 6450 50  0001 C CNN "Поле5"
-	1    8700 6450
-	0    1    1    0   
-$EndComp
-$Comp
 L Transistor_FET:IRLML5203 Q2
 U 1 1 5F66A3D8
 P 2850 7100
@@ -959,20 +836,8 @@ F 0 "Q2" H 3054 7146 50  0000 L CNN
 F 1 "DMG2305UXQ" H 2600 6900 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 3050 7025 50  0001 L CIN
 F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 2850 7100 50  0001 L CNN
-F 4 "DMG2305UXQ" H 2850 7100 50  0001 C CNN "Поле5"
+F 4 "DMG2305UXQ-13 " H 2850 7100 50  0001 C CNN "Поле5"
 	1    2850 7100
-	1    0    0    -1  
-$EndComp
-$Comp
-L MCU_Microchip_ATtiny:ATtiny85-20SU U3
-U 1 1 5F57EEE2
-P 7500 6350
-F 0 "U3" H 7350 6250 50  0000 R CNN
-F 1 "ATtiny85-20PU" H 8150 5750 50  0000 R CNN
-F 2 "Package_DIP:DIP-8_W7.62mm" H 7500 6350 50  0001 C CIN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf" H 7500 6350 50  0001 C CNN
-F 4 "ATtiny85-20PU" H 7500 6350 50  0001 C CNN "Поле5"
-	1    7500 6350
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -982,9 +847,9 @@ P 6500 1250
 F 0 "C11" H 6615 1296 50  0000 L CNN
 F 1 "10uF" H 6615 1205 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 6538 1100 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576" H 6500 1250 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 6500 1250 50  0001 C CNN
 F 4 "0.46*4" H 6500 1250 50  0001 C CNN "Поле4"
-F 5 "C1608X6S1A106M080AC" H 6500 1250 50  0001 C CNN "Поле5"
+F 5 "CL10A106KP8NQSC" H 6500 1250 50  0001 C CNN "Поле5"
 	1    6500 1250
 	1    0    0    -1  
 $EndComp
@@ -1045,9 +910,9 @@ P 2900 2200
 F 0 "C2" H 3015 2246 50  0000 L CNN
 F 1 "10uF" H 2950 2100 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 2938 2050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X6S1A106M080AC/3648576" H 2900 2200 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 2900 2200 50  0001 C CNN
 F 4 "0.46*4" H 2900 2200 50  0001 C CNN "Поле4"
-F 5 "C1608X6S1A106M080AC" H 2900 2200 50  0001 C CNN "Поле5"
+F 5 "CL10A106KP8NQSC" H 2900 2200 50  0001 C CNN "Поле5"
 	1    2900 2200
 	1    0    0    -1  
 $EndComp
@@ -1487,10 +1352,10 @@ U 1 1 5FBEB468
 P 9250 1200
 F 0 "C17" H 9000 1150 50  0000 L CNN
 F 1 "22uF" H 8950 1250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 9288 1050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM188R61A226ME15D/5027561" H 9250 1200 50  0001 C CNN
-F 4 "0.3" H 9250 1200 50  0001 C CNN "Поле4"
-F 5 "GRM188R61A226ME15D" H 9250 1200 50  0001 C CNN "Поле5"
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 9288 1050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM21BD71A226ME44K/4905521" H 9250 1200 50  0001 C CNN
+F 4 "" H 9250 1200 50  0001 C CNN "Поле4"
+F 5 "GRM21BD71A226ME44K" H 9250 1200 50  0001 C CNN "Поле5"
 	1    9250 1200
 	1    0    0    -1  
 $EndComp
@@ -1512,18 +1377,6 @@ Wire Wire Line
 	9250 1550 9250 1350
 Text Label 9000 1050 0    50   ~ 0
 APW_OUT
-$Comp
-L Regulator_Switching:AP62301 U8
-U 1 1 5FCCD0E3
-P 12700 3050
-F 0 "U8" H 12700 3417 50  0000 C CNN
-F 1 "AP62301WU-7" H 12700 3326 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:TSOT-23-6" H 12700 2150 50  0001 C CNN
-F 3 "https://www.diodes.com/assets/Datasheets/AP62300_AP62301_AP62300T.pdf" H 12700 3050 50  0001 C CNN
-F 4 "AP62301WU-7" H 12700 3050 50  0001 C CNN "Поле5"
-	1    12700 3050
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	7550 1800 7550 1900
 $Comp
@@ -1580,7 +1433,7 @@ F 0 "Q3" H 9754 2796 50  0000 L CNN
 F 1 "DMG2305UXQ" H 9754 2705 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 9750 2675 50  0001 L CIN
 F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 9550 2750 50  0001 L CNN
-F 4 "DMG2305UXQ" H 9550 2750 50  0001 C CNN "Поле5"
+F 4 "DMG2305UXQ-13 " H 9550 2750 50  0001 C CNN "Поле5"
 	1    9550 2750
 	0    1    1    0   
 $EndComp
@@ -1842,8 +1695,6 @@ F 3 "https://www.ti.com/lit/ds/symlink/tlv62585.pdf?HQS=TI-null-null-mousermode-
 	1    7550 1250
 	1    0    0    -1  
 $EndComp
-NoConn ~ 12750 4850
-NoConn ~ 13150 4700
 Wire Wire Line
 	8800 1600 8800 1700
 Connection ~ 6700 1050
@@ -1866,4 +1717,178 @@ Wire Wire Line
 	9250 1050 9750 1050
 Wire Wire Line
 	8800 1050 9250 1050
+Text Label 8300 5250 0    50   ~ 0
+ACCEL_INT1
+Wire Wire Line
+	8150 6150 8600 6150
+Text Label 8600 6150 0    50   ~ 0
+ISP_MISO
+Wire Wire Line
+	8150 6050 8600 6050
+Text Label 8600 6050 0    50   ~ 0
+ISP_MOSI
+Wire Wire Line
+	8150 6250 8600 6250
+Text Label 8600 6250 0    50   ~ 0
+ISP_SCK
+Wire Wire Line
+	8150 6750 8600 6750
+Text Label 8600 6750 0    50   ~ 0
+AVR_RST
+$Comp
+L MCU_Microchip_ATtiny:ATtiny861A-MU U8
+U 1 1 6001D0A4
+P 7450 5950
+F 0 "U8" H 6806 5996 50  0000 R CNN
+F 1 "ATtiny861A-MU" H 6806 5905 50  0000 R CNN
+F 2 "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm" H 7450 5950 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/doc8197.pdf" H 7450 5950 50  0001 C CNN
+	1    7450 5950
+	1    0    0    -1  
+$EndComp
+Text Label 8300 5150 0    50   ~ 0
+AVR_MOSI_SDA
+Wire Wire Line
+	8150 5150 8300 5150
+Wire Wire Line
+	8150 5350 8300 5350
+Wire Wire Line
+	8150 5250 8300 5250
+Text Label 1300 5500 0    50   ~ 0
+ISP_MISO
+Text Label 1300 5600 0    50   ~ 0
+ISP_MOSI
+Text Label 1300 5400 0    50   ~ 0
+ISP_SCK
+Text Label 1300 5700 0    50   ~ 0
+AVR_RST
+Wire Wire Line
+	1200 5400 1300 5400
+Wire Wire Line
+	1200 5500 1300 5500
+Wire Wire Line
+	1200 5600 1300 5600
+Wire Wire Line
+	1200 5700 1300 5700
+Text GLabel 7450 4550 0    50   Input ~ 0
+BAT_IN
+Connection ~ 7450 4450
+Wire Wire Line
+	7450 4050 7450 4200
+Connection ~ 7450 4200
+Wire Wire Line
+	7450 4200 7450 4450
+$Comp
+L Device:C C13
+U 1 1 601A1375
+P 7600 4200
+F 0 "C13" V 7550 4300 50  0000 C CNN
+F 1 "150nF" V 7450 4200 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 7638 4050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X7R1A154K050BB/3951151" H 7600 4200 50  0001 C CNN
+F 4 "0.12" H 7600 4200 50  0001 C CNN "Поле4"
+F 5 "C1005X7R1A154K050BB" H 7600 4200 50  0001 C CNN "Поле5"
+	1    7600 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C18
+U 1 1 601A1381
+P 7600 4450
+F 0 "C18" V 7852 4450 50  0000 C CNN
+F 1 "10uF" V 7761 4450 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7638 4300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 7600 4450 50  0001 C CNN
+F 4 "0.46*4" H 7600 4450 50  0001 C CNN "Поле4"
+F 5 "CL10A106KP8NQSC" H 7600 4450 50  0001 C CNN "Поле5"
+	1    7600 4450
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7450 4850 7550 4850
+Wire Wire Line
+	7450 4450 7450 4850
+Connection ~ 7450 4850
+$Comp
+L power:GNDREF #PWR0116
+U 1 1 601D6DD3
+P 7450 7150
+F 0 "#PWR0116" H 7450 6900 50  0001 C CNN
+F 1 "GNDREF" H 7455 6977 50  0000 C CNN
+F 2 "" H 7450 7150 50  0001 C CNN
+F 3 "" H 7450 7150 50  0001 C CNN
+	1    7450 7150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7450 7150 7450 7050
+Wire Wire Line
+	7550 7050 7450 7050
+Connection ~ 7450 7050
+Text Label 9550 5650 0    50   ~ 0
+LED_CTL
+Text Label 9050 5750 0    50   ~ 0
+PWR_CTRL
+Wire Wire Line
+	8900 5750 9050 5750
+Wire Wire Line
+	8150 5650 8800 5650
+Wire Wire Line
+	9100 5650 9550 5650
+Wire Wire Line
+	8150 5750 8600 5750
+$Comp
+L Device:R R3
+U 1 1 5FAA6E85
+P 8950 5650
+F 0 "R3" V 8950 5700 50  0000 R CNN
+F 1 "470" V 9000 5950 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8880 5741 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8950 5650 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8950 5650 50  0001 C CNN "Поле5"
+	1    8950 5650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5FAA6E90
+P 8750 5750
+F 0 "R2" V 8680 5704 50  0000 R CNN
+F 1 "470" V 8850 5800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8680 5841 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8750 5750 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8750 5750 50  0001 C CNN "Поле5"
+	1    8750 5750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7750 4200 7750 4350
+Wire Wire Line
+	7750 4350 7900 4350
+Connection ~ 7750 4350
+Wire Wire Line
+	7750 4350 7750 4450
+$Comp
+L power:GNDREF #PWR0117
+U 1 1 5FBA4382
+P 7900 4350
+F 0 "#PWR0117" H 7900 4100 50  0001 C CNN
+F 1 "GNDREF" H 7905 4177 50  0000 C CNN
+F 2 "" H 7900 4350 50  0001 C CNN
+F 3 "" H 7900 4350 50  0001 C CNN
+	1    7900 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x04_Male J5
+U 1 1 5FAC5879
+P 950 6600
+F 0 "J5" H 850 6600 50  0000 C CNN
+F 1 "Conn_01x04_Male" H 1000 7150 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 950 6600 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/adam-tech/PH1-05-UA/9830343" H 950 6600 50  0001 C CNN
+F 4 "PH1-05-UA" H 950 6600 50  0001 C CNN "Поле5"
+	1    950  6600
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
