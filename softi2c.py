@@ -20,6 +20,10 @@ class SoftI2C:
 
     def sclHi(self):
         self.scl.init(machine.Pin.IN, 1)
+        
+        while self.scl.value() != 1:
+            continue
+
         self.i2cDelay();
 
 
@@ -69,9 +73,17 @@ class SoftI2C:
                 self.sdaHi()
             else:
                 self.sdaLo()
-            
+
             self.clockPulse()
 
+
+    def writeNack(self):
+        self.sdaHi()
+        self.clockPulse()
+
+    def writeAck(self):
+        self.sdaLo()
+        self.clockPulse()
 
     def readBit(self):
         self.sclHi()
@@ -107,28 +119,45 @@ class SoftI2C:
         self.stop();
 
         return 0
-    
+
+
     def readRegister(self, slave_addr, register):
-        si.start();
-        si.writeByte(slave_addr << 1);
-        si.readAck();
-        si.writeByte(register)
-        si.readAck()
-        si.start()
-        si.writeByte(slave_addr << 1 | 0x1)
-        si.readAck()
-        result = si.readByte()
-        si.readAck()
-        si.stop()
+        result = self.readSequence(slave_addr, register, 1)
+        return result[0]
+
+
+    def readSequence(self, slave_addr, register, length):
+        self.start();
+        self.writeByte(slave_addr << 1);
+        self.readAck();
+        self.writeByte(register)
+        self.readAck()
+        self.start()
+        self.writeByte(slave_addr << 1 | 0x1)
+        self.readAck()
+
+        result = []
+
+        while length > 0:
+            result.append(self.readByte())
+
+            if length != 1:
+                self.writeAck()
+
+            length = length - 1
+
+        self.writeNack()
+        self.stop()
         return result
-    
+
+
     def writeRegister(self, slave_addr, register, value):
-        si.start();
-        si.writeByte(slave_addr << 1);
-        si.readAck()
-        si.writeByte(register)
-        si.readAck()
-        si.writeByte(value)
-        si.readAck()
-        si.stop()
+        self.start();
+        self.writeByte(slave_addr << 1);
+        self.readAck()
+        self.writeByte(register)
+        self.readAck()
+        self.writeByte(value)
+        self.readAck()
+        self.stop()
 

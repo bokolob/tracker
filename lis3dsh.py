@@ -87,7 +87,7 @@ class LIS3DH:
     def __init__(self):
         # Check device ID.
         device_id = self._read_register_byte(WHO_AM_I)
-        print(str(bin(device_id)))
+        print(str(hex(device_id)))
         if device_id != 0x3F:
             raise RuntimeError('Failed to find LIS3DSH!')
 
@@ -121,6 +121,23 @@ class LIS3DH:
     def _read_register_byte(self, register):
         # Read a byte register value and return it.
         return self._read_register(register, 1)[0] & 0xFF
+
+class LIS3DSH_SOFTI2C(LIS3DH):
+    def __init__(self, soft_i2c, sel=1):
+        self._i2c = soft_i2c
+
+        if sel == 1:
+            self.addr =  0b00011101
+        else:
+            self.addr =  0b00011110
+
+        super().__init__()
+
+    def _read_register(self, register, length):
+       return bytearray(self._i2c.readSequence(self.addr, register, length))
+
+    def _write_register_byte(self, register, value):
+       return self._i2c.writeRegister(self.addr, register, value)
 
 
 class LIS3SDH_SPI(LIS3DH):
