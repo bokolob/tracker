@@ -1,0 +1,45 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# 78727-0001
+#
+DEF 78727-0001 J 0 40 Y Y 1 F N
+F0 "J" 1550 300 50 H V L BNN
+F1 "78727-0001" 1550 200 50 H V L BNN
+F2 "78727-0001_1" 200 350 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+F4 "https://www.mouser.com/Search/Refine.aspx?Keyword=538-78727-0001" 150 250 50 H I L BNN "Mouser_Price-Stock"
+F5 "Push-Pull micro-SIM Card Socket + detect Push-Pull micro-SIM Card Socket + detect" 200 -900 50 H I L BNN "Description"
+F6 "Molex" 750 -450 50 H I L BNN "Manufacturer_Name"
+F7 "78727-0001" 850 350 50 H I L BNN "Manufacturer_Part_Number"
+F8 "mm" 1100 -500 50 H I L BNN "Height"
+F9 "7719133P" 1400 350 50 H I L BNN "RS_Part_Number"
+F10 "538-78727-0001" 550 150 50 H I L BNN "Mouser_Part_Number"
+F11 "70374917" 200 450 50 H I L BNN "Allied_Number"
+F12 "https://www.alliedelec.com/molex-incorporated-78727-0001/70374917/" 200 -1000 50 H I L BNN "Allied_Price-Stock"
+F13 "http://uk.rs-online.com/web/p/products/7719133P" 200 -1100 50 H I L BNN "RS_Price-Stock"
+DRAW
+P 2 0 0 10 200 100 200 -800 N
+P 2 0 0 10 200 100 1500 100 N
+P 2 0 0 10 1500 -800 200 -800 N
+P 2 0 0 10 1500 -800 1500 100 N
+X VCC 1 0 0 200 R 40 40 0 0 B
+X GND 10 0 -500 200 R 40 40 0 0 B
+X GND 11 0 -500 200 R 40 40 0 0 B
+X GND 12 0 -500 200 R 40 40 0 0 B
+X GND 13 0 -500 200 R 40 40 0 0 B
+X GND 14 0 -500 200 R 40 40 0 0 B
+X D._SPRING 15 0 -700 200 R 40 40 0 0 B
+X D._CONTACT 16 1700 -400 200 L 40 40 0 0 B
+X RST 2 1700 0 200 L 40 40 0 0 B
+X CLK 3 0 -100 200 R 40 40 0 0 B
+X GND 4 0 -500 200 R 40 40 0 0 B
+X GND 5 0 -500 200 R 40 40 0 0 B
+X VPP 6 1700 -200 200 L 40 40 0 0 B
+X I/O 7 0 -200 200 R 40 40 0 0 B
+X GND 8 0 -500 200 R 40 40 0 0 B
+X GND 9 0 -500 200 R 40 40 0 0 B
+ENDDRAW
+ENDDEF
+#
+#End Library
