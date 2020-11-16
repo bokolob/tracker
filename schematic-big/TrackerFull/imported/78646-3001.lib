@@ -1,7 +1,5 @@
-EESchema-LIBRARY Version 2.3
+EESchema-LIBRARY Version 2.4
 #encoding utf-8
-#(c) SnapEDA 2016 (snapeda.com)
-#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
 #
 # 78646-3001
 #
@@ -16,23 +14,23 @@ F6 "78646-3001" 0 0 50 H I L BNN
 F7 "https://www.digikey.in/product-detail/en/molex/0786463001/WM9364CT-ND/3770350?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" 0 0 50 H I L BNN
 F8 "None" 0 0 50 H I L BNN
 DRAW
-P 2 0 0 6 300 400 300 -500 N
-P 2 0 0 6 300 -500 -300 -500 N
 P 2 0 0 6 -300 -500 -300 400 N
 P 2 0 0 6 -300 400 300 400 N
-X VCC C1 500 300 200 L 40 40 0 0 W 
-X RST C2 -500 0 200 R 40 40 0 0 I 
+P 2 0 0 6 300 -500 -300 -500 N
+P 2 0 0 6 300 400 300 -500 N
+X VCC C1 500 300 200 L 40 40 0 0 W
+X RST C2 -500 0 200 R 40 40 0 0 I
 X CLK C3 -500 -100 200 R 40 40 0 0 I C
-X GND C5 500 -400 200 L 40 40 0 0 W 
-X GND G1 500 -400 200 L 40 40 0 0 W 
-X GND G2 500 -400 200 L 40 40 0 0 W 
-X GND G3 500 -400 200 L 40 40 0 0 W 
-X GND G4 500 -400 200 L 40 40 0 0 W 
-X GND G5 500 -400 200 L 40 40 0 0 W 
-X GND G6 500 -400 200 L 40 40 0 0 W 
-X VPP C6 500 200 200 L 40 40 0 0 W 
-X I/O C7 500 -100 200 L 40 40 0 0 B 
+X GND C5 500 -400 200 L 40 40 0 0 W
+X VPP C6 500 200 200 L 40 40 0 0 W
+X I/O C7 500 -100 200 L 40 40 0 0 B
+X GND G1 500 -400 200 L 40 40 0 0 W
+X GND G2 500 -400 200 L 40 40 0 0 W
+X GND G3 500 -400 200 L 40 40 0 0 W
+X GND G4 500 -400 200 L 40 40 0 0 W
+X GND G5 500 -400 200 L 40 40 0 0 W
+X GND G6 500 -400 200 L 40 40 0 0 W
 ENDDRAW
 ENDDEF
 #
-# End Library
+#End Library
