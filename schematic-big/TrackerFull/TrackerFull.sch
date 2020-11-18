@@ -985,13 +985,9 @@ F 4 "GRM1555C2A102JE01D" H 9400 8450 50  0001 C CNN "Поле5"
 $EndComp
 Connection ~ 9250 8450
 Wire Wire Line
-	9250 8450 9250 8350
-Wire Wire Line
 	8650 8450 8650 8600
 Wire Wire Line
 	9700 8450 9550 8450
-Text Label 9250 8350 0    50   ~ 0
-2.5v
 $Comp
 L Device:R R6
 U 1 1 5F9B2052
@@ -1833,8 +1829,6 @@ Wire Wire Line
 Connection ~ 2950 7500
 Wire Wire Line
 	2950 7500 2950 7750
-Text Label 14650 4950 0    50   ~ 0
-VSIM
 Text GLabel 2950 7650 0    50   Input ~ 0
 BAT_IN
 Wire Wire Line
@@ -1998,4 +1992,13 @@ Text Label 9750 9050 0    50   ~ 0
 LNA_OUTPUT
 Text Label 7100 8700 0    50   ~ 0
 ANT_OUT
+NoConn ~ 8150 6350
+NoConn ~ 8150 6450
+NoConn ~ 8150 6550
+NoConn ~ 8150 6650
+NoConn ~ 8150 5850
+NoConn ~ 8150 5550
+NoConn ~ 8150 5450
+Wire Wire Line
+	9150 8450 9250 8450
 $EndSCHEMATC
