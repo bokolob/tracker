@@ -79,61 +79,76 @@ extern uint8_t TWI_Buffer[];
 #define USI_SLAVE_GET_DATA_AND_SEND_ACK (0x05)
 
 // Device dependant defines
-#include "common/usi_io.h"
+//#include "common/usi_io.h"
+#  define DDR_USI DDRA
+#  define PORT_USI PORTA
+#  define PIN_USI PINA
+#  define PORT_USI_SDA PA0
+#  define PORT_USI_SCL PA2
+#  define PIN_USI_SDA PINA0
+#  define PIN_USI_SCL PINA2
+#  define USI_START_VECTOR USI_START_vect
+#  define USI_OVERFLOW_VECTOR USI_OVF_vect
+#  define USI_START_COND_INT USISIF
+
+#  define DDR_USI_CL DDR_USI
+#  define PORT_USI_CL PORT_USI
+#  define PIN_USI_CL PIN_USI
+
 
 #define SET_USI_TO_SEND_ACK()                                                                                          \
-	{                                                                                                                  \
-		USIDR = 0;                      /* Prepare ACK                         */                                      \
-		DDR_USI |= (1 << PORT_USI_SDA); /* Set SDA as output                   */                                      \
-		USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
-		        |                  /* Clear all flags, except Start Cond  */                                           \
-		        (0x0E << USICNT0); /* set USI counter to shift 1 bit. */                                               \
-	}
+    {                                                                                                                  \
+        USIDR = 0;                      /* Prepare ACK                         */                                      \
+        DDR_USI |= (1 << PORT_USI_SDA); /* Set SDA as output                   */                                      \
+        USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
+                |                  /* Clear all flags, except Start Cond  */                                           \
+                (0x0E << USICNT0); /* set USI counter to shift 1 bit. */                                               \
+    }
 
 #define SET_USI_TO_SEND_NACK()                                                                                          \
-	{                                                                                                                  \
-		DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as intput, NACK is SDA high */                                     \
-		USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
-		        |                  /* Clear all flags, except Start Cond  */                                           \
-		        (0x0E << USICNT0); /* set USI counter to shift 1 bit. */                                               \
-	}
+    {                                                                                                                  \
+        DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as intput, NACK is SDA high */                                     \
+        USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
+                |                  /* Clear all flags, except Start Cond  */                                           \
+                (0x0E << USICNT0); /* set USI counter to shift 1 bit. */                                               \
+    }
 
 #define SET_USI_TO_READ_ACK()                                                                                          \
-	{                                                                                                                  \
-		DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as intput */                                                       \
-		USIDR = 0;                       /* Prepare ACK        */                                                      \
-		USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
-		        |                  /* Clear all flags, except Start Cond  */                                           \
-		        (0x0E << USICNT0); /* set USI counter to shift 1 bit. */                                               \
-	}
+    {                                                                                                                  \
+        DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as intput */                                                       \
+        USIDR = 0;                       /* Prepare ACK        */                                                      \
+        USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
+                |                  /* Clear all flags, except Start Cond  */                                           \
+                (0x0E << USICNT0); /* set USI counter to shift 1 bit. */                                               \
+    }
 
 #define SET_USI_TO_TWI_START_CONDITION_MODE()                                                                          \
-	{                                                                                                                  \
-		DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as intput */                                                       \
-		USICR = (1 << USISIE) | (0 << USIOIE) | /* Enable Start Condition Interrupt. Disable Overflow Interrupt.*/     \
-		        (1 << USIWM1) | (0 << USIWM0) | /* Set USI in Two-wire mode. No USI Counter overflow hold.      */     \
-		        (1 << USICS1) | (0 << USICS0) | (0 << USICLK)                                                          \
-		        | /* Shift Register Clock Source = External, positive edge        */                                   \
-		        (0 << USITC);                                                                                          \
-		USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
-		        | /* Clear all flags, except Start Cond                            */                                  \
-		        (0x0 << USICNT0);                                                                                      \
-	}
+    {                                                                                                                  \
+        DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as intput */                                                       \
+        USICR = (1 << USISIE) | (0 << USIOIE) | /* Enable Start Condition Interrupt. Disable Overflow Interrupt.*/     \
+                (1 << USIWM1) | (0 << USIWM0) | /* Set USI in Two-wire mode. No USI Counter overflow hold.      */     \
+                (1 << USICS1) | (0 << USICS0) | (0 << USICLK)                                                          \
+                | /* Shift Register Clock Source = External, positive edge        */                                   \
+                (0 << USITC);                                                                                          \
+        USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
+                | /* Clear all flags, except Start Cond                            */                                  \
+                (0x0 << USICNT0);                                                                                      \
+    }
 
 #define SET_USI_TO_SEND_DATA()                                                                                         \
-	{                                                                                                                  \
-		DDR_USI |= (1 << PORT_USI_SDA); /* Set SDA as output                  */                                       \
-		USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
-		        |                 /* Clear all flags, except Start Cond */                                             \
-		        (0x0 << USICNT0); /* set USI to shift out 8 bits        */                                             \
-	}
+    {                                                                                                                  \
+        DDR_USI |= (1 << PORT_USI_SDA); /* Set SDA as output                  */                                       \
+        USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
+                |                 /* Clear all flags, except Start Cond */                                             \
+                (0x0 << USICNT0); /* set USI to shift out 8 bits        */                                             \
+    }
 
 #define SET_USI_TO_READ_DATA()                                                                                         \
-	{                                                                                                                  \
-		DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as input                   */                                      \
-		USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
-		        |                 /* Clear all flags, except Start Cond */                                             \
-		        (0x0 << USICNT0); /* set USI to shift out 8 bits        */                                             \
-	}
+    {                                                                                                                  \
+        DDR_USI &= ~(1 << PORT_USI_SDA); /* Set SDA as input                   */                                      \
+        USISR = (0 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC)                                \
+                |                 /* Clear all flags, except Start Cond */                                             \
+                (0x0 << USICNT0); /* set USI to shift out 8 bits        */                                             \
+    }
 
 #endif

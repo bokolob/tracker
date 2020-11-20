@@ -72,6 +72,7 @@ void USI_TWI_Slave_Initialise(unsigned char TWI_ownAddress)
 	PORT_USI |= (1 << PORT_USI_SDA);        // Set SDA high
 	DDR_USI_CL |= (1 << PORT_USI_SCL);      // Set SCL as output
 	DDR_USI &= ~(1 << PORT_USI_SDA);        // Set SDA as input
+    USIPP  |= (1 << USIPOS);
 	USICR = (1 << USISIE) | (0 << USIOIE) | // Enable Start Condition Interrupt. Disable Overflow Interrupt.
 	        (1 << USIWM1) | (0 << USIWM0) | // Set USI in Two-wire mode. No USI Counter overflow prior
 	                                        // to first Start Condition (potentail failure)

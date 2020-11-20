@@ -589,9 +589,9 @@ U 1 1 5F919A02
 P 1900 3750
 F 0 "R5" V 1830 3704 50  0000 R CNN
 F 1 "10K" V 2000 3800 50  0000 R CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1830 3841 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 1900 3750 50  0001 C CNN
-F 4 "CR0805-8W-103JT" H 1900 3750 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0603_1608Metric" H 1830 3841 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 1900 3750 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 1900 3750 50  0001 C CNN "Поле5"
 	1    1900 3750
 	1    0    0    -1  
 $EndComp
@@ -617,9 +617,9 @@ U 1 1 5F85A184
 P 3200 6150
 F 0 "R17" V 3250 6350 50  0000 R CNN
 F 1 "10K" V 3200 6200 50  0000 R CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3130 6241 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 3200 6150 50  0001 C CNN
-F 4 "CR0805-8W-103JT" H 3200 6150 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3130 6241 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3200 6150 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 3200 6150 50  0001 C CNN "Поле5"
 	1    3200 6150
 	0    -1   -1   0   
 $EndComp
@@ -691,9 +691,9 @@ U 1 1 5F607443
 P 3300 6550
 F 0 "R7" V 3230 6504 50  0000 R CNN
 F 1 "10K" V 3150 6800 50  0000 R CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3230 6641 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 3300 6550 50  0001 C CNN
-F 4 "CR0805-8W-103JT" H 3300 6550 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3230 6641 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3300 6550 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 3300 6550 50  0001 C CNN "Поле5"
 	1    3300 6550
 	0    -1   -1   0   
 $EndComp
@@ -816,7 +816,7 @@ U 1 1 5F3D6B88
 P 4450 5500
 F 0 "D1" H 4500 6106 50  0000 C CNN
 F 1 "A9G" H 4500 6015 50  0000 C CNN
-F 2 "Tracker:A9G2" V 3950 4450 50  0001 C CNN
+F 2 "imported:A9" V 3950 4450 50  0001 C CNN
 F 3 "https://www.alibaba.com/product-detail/GPRS-GPS-Module-A9G-Module-SMS_62458730712.html?spm=a2700.galleryofferlist.normal_offer.3.6881306fMlvXSR" V 3950 4450 50  0001 C CNN
 F 4 "3" H 4450 5500 50  0001 C CNN "Поле4"
 F 5 "A9G" H 4450 5500 50  0001 C CNN "Поле5"
@@ -994,9 +994,9 @@ U 1 1 5F9B2052
 P 8800 8450
 F 0 "R6" V 8730 8404 50  0000 R CNN
 F 1 "10K" V 8900 8500 50  0000 R CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8730 8541 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0805-8W-103JT/12331089" H 8800 8450 50  0001 C CNN
-F 4 "CR0805-8W-103JT" H 8800 8450 50  0001 C CNN "Поле5"
+F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 8541 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8800 8450 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 8800 8450 50  0001 C CNN "Поле5"
 	1    8800 8450
 	0    -1   -1   0   
 $EndComp
@@ -1055,23 +1055,11 @@ L Device:R R13
 U 1 1 5FB5F896
 P 8800 1450
 F 0 "R13" H 8730 1404 50  0000 R CNN
-F 1 "562K" H 8730 1495 50  0000 R CNN
+F 1 "56.2K" H 8730 1495 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1541 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/vishay-dale/CRCW0603562KFKEBC/7925213" H 8800 1450 50  0001 C CNN
-F 4 "CRCW0603562KFKEBC" H 8800 1450 50  0001 C CNN "Поле5"
+F 3 "https://www.digikey.com/en/products/detail/walsin-technology-corporation/WR06X5622FTL/13241739" H 8800 1450 50  0001 C CNN
+F 4 "WR06X5622FTL" H 8800 1450 50  0001 C CNN "Поле5"
 	1    8800 1450
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R14
-U 1 1 5FB5F89D
-P 8800 1900
-F 0 "R14" H 8730 1854 50  0000 R CNN
-F 1 "100K" H 8730 1945 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1991 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 8800 1900 50  0001 C CNN
-F 4 "CR161003F" H 8800 1900 50  0001 C CNN "Поле5"
-	1    8800 1900
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -2001,4 +1989,16 @@ NoConn ~ 8150 5550
 NoConn ~ 8150 5450
 Wire Wire Line
 	9150 8450 9250 8450
+$Comp
+L Device:R R14
+U 1 1 5FB75EE7
+P 8800 1900
+F 0 "R14" V 8730 1854 50  0000 R CNN
+F 1 "10K" V 8900 1950 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1991 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8800 1900 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 8800 1900 50  0001 C CNN "Поле5"
+	1    8800 1900
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

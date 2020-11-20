@@ -6,18 +6,18 @@
 
 #include "USI_TWI_Slave.h"
 #include "light_ws2812.h"
-#include "greenfade.h"
-#include "palette.h"
+//#include "greenfade.h"
+//#include "palette.h"
 #include "TimerOne.h"
 
 void receiveEvent(int howMany);
 void requestEvent();
 void blink(void);
 
-#define POWER_PIN PORTB4
-#define NEOPIXEL_PIN PORTB3
+#define POWER_PIN PORTA6
+#define NEOPIXEL_PIN PORTA5
 
-#define MASK  (1 << PORTB3) | (1 << POWER_PIN) 
+#define MASK  (1 << NEOPIXEL_PIN) | (1 << POWER_PIN) 
 // 7 bit slave I2C address
 #define SLAVE_ADDR  0x8
 
@@ -56,14 +56,14 @@ void usi_init() {
 }
 
 void enable_a9g() {
-   PORTB &= ~(1 << POWER_PIN);
+   PORTA &= ~(1 << POWER_PIN);
    usi_init();
    state &= ~A9G_DISABLED;
 }
 
 void disable_a9g() {
    USI_TWI_Slave_Disable();
-   PORTB |= (1 << POWER_PIN);
+   PORTA |= (1 << POWER_PIN);
    state |= A9G_DISABLED;
 }
 
@@ -92,7 +92,7 @@ int main() {
     enable_a9g();
     sei();
 
-    DDRB = MASK;
+    DDRA = MASK;
 
     while(1) {
        sleep_enable();
@@ -111,7 +111,7 @@ int main() {
 
             timer_stop();
             state |= PLAYING_EFFECT;
-            effect = RAINBOW;
+//            effect = RAINBOW;
             effect_position = 0;
             attachTimerInterrupt(play, 20000);
             //blink();
@@ -198,10 +198,17 @@ void receiveEvent(int howMany)
 void play(void) {
     
     if (effect_position < 500) {
-        led[0].r = pgm_read_byte(&effect[effect_position][0]);
+    /*    led[0].r = pgm_read_byte(&effect[effect_position][0]);
         led[0].g = pgm_read_byte(&effect[effect_position][1]);
         led[0].b = pgm_read_byte(&effect[effect_position][2]);
         led[0].w = pgm_read_byte(&effect[effect_position][3]);
+    */  
+
+        led[0].r = 128;
+        led[0].g = 0;
+        led[0].b = 0;
+        led[0].w = 64;
+
         effect_position++;
     }
     else {

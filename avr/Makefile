@@ -9,15 +9,15 @@ PROJECT = main
 
 # Тип чипа для AVR GCC и частота ядра. 
 # https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html
-GCC_MCU = attiny85
-DEVICE_TYPE = __AVR_ATtiny85__
+GCC_MCU = attiny461a
+DEVICE_TYPE = __AVR_ATtiny461__
 CLOCK_HZ   = 8000000
 
 # Опции для AVRDUDE.
 # https://ph0en1x.net/77-avrdude-full-howto-samples-options-gui-linux.html
 #
 #avrdude -c usbasp -p t85
-AVRDUDE_MCU             = t85
+AVRDUDE_MCU             = t461
 AVRDUDE_PROGRAMMER      = usbasp
 AVRDUDE_PROGRAMMER_PORT = usb
 

@@ -34,7 +34,7 @@ const uint8_t ratio = (F_CPU)/ ( 1000000 );
 //  Configuration
 //****************************
  void timer_initialize(unsigned long microseconds) {
-    TCCR1 = _BV(CTC1);              //clear timer1 when it matches the value in OCR1C
+    TCCR1A = _BV(CTC0);              //clear timer1 when it matches the value in OCR1C
     TIMSK |= _BV(OCIE1A);           //enable interrupt when OCR1A matches the timer value
     timerSetPeriod(microseconds);
 }
@@ -106,26 +106,26 @@ void timerSetPeriod(unsigned long microseconds)  {
     }
     OCR1A = pwmPeriod;
     OCR1C = pwmPeriod;
-    TCCR1 = _BV(CTC1) | clockSelectBits;
+    TCCR1A = _BV(CTC0) | clockSelectBits;
 }
 
 //****************************
 //  Run Control
 //****************************  
 inline void timer_start()  {
-    TCCR1 = 0;
+    TCCR1A = 0;
     TCNT1 = 0;      
     timer_resume();
 }
 
 inline void timer_stop() {
-    TCCR1 = _BV(CTC1);
+    TCCR1A = _BV(CTC0);
 }
 inline void timer_restart() {
     timer_start();
 }
 inline void timer_resume() {
-    TCCR1 = _BV(CTC1) | clockSelectBits;
+    TCCR1A = _BV(CTC0) | clockSelectBits;
 }
 
 //****************************
