@@ -28,6 +28,7 @@ void blink(void);
 
 #define A9G_DISABLED 0x1
 #define PLAYING_EFFECT 0x2
+#define PCINT1_INT 0x4
 
 volatile uint8_t i2c_regs[] =
 {
@@ -86,10 +87,23 @@ void watchdog_disable() {
     WDTCR &= ~((1 << WDCE) | (1 << WDE) | (1 << WDIE));
 }
 
+void initAccelInterrupt() {
+    MCUCR |= 1 << ISC00;      // configure INT0 to ..
+    MCUCR &= ~(1 << ISC01);   // .. interrupt at any logical change at INT0
+}
+
+void enableAccelInt() {
+    GIMSK |= 1 << INT1;       // enable INT0 interrupt
+}
+
+void disableAccelInt() {
+    GIMSK &= ~(1 << INT1);       // enable INT0 interrupt
+}
 
 int main() {
     start_watchdog();
     enable_a9g();
+    initAccelInterrupt();
     sei();
 
     DDRA = MASK;
@@ -97,8 +111,10 @@ int main() {
     while(1) {
        sleep_enable();
 
-       if (state & A9G_DISABLED && timeout <= 0) {
+       if (state & A9G_DISABLED && (timeout <= 0 || state & PCINT1_INT)) {
            timeout = 0;
+           disableAccelInt();
+           state &= ~PCINT1_INT;
            enable_a9g();
        }
 
@@ -128,7 +144,7 @@ int main() {
 
            start_watchdog();
            i2c_regs[POWER_REG] = 0;
-
+           enableAccelInt();
            disable_a9g();
        }
 
@@ -139,6 +155,9 @@ int main() {
     return 0;
 }
 
+ISR(INT1_vect) {
+    state |= PCINT1_INT;
+}
 
 ISR(WDT_vect) {
     WDTCR |= (1 << WDIE); //Watchdog interrupt enabled

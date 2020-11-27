@@ -1,6 +1,7 @@
 import cellular
 import machine
 import utime
+from delay import delay
 from settings import get_property,set_property
 
 callbacks = None
@@ -22,7 +23,6 @@ def reset_gsm():
     cellular.reset()
     init()
 
-
 def init():
     while not cellular.is_sim_present():
         print("No sim card..")
@@ -42,7 +42,7 @@ def wait_gprs():
         led2.value(1)
 
         while not cellular.is_network_registered():
-            delay(60000)
+            delay.delay(60000)
             iteration += 1
 
             if iteration > 5:

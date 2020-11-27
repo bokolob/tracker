@@ -1,4 +1,4 @@
-17016791002067293
+17018396785064293
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -75390,6 +75390,13 @@ imported
 16
 16
 imported
+A9
+
+
+0
+56
+56
+imported
 AMPHENOL_MUC-20PFFR-JS7001
 
 
@@ -75533,106 +75540,104 @@ mailboxNotifier
 E2,5-6
 <b>ELECTROLYTIC CAPACITOR</b><p>
 grid 2.54 mm, diameter 6 mm
-
+0
 0
 2
 2
 mailboxNotifier
 MIC6MM_RA_SWAP
 
-
+0
 0
 2
 2
 mailboxNotifier
 SIM_SOCKET1
 
-
+0
 0
 10
 10
 mailboxNotifier
 SOD-523
 
-
+0
 0
 2
 2
 mailboxNotifier
 SOIC8_150MIL_SMPAD
 
-
+0
 0
 8
 8
 mailboxNotifier
 SOT-23-WIDE
 
-
+0
 0
 3
 3
 mailboxNotifier
 SOT-363
 
-
+0
 0
 6
 6
 mailboxNotifier
 SOT23-5L
 <b>Small Outline Transistor</b><p>
-package type OT
-
+0
+0
 0
 5
 5
 mailboxNotifier
 SOT23-R
-<b>SOT23</b> - Reflow soldering
-
+0
+0
 0
 3
 3
 mailboxNotifier
 TACT_SMD5
-
-
+0
+0
 0
 4
 4
 mailboxNotifier
 TP10R
-<b>TEST PAD</b>
-
+0
+0
 0
 1
 1
 mailboxNotifier
 U.FL
-
-
+0
+0
 0
 3
 3
 mailboxNotifier
 USB-MICROB_SAFEBEE
-
-
+0
+0
 0
 9
 9
 mailboxNotifier
 _0603MP
-<b>0603 MicroPitch</b>
-
+0
+0
 0
 2
 2
 simcard
 Molex-78727-0001-0-0-MFG
-
-
 0
-16
-16
+0
+0

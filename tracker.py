@@ -12,6 +12,7 @@ import gprs
 import location
 import lis3dsh
 import softi2c
+import delay
 
 from settings import get_property,set_property
 from commands import run_cmd, check_admin_number
@@ -36,10 +37,9 @@ led = machine.Pin(27, machine.Pin.OUT, 0)
 stat=machine.Pin(17,machine.Pin.IN,1)
 network_status = -1
 si = softi2c.SoftI2C()
-lis = lis3dsh.main()
+lis = lis3dsh.LIS3DSH_SOFTI2C(si)
 
 sms_requested = None
-interrupt = False
 
 def sms_handler(sms):
     cellular.on_new_sms(sms_handler)
@@ -62,7 +62,7 @@ def network_handler(status):
     if network_status != status:
         print("network status: "+ str(status))
         network_status = status
-        interrupt=True
+        delay.interrupt=True
 
     cellular.on_status_event(network_handler)
 
@@ -76,7 +76,7 @@ def on_call_handler(number):
 
         phone = '+' + number
         if check_admin_number(phone) and get_property('send_sms_on_call'):
-            interrupt=True
+            delay.interrupt=True
             sms_requested = phone
 
 
@@ -145,38 +145,15 @@ def send_rtt_coordinates():
     finally:
         s.close()
 
-def delay(ms):
-    global interrupt
+
+def logging_predicate():
     f=open("t/gps.log","a")
-    machine.set_idle(True)
-
-    step = 1000
-    prev_gps_state = location.gps_state
-
-    if ms > 5 * 60 * 1000:
-        location.set_gps_state(False)
-
-    while ms > 0:
-        if interrupt:
-            interrupt = False
-            f.close()
-            raise OSError(4) #EINTR
-
-        if ms < step:
-            step = ms
-
-        rec=gps.nmea_data()[0]
-        coords = gps.get_location()
-        if rec[1]:
-            f.write(str(rec)+" "+str(coords)+"\n")
-
-        utime.sleep_ms(step)
-        ms -= step
-        machine.watchdog_reset()
-
-    location.set_gps_state(prev_gps_state)
-    machine.set_idle(False)
+    rec=gps.nmea_data()[0]
+    coords = gps.get_location()
+    if rec[1]:
+        f.write(str(rec)+" "+str(coords)+"\n")
     f.close()
+    return False
 
 
 def main_iteration():
@@ -185,6 +162,7 @@ def main_iteration():
 
     led.value(1)
     machine.watchdog_reset()
+    location.set_gps_state(True)
 
     try:
         if sms_requested is not None:
@@ -219,15 +197,16 @@ def main_loop():
 
         remove_all_sms()
         main_iteration()
-        delay(get_property('track_delay_minutes') * 60 * 1000)
 
-        if deep_sleep_allowed and no_move_for_a_long_time():
-            send_sms()
+        if get_property('use_deep_sleep') or ( get_property('use_deep_sleep_on_no_move') and no_move_for_a_long_time() ):
+            if get_property('wake_up_on_move'):
+                lis.set_wake_up() # TODO, if wasn't set before
 
-            if usb_connected():
-                s.writeRegister("sleep effect")
-            
+            si.writeRegister("sleep effect")
+            # TODO sleep a bit, wait for sms
             si.writeRegister("deep_sleep")
+        else :
+            delay.delay(get_property('track_delay_minutes') * 60 * 1000, logging_predicate)
 
 
 def start():
@@ -236,16 +215,9 @@ def start():
     power_on_reason = si.readRegister(0x8, 3)
     lis.set_wake_up()
 
-    if power_on_reason == "sleep_timeout":
-        check_for_sms()
-        if deep_sleep_allowed:
-            si.writeRegister("deep_sleep")
-    else:
-        if usb_connected():
-            s.writeRegister("wake_up effect")
+    if usb_connected():
+        s.writeRegister("wake_up effect")
 
-    location.set_gps_state(True)
-    
     si.writeRegister("set ping_effect")
 
     callbacks = gprs.Callbacks()

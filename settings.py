@@ -13,7 +13,10 @@ SETTINGS = {
               'locator_api_key':"AEsDOV8BAAAAelrSSQIAOzZ-PNLKVHQDKvFCBNbvhCGL7ZIAAAAAAAAAAABh6tFx3GfXVrXF72VITNRsa2otqQ==",
               'balance_ussd': "*102#",
               'admin_numbers':[],
-              'admin_password':""
+              'admin_password':"",
+              'disable_gprs_while_sleep': False,
+              'disable_gps_while_sleep': False,
+
            }
 
 def get_property(key):

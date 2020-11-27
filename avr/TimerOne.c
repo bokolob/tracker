@@ -1,5 +1,7 @@
 /*
- *  Interrupt and PWM utilities for 16 bit Timer1 on ATmega168/328
+ *  Interrupt and PWM utilities for 8 bit Timer0 on ATTiny861
+ *  Based on Timer1 library
+ *
  *  Original code by Jesse Tane for http://labs.ideo.com August 2008
  *  Modified March 2009 by Jérôme Despatis and Jesse Tane for ATmega328 support
  *  Modified June 2009 by Michael Polli and Jesse Tane to fix a bug in setPeriod() which caused the timer to stop
@@ -17,7 +19,7 @@
 
 #include "TimerOne.h"
 
-#define TIMER1_RESOLUTION 256UL  // Timer1 is 8 bit
+#define TIMER0_RESOLUTION 256UL  // Timer0 is 8 bit
 
 // Placing nearly all the code in this .h file allows the functions to be
 // inlined by the compiler.  In the very common case with constant values
@@ -34,98 +36,55 @@ const uint8_t ratio = (F_CPU)/ ( 1000000 );
 //  Configuration
 //****************************
  void timer_initialize(unsigned long microseconds) {
-    TCCR1A = _BV(CTC0);              //clear timer1 when it matches the value in OCR1C
-    TIMSK |= _BV(OCIE1A);           //enable interrupt when OCR1A matches the timer value
+    TCCR0A = _BV(CTC0);              //clear timer0 when it matches the value in OCR1C
+    TIMSK |= _BV(OCIE0A);           //enable interrupt when OCR1A matches the timer value
     timerSetPeriod(microseconds);
 }
 
 void timerSetPeriod(unsigned long microseconds)  {
     const unsigned long cycles = microseconds * ratio;
-    if (cycles < TIMER1_RESOLUTION) {
-        clockSelectBits = _BV(CS10);
+    if (cycles < TIMER0_RESOLUTION) {
+        clockSelectBits = _BV(CS00);
         pwmPeriod = cycles;
     } else
-    if (cycles < TIMER1_RESOLUTION * 2UL) {
-        clockSelectBits = _BV(CS11);
-        pwmPeriod = cycles / 2;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 4UL) {
-        clockSelectBits = _BV(CS11) | _BV(CS10);
-        pwmPeriod = cycles / 4;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 8UL) {
-        clockSelectBits = _BV(CS12);
+    if (cycles < TIMER0_RESOLUTION * 8UL) {
+        clockSelectBits = _BV(CS01);
         pwmPeriod = cycles / 8;
     } else
-    if (cycles < TIMER1_RESOLUTION * 16UL) {
-        clockSelectBits = _BV(CS12) | _BV(CS10);
-        pwmPeriod = cycles / 16;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 32UL) {
-        clockSelectBits = _BV(CS12) | _BV(CS11);
-        pwmPeriod = cycles / 32;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 64UL) {
-        clockSelectBits = _BV(CS12) | _BV(CS11) | _BV(CS10);
+    if (cycles < TIMER0_RESOLUTION * 64UL) {
+        clockSelectBits = _BV(CS01) | _BV(CS00);
         pwmPeriod = cycles / 64UL;
     } else
-    if (cycles < TIMER1_RESOLUTION * 128UL) {
-        clockSelectBits = _BV(CS13);
-        pwmPeriod = cycles / 128;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 256UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS10);
+    if (cycles < TIMER0_RESOLUTION * 256UL) {
+        clockSelectBits = _BV(CS02);
         pwmPeriod = cycles / 256;
     } else
-    if (cycles < TIMER1_RESOLUTION * 512UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS11);
-        pwmPeriod = cycles / 512;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 1024UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS11) | _BV(CS10);
+    if (cycles < TIMER0_RESOLUTION * 1024UL) {
+        clockSelectBits = _BV(CS02) | _BV(CS00);
         pwmPeriod = cycles / 1024;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 2048UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS12);
-        pwmPeriod = cycles / 2048;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 4096UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS12) | _BV(CS10);
-        pwmPeriod = cycles / 4096;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 8192UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS12) | _BV(CS11);
-        pwmPeriod = cycles / 8192;
-    } else
-    if (cycles < TIMER1_RESOLUTION * 16384UL) {
-        clockSelectBits = _BV(CS13) | _BV(CS12) | _BV(CS11)  | _BV(CS10);
-        pwmPeriod = cycles / 16384;
-    } else {
-        clockSelectBits = _BV(CS13) | _BV(CS12) | _BV(CS11)  | _BV(CS10);
-        pwmPeriod = TIMER1_RESOLUTION - 1;
     }
-    OCR1A = pwmPeriod;
-    OCR1C = pwmPeriod;
-    TCCR1A = _BV(CTC0) | clockSelectBits;
+
+    OCR0A = pwmPeriod;
+    TCCR0B = clockSelectBits;
 }
 
 //****************************
 //  Run Control
 //****************************  
 inline void timer_start()  {
-    TCCR1A = 0;
-    TCNT1 = 0;      
+    TCCR0B = 0;
+    TCNT0L = 0;
     timer_resume();
 }
 
 inline void timer_stop() {
-    TCCR1A = _BV(CTC0);
+    TCCR0B = 0;
 }
 inline void timer_restart() {
     timer_start();
 }
 inline void timer_resume() {
-    TCCR1A = _BV(CTC0) | clockSelectBits;
+    TCCR0B = clockSelectBits;
 }
 
 //****************************
@@ -146,7 +105,7 @@ void detachTimerInterrupt() {
     TIMSK &= ~_BV(OCIE1A);
 }
 
-ISR(TIMER1_COMPA_vect)
+ISR(TIMER0_COMPA_vect)
 {
   (*isrCallback)();
 }

@@ -506,8 +506,6 @@ VBAT
 Text GLabel 12000 2850 2    50   Input ~ 0
 BAT_IN
 NoConn ~ 4000 7500
-Wire Wire Line
-	8600 6750 8600 7350
 Connection ~ 8600 7350
 Wire Wire Line
 	8600 7350 8600 7450
@@ -558,408 +556,6 @@ Wire Wire Line
 	1350 1700 1350 1550
 Wire Wire Line
 	1550 1450 1550 1350
-$Comp
-L Regulator_Linear:MIC5504-3.3YM5 U7
-U 1 1 5F99592F
-P 1950 1350
-F 0 "U7" H 1950 1717 50  0000 C CNN
-F 1 "MIC5232-2.8YD5" H 1950 1626 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 1950 950 50  0001 C CNN
-F 3 "https://ru.mouser.com/datasheet/2/268/mic5232-1082293.pdf" H 1700 1600 50  0001 C CNN
-F 4 "MIC5232-2.8YD5" H 1950 1350 50  0001 C CNN "Поле5"
-	1    1950 1350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C19
-U 1 1 5FD2D725
-P 1350 1400
-F 0 "C19" H 1100 1350 50  0000 L CNN
-F 1 "1uF" H 1150 1250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 1388 1250 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X5R1A105K080AC/513793" H 1350 1400 50  0001 C CNN
-F 4 "0.11" H 1350 1400 50  0001 C CNN "Поле4"
-F 5 "C1608X5R1A105K080AC" H 1350 1400 50  0001 C CNN "Поле5"
-	1    1350 1400
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R5
-U 1 1 5F919A02
-P 1900 3750
-F 0 "R5" V 1830 3704 50  0000 R CNN
-F 1 "10K" V 2000 3800 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 1830 3841 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 1900 3750 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 1900 3750 50  0001 C CNN "Поле5"
-	1    1900 3750
-	1    0    0    -1  
-$EndComp
-$Comp
-L PTS647SK38SMTR2LFS:PTS647SK38SMTR2LFS SW1
-U 1 1 5F9A40F7
-P 8600 7350
-F 0 "SW1" H 9200 7617 50  0000 C CNN
-F 1 "PTS647SK38SMTR2LFS" H 9200 7526 50  0000 C CNN
-F 2 "PTS647SK38SMTR2LFS" H 8600 7350 50  0001 L BNN
-F 3 "https://www.digikey.com/en/products/detail/c-k/PTS-647-SK38-SMTR2-LFS/9649862" H 8600 7350 50  0001 L BNN
-F 4 "" H 8600 7350 50  0001 L BNN "Поле4"
-F 5 "611-PTS647SK38SMTR2L" H 8600 7350 50  0001 L BNN "Поле5"
-F 6 "3.8mm" H 8600 7350 50  0001 L BNN "Поле6"
-F 7 "Tactile Switches 50mA 12VDC, 2.5N 3.8mm H, G leads" H 8600 7350 50  0001 L BNN "Поле7"
-F 8 "C & K COMPONENTS" H 8600 7350 50  0001 L BNN "Поле8"
-	1    8600 7350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R17
-U 1 1 5F85A184
-P 3200 6150
-F 0 "R17" V 3250 6350 50  0000 R CNN
-F 1 "10K" V 3200 6200 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3130 6241 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3200 6150 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 3200 6150 50  0001 C CNN "Поле5"
-	1    3200 6150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R1
-U 1 1 5F753720
-P 2400 7250
-F 0 "R1" V 2330 7204 50  0000 R CNN
-F 1 "100K" V 2500 7300 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 2330 7341 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 2400 7250 50  0001 C CNN
-F 4 "CR161003F" H 2400 7250 50  0001 C CNN "Поле5"
-	1    2400 7250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Transistor_FET:IRLML5203 Q2
-U 1 1 5F66A3D8
-P 2850 7100
-F 0 "Q2" H 3054 7146 50  0000 L CNN
-F 1 "DMG2305UXQ" H 2600 6900 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 3050 7025 50  0001 L CIN
-F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 2850 7100 50  0001 L CNN
-F 4 "DMG2305UXQ-13 " H 2850 7100 50  0001 C CNN "Поле5"
-	1    2850 7100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C11
-U 1 1 5FA3ACD0
-P 6500 1250
-F 0 "C11" H 6615 1296 50  0000 L CNN
-F 1 "10uF" H 6615 1205 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 6538 1100 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 6500 1250 50  0001 C CNN
-F 4 "0.46*4" H 6500 1250 50  0001 C CNN "Поле4"
-F 5 "CL10A106KP8NQSC" H 6500 1250 50  0001 C CNN "Поле5"
-	1    6500 1250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C1
-U 1 1 5F7C93B8
-P 2550 1400
-F 0 "C1" H 2665 1446 50  0000 L CNN
-F 1 "0.47uF" H 2665 1355 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 2588 1250 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/taiyo-yuden/AMK063C6474KP-F/7066005" H 2550 1400 50  0001 C CNN
-F 4 "" H 2550 1400 50  0001 C CNN "Поле4"
-F 5 "AMK063C6474KP-F" H 2550 1400 50  0001 C CNN "Поле5"
-	1    2550 1400
-	1    0    0    -1  
-$EndComp
-$Comp
-L LED:SK6812 D5
-U 1 1 5F663DCF
-P 11000 6350
-F 0 "D5" H 11344 6396 50  0000 L CNN
-F 1 "SK6812" H 11344 6305 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 11050 6050 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 11100 5975 50  0001 L TNN
-F 4 "SK6812" H 11000 6350 50  0001 C CNN "Поле5"
-	1    11000 6350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R7
-U 1 1 5F607443
-P 3300 6550
-F 0 "R7" V 3230 6504 50  0000 R CNN
-F 1 "10K" V 3150 6800 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3230 6641 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3300 6550 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 3300 6550 50  0001 C CNN "Поле5"
-	1    3300 6550
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C C3
-U 1 1 5F56E883
-P 3200 2200
-F 0 "C3" H 3315 2246 50  0000 L CNN
-F 1 "100nF" H 3315 2155 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 3238 2050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X5R1A104K050BA/513705" H 3200 2200 50  0001 C CNN
-F 4 "0.10" H 3200 2200 50  0001 C CNN "Поле4"
-F 5 "C1005X5R1A104K050BA" H 3200 2200 50  0001 C CNN "Поле5"
-	1    3200 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C2
-U 1 1 5F56C46E
-P 2900 2200
-F 0 "C2" H 3015 2246 50  0000 L CNN
-F 1 "10uF" H 2950 2100 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 2938 2050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 2900 2200 50  0001 C CNN
-F 4 "0.46*4" H 2900 2200 50  0001 C CNN "Поле4"
-F 5 "CL10A106KP8NQSC" H 2900 2200 50  0001 C CNN "Поле5"
-	1    2900 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C8
-U 1 1 5F525B81
-P 3350 9100
-F 0 "C8" H 3465 9146 50  0000 L CNN
-F 1 "10pF" H 3465 9055 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 3388 8950 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/würth-elektronik/885012005007/5453280" H 3350 9100 50  0001 C CNN
-F 4 "0.10" H 3350 9100 50  0001 C CNN "Поле4"
-F 5 "885012005007" H 3350 9100 50  0001 C CNN "Поле5"
-	1    3350 9100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C10
-U 1 1 5F520BC8
-P 3900 9100
-F 0 "C10" H 4015 9146 50  0000 L CNN
-F 1 "33pF" H 4015 9055 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 3938 8950 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/avx-corporation/0402ZC330KAT2A/1597937" H 3900 9100 50  0001 C CNN
-F 4 "0.29" H 3900 9100 50  0001 C CNN "Поле4"
-F 5 "0402ZC330KAT2A" H 3900 9100 50  0001 C CNN "Поле5"
-	1    3900 9100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C12
-U 1 1 5F5001FA
-P 4400 9100
-F 0 "C12" H 4515 9146 50  0000 L CNN
-F 1 "100uF" H 4515 9055 50  0000 L CNN
-F 2 "Capacitor_Tantalum_SMD:CP_EIA-6032-28_Kemet-C" H 4438 8950 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/vishay-sprague/593D107X9010C2TE3/1579081" H 4400 9100 50  0001 C CNN
-F 4 "0.72" H 4400 9100 50  0001 C CNN "Поле4"
-F 5 "593D107X9010C2TE3" H 4400 9100 50  0001 C CNN "Поле5"
-	1    4400 9100
-	1    0    0    -1  
-$EndComp
-$Comp
-L mailboxNotifier-eagle-import:U.FL U6
-U 1 1 5F4E0DE8
-P 4800 4300
-F 0 "U6" H 4850 4350 50  0001 C CNN
-F 1 "U.FL" H 4800 4300 50  0001 C CNN
-F 2 "mailboxNotifier:U.FL" H 4800 4300 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/te-connectivity-amp-connectors/2337019-1/9974052" H 4800 4300 50  0001 C CNN
-F 4 "2337019-1" H 4800 4300 50  0001 C CNN "Поле5"
-	1    4800 4300
-	0    1    1    0   
-$EndComp
-$Comp
-L Sensor_Motion:LIS3DH U2
-U 1 1 5F3C2349
-P 2650 3100
-F 0 "U2" H 2650 2411 50  0000 C CNN
-F 1 "LIS3DSH" H 2850 2700 50  0000 C CNN
-F 2 "Package_LGA:LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y" H 2750 2050 50  0001 C CNN
-F 3 "https://www.st.com/resource/en/datasheet/cd00274221.pdf" H 2450 3000 50  0001 C CNN
-F 4 "LIS3DSH" H 2650 3100 50  0001 C CNN "Поле5"
-	1    2650 3100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:LED D2
-U 1 1 5F429F4E
-P 5200 1650
-F 0 "D2" H 5193 1395 50  0000 C CNN
-F 1 "LED" H 5193 1486 50  0000 C CNN
-F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5200 1650 50  0001 C CNN
-F 3 "https://ru.mouser.com/datasheet/2/239/LTST-C190KRKT-1141828.pdf" H 5200 1650 50  0001 C CNN
-F 4 "LTST-C190KRKT" H 5200 1650 50  0001 C CNN "Поле5"
-	1    5200 1650
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R8
-U 1 1 5F429F48
-P 5200 1250
-F 0 "R8" H 5130 1204 50  0000 R CNN
-F 1 "150" H 5130 1295 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" V 5130 1250 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/vishay-dale/CRCW0402150RFKEDC/7928426" H 5200 1250 50  0001 C CNN
-F 4 "CRCW0402150RFKEDC" H 5200 1250 50  0001 C CNN "Поле5"
-	1    5200 1250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Tracker:A9G D1
-U 1 1 5F3D6B88
-P 4450 5500
-F 0 "D1" H 4500 6106 50  0000 C CNN
-F 1 "A9G" H 4500 6015 50  0000 C CNN
-F 2 "imported:A9" V 3950 4450 50  0001 C CNN
-F 3 "https://www.alibaba.com/product-detail/GPRS-GPS-Module-A9G-Module-SMS_62458730712.html?spm=a2700.galleryofferlist.normal_offer.3.6881306fMlvXSR" V 3950 4450 50  0001 C CNN
-F 4 "3" H 4450 5500 50  0001 C CNN "Поле4"
-F 5 "A9G" H 4450 5500 50  0001 C CNN "Поле5"
-	1    4450 5500
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:D_Schottky D3
-U 1 1 5F3D5DD1
-P 9900 2450
-F 0 "D3" V 9946 2371 50  0000 R CNN
-F 1 "D_Schottky" V 9855 2371 50  0000 R CNN
-F 2 "Diode_SMD:D_SMA" H 9900 2450 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/vishay-semiconductor-diodes-division/b340a-e3-61t/2149679" H 9900 2450 50  0001 C CNN
-F 4 "0.51" H 9900 2450 50  0001 C CNN "Поле4"
-F 5 "B340A-E3/61T" H 9900 2450 50  0001 C CNN "Поле5"
-	1    9900 2450
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Connector:Screw_Terminal_01x02 J3
-U 1 1 5F3D5DC8
-P 7350 3500
-F 0 "J3" V 7350 3650 50  0000 R CNN
-F 1 "Battery" V 7450 3750 50  0000 R CNN
-F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 7350 3500 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S-LF-SN/926611" H 7350 3500 50  0001 C CNN
-F 4 "B2B-PH-K-S(LF)(SN)" H 7350 3500 50  0001 C CNN "Поле5"
-	1    7350 3500
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R10
-U 1 1 5F3D5DBE
-P 5600 1300
-F 0 "R10" H 5550 1300 50  0000 L CNN
-F 1 "100K" H 5450 1200 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 5670 1209 50  0001 L CNN
-F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 5600 1300 50  0001 C CNN
-F 4 "CR161003F" H 5600 1300 50  0001 C CNN "Поле5"
-	1    5600 1300
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C14
-U 1 1 5F3D5D91
-P 5100 9100
-F 0 "C14" H 5215 9146 50  0000 L CNN
-F 1 "1uF" H 5215 9055 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 5138 8950 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X5R1A105K080AC/513793" H 5100 9100 50  0001 C CNN
-F 4 "0.11" H 5100 9100 50  0001 C CNN "Поле4"
-F 5 "C1608X5R1A105K080AC" H 5100 9100 50  0001 C CNN "Поле5"
-	1    5100 9100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:CP C15
-U 1 1 5F3D5D67
-P 5500 9050
-F 0 "C15" H 5618 9096 50  0000 L CNN
-F 1 "470uF" H 5618 9005 50  0000 L CNN
-F 2 "Capacitor_SMD:CP_Elec_8x10.5" H 5538 8900 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/kemet/EEV477M010S9MAA/6597922" H 5500 9050 50  0001 C CNN
-F 4 "0.75*2" H 5500 9050 50  0001 C CNN "Поле4"
-F 5 "EEV477M010S9MAA" H 5500 9050 50  0001 C CNN "Поле5"
-	1    5500 9050
-	1    0    0    -1  
-$EndComp
-$Comp
-L Battery_Management:MCP73831-2-OT U4
-U 1 1 5F3D5D5D
-P 5900 2950
-F 0 "U4" H 5456 2904 50  0000 R CNN
-F 1 "MCP73831-2-OT" H 6600 2650 50  0000 R CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 5950 2700 50  0001 L CIN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf" H 5750 2900 50  0001 C CNN
-F 4 "MCP73831-2-OT" H 5900 2950 50  0001 C CNN "Поле5"
-	1    5900 2950
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R9
-U 1 1 5F3D5D48
-P 5500 3400
-F 0 "R9" H 5430 3354 50  0000 R CNN
-F 1 "2000" H 5430 3445 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 5430 3491 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-2001FT/12328554" H 5500 3400 50  0001 C CNN
-F 4 "CR0402-16W-2001FT" H 5500 3400 50  0001 C CNN "Поле5"
-	1    5500 3400
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:LED D4
-U 1 1 5F3D5D42
-P 6300 1600
-F 0 "D4" H 6400 1700 50  0000 C CNN
-F 1 "LED" H 6250 1700 50  0000 C CNN
-F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 6300 1600 50  0001 C CNN
-F 3 "https://ru.mouser.com/datasheet/2/239/LTST-C190KRKT-1141828.pdf" H 6300 1600 50  0001 C CNN
-F 4 "LTST-C190KRKT" H 6300 1600 50  0001 C CNN "Поле5"
-	1    6300 1600
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R12
-U 1 1 5F3D5D3B
-P 6300 1250
-F 0 "R12" H 6230 1204 50  0000 R CNN
-F 1 "150" H 6230 1295 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" V 6230 1250 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/vishay-dale/CRCW0402150RFKEDC/7928426" H 6300 1250 50  0001 C CNN
-F 4 "CRCW0402150RFKEDC" H 6300 1250 50  0001 C CNN "Поле5"
-	1    6300 1250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C6
-U 1 1 5F3D5D2D
-P 5750 2150
-F 0 "C6" V 6002 2150 50  0000 C CNN
-F 1 "4.7uF" V 5911 2150 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 5788 2000 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 5750 2150 50  0001 C CNN
-F 4 "0.29*5" H 5750 2150 50  0001 C CNN "Поле4"
-F 5 "C1608X7S1A475K080AC" H 5750 2150 50  0001 C CNN "Поле5"
-	1    5750 2150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C C7
-U 1 1 5F3D5D20
-P 6650 3000
-F 0 "C7" V 6902 3000 50  0000 C CNN
-F 1 "4.7uF" V 6811 3000 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 6688 2850 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 6650 3000 50  0001 C CNN
-F 4 "0.29*5" H 6650 3000 50  0001 C CNN "Поле4"
-F 5 "C1608X7S1A475K080AC" H 6650 3000 50  0001 C CNN "Поле5"
-	1    6650 3000
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	7250 9050 7450 9050
 Wire Wire Line
@@ -971,50 +567,14 @@ Text Label 9150 8050 2    50   ~ 0
 GPS_POWER
 Text Label 11200 9050 0    50   ~ 0
 GPS_RF
-$Comp
-L Device:C C9
-U 1 1 5FA71C5A
-P 9400 8450
-F 0 "C9" V 9500 8350 50  0000 C CNN
-F 1 "1nF" V 9250 8450 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 9438 8300 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM1555C2A102JE01D/13401927" H 9400 8450 50  0001 C CNN
-F 4 "GRM1555C2A102JE01D" H 9400 8450 50  0001 C CNN "Поле5"
-	1    9400 8450
-	0    -1   -1   0   
-$EndComp
 Connection ~ 9250 8450
 Wire Wire Line
 	8650 8450 8650 8600
 Wire Wire Line
 	9700 8450 9550 8450
-$Comp
-L Device:R R6
-U 1 1 5F9B2052
-P 8800 8450
-F 0 "R6" V 8730 8404 50  0000 R CNN
-F 1 "10K" V 8900 8500 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 8541 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8800 8450 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 8800 8450 50  0001 C CNN "Поле5"
-	1    8800 8450
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
 	8950 8450 9150 8450
 Connection ~ 9150 8450
-$Comp
-L BGU8019:BGU8019 U5
-U 1 1 5F9DF24D
-P 9250 9050
-F 0 "U5" H 9150 9050 50  0000 L CNN
-F 1 "BGU8019" H 9400 8850 50  0000 L CNN
-F 2 "SOT1232" H 9250 9050 50  0001 L BNN
-F 3 "https://static6.arrow.com/aropdfconversion/fc28c774ed2fc26a39a112b212114be16dd4645e/bgu8019.pdf" H 9250 9050 50  0001 C CNN
-F 4 "BGU8019X" H 9250 9050 50  0001 C CNN "Поле5"
-	1    9250 9050
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	9150 9350 9150 9450
 Wire Wire Line
@@ -1023,18 +583,6 @@ Wire Wire Line
 	9250 9350 9250 9450
 Text Label 8300 9050 0    50   ~ 0
 GPS_SIGNAL
-$Comp
-L mailboxNotifier-eagle-import:INDUCTOR1210K L2
-U 1 1 5FB5B9EC
-P 8450 1050
-F 0 "L2" H 8450 1235 42  0000 C CNN
-F 1 "1uH" H 8450 1156 42  0000 C CNN
-F 2 "Inductor_SMD:L_Vishay_IHLP-2020" H 8450 1050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/vishay-dale/IHLP2020BZER1R0M01/1869310" H 8450 1050 50  0001 C CNN
-F 4 "IHLP2020BZER1R0M01" H 8450 1050 50  0001 C CNN "Поле5"
-	1    8450 1050
-	1    0    0    -1  
-$EndComp
 $Comp
 L power:GNDREF #PWR0109
 U 1 1 5FB5F889
@@ -1050,35 +598,10 @@ F 3 "" H 8800 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8800 2150 8800 2050
-$Comp
-L Device:R R13
-U 1 1 5FB5F896
-P 8800 1450
-F 0 "R13" H 8730 1404 50  0000 R CNN
-F 1 "56.2K" H 8730 1495 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1541 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/walsin-technology-corporation/WR06X5622FTL/13241739" H 8800 1450 50  0001 C CNN
-F 4 "WR06X5622FTL" H 8800 1450 50  0001 C CNN "Поле5"
-	1    8800 1450
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	8650 1050 8800 1050
 Wire Wire Line
 	8800 1050 8800 1300
-$Comp
-L Device:C C17
-U 1 1 5FBEB468
-P 9250 1200
-F 0 "C17" H 9000 1150 50  0000 L CNN
-F 1 "22uF" H 8950 1250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 9288 1050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM21BD71A226ME44K/4905521" H 9250 1200 50  0001 C CNN
-F 4 "" H 9250 1200 50  0001 C CNN "Поле4"
-F 5 "GRM21BD71A226ME44K" H 9250 1200 50  0001 C CNN "Поле5"
-	1    9250 1200
-	1    0    0    -1  
-$EndComp
 Connection ~ 8800 1050
 $Comp
 L power:GNDREF #PWR0110
@@ -1132,18 +655,6 @@ Wire Wire Line
 Wire Wire Line
 	7350 2850 7350 3300
 Connection ~ 5900 1050
-$Comp
-L Transistor_FET:IRLML5203 Q3
-U 1 1 5F3D5D19
-P 9550 2750
-F 0 "Q3" H 9754 2796 50  0000 L CNN
-F 1 "DMG2305UXQ" H 9754 2705 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 9750 2675 50  0001 L CIN
-F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 9550 2750 50  0001 L CNN
-F 4 "DMG2305UXQ-13 " H 9550 2750 50  0001 C CNN "Поле5"
-	1    9550 2750
-	0    -1   1    0   
-$EndComp
 Wire Wire Line
 	9750 2850 9900 2850
 Wire Wire Line
@@ -1202,30 +713,6 @@ Wire Wire Line
 	10250 9300 10250 9550
 Wire Wire Line
 	10150 9100 10250 9100
-$Comp
-L Filter:SF14-1575F5UUC1 FL1
-U 1 1 5F9AA44C
-P 10550 9200
-F 0 "FL1" H 10550 9567 50  0000 C CNN
-F 1 "SF14-1582M5UUD2" H 10550 9476 50  0000 C CNN
-F 2 "Filter:Filter_1411-5_1.4x1.1mm" H 10550 9200 50  0001 C CNN
-F 3 "https://ru.mouser.com/datasheet/2/909/AVX_140127_Connectivity-1316412.pdf" H 10550 9200 50  0001 C CNN
-F 4 "SF14-1582M5UUD2" H 10550 9200 50  0001 C CNN "Поле5"
-	1    10550 9200
-	1    0    0    -1  
-$EndComp
-$Comp
-L MUC-20PFFR-JS7001:MUC-20PFFR-JS7001 J2
-U 1 1 5FA008B3
-P 4650 850
-F 0 "J2" H 4978 872 50  0000 L CNN
-F 1 "MUC-20PFFR-JS7001" H 4978 781 50  0000 L CNN
-F 2 "AMPHENOL_MUC-20PFFR-JS7001" H 4650 850 50  0001 L BNN
-F 3 "https://www.amphenolltw.com/p2-products-detail.php?sn=4282" H 4650 850 50  0001 L BNN
-F 4 "MUC-20PFFR-JS7001" H 4650 850 50  0001 C CNN "Поле5"
-	1    4650 850 
-	-1   0    0    1   
-$EndComp
 NoConn ~ 4850 750 
 NoConn ~ 4850 950 
 NoConn ~ 4850 850 
@@ -1242,7 +729,6 @@ F 3 "" H 5500 650 50  0001 C CNN
 	1    5500 650 
 	1    0    0    -1  
 $EndComp
-NoConn ~ 4850 550 
 Connection ~ 5200 1050
 Wire Wire Line
 	9250 8450 9250 8750
@@ -1250,50 +736,10 @@ Wire Wire Line
 	9150 8050 9150 8450
 Wire Wire Line
 	9150 8450 9150 8750
-$Comp
-L Device:L L4
-U 1 1 5FAF40C7
-P 8050 9200
-F 0 "L4" H 8103 9246 50  0000 L CNN
-F 1 "6.2nH" H 8103 9155 50  0000 L CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 8050 9200 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/murata-electronics/LQW15AN6N2B0ZD/9815988" H 8050 9200 50  0001 C CNN
-F 4 "LQW15AN6N2B0ZD" H 8050 9200 50  0001 C CNN "Поле5"
-	1    8050 9200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C20
-U 1 1 5FB03A7B
-P 8050 9500
-F 0 "C20" V 8150 9400 50  0000 C CNN
-F 1 "6.8 pF" V 7900 9500 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 8088 9350 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM1555C1E6R8CA01D/3693772" H 8050 9500 50  0001 C CNN
-F 4 "GRM1555C1E6R8CA01D" H 8050 9500 50  0001 C CNN "Поле5"
-	1    8050 9500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	9700 8450 9700 8750
 Wire Wire Line
 	8050 9650 8050 9850
-$Comp
-L ANT-GNSSCP-TH18L1:ANT-GNSSCP-TH18L1 E1
-U 1 1 5FA52FC2
-P 7050 8950
-F 0 "E1" H 7135 8979 50  0000 L CNN
-F 1 "ANT-GNSSCP-TH18L1" V 6800 8600 50  0000 L CNN
-F 2 "XDCR_ANT-GNSSCP-TH18L1" H 7050 8950 50  0001 L BNN
-F 3 "https://linxtechnologies.com/wp/wp-content/uploads/ant-gnsscp-th18l1-ds.pdf" H 7050 8950 50  0001 L BNN
-F 4 "" H 7050 8950 50  0001 L BNN "STANDARD"
-F 5 "" H 7050 8950 50  0001 L BNN "PARTREV"
-F 6 "" H 7050 8950 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
-F 7 "" H 7050 8950 50  0001 L BNN "MANUFACTURER"
-F 8 "ANT-GNSSCP-TH18L1" H 7050 8950 50  0001 C CNN "Поле5"
-	1    7050 8950
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	6950 8950 6950 8700
 Wire Wire Line
@@ -1310,31 +756,6 @@ Wire Wire Line
 	5050 1050 5200 1050
 Wire Wire Line
 	4850 1050 5200 1050
-$Comp
-L Device:CP C16
-U 1 1 5F3D5D6D
-P 5950 9050
-F 0 "C16" H 6068 9096 50  0000 L CNN
-F 1 "470uF" H 6068 9005 50  0000 L CNN
-F 2 "Capacitor_SMD:CP_Elec_8x10.5" H 5988 8900 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/kemet/EEV477M010S9MAA/6597922" H 5950 9050 50  0001 C CNN
-F 4 "0.75*2" H 5950 9050 50  0001 C CNN "Поле4"
-F 5 "EEV477M010S9MAA" H 5950 9050 50  0001 C CNN "Поле5"
-	1    5950 9050
-	1    0    0    -1  
-$EndComp
-$Comp
-L TLV62585PDRLR:TLV62585PDRLR U1
-U 1 1 5FC75302
-P 7550 1250
-F 0 "U1" H 7550 1920 50  0000 C CNN
-F 1 "TLV62585PDRLR" H 7550 1829 50  0000 C CNN
-F 2 "imported:SOT50P160X60-6N" H 7550 1250 50  0001 L BNN
-F 3 "https://www.ti.com/lit/ds/symlink/tlv62585.pdf?HQS=TI-null-null-mousermode-df-pf-null-wwe&DCM=yes&ref_url=https%3A%2F%2Fru.mouser.com%2F&distId=26" H 7550 1250 50  0001 L BNN
-F 4 "TLV62585PDRLR" H 7550 1250 50  0001 C CNN "Поле5"
-	1    7550 1250
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	8800 1600 8800 1700
 Connection ~ 6700 1050
@@ -1373,20 +794,6 @@ Text Label 8600 6250 0    50   ~ 0
 ISP_SCK
 Wire Wire Line
 	8150 6750 8600 6750
-Text Label 8600 6750 0    50   ~ 0
-AVR_RST
-$Comp
-L MCU_Microchip_ATtiny:ATtiny861A-MU U8
-U 1 1 6001D0A4
-P 7450 5950
-F 0 "U8" H 6806 5996 50  0000 R CNN
-F 1 "ATtiny861A-MU" H 6806 5905 50  0000 R CNN
-F 2 "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm" H 7450 5950 50  0001 C CIN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/doc8197.pdf" H 7450 5950 50  0001 C CNN
-F 4 "ATtiny861A-MU" H 7450 5950 50  0001 C CNN "Поле5"
-	1    7450 5950
-	1    0    0    -1  
-$EndComp
 Text Label 8300 5150 0    50   ~ 0
 AVR_MOSI_SDA
 Wire Wire Line
@@ -1401,37 +808,6 @@ Wire Wire Line
 Connection ~ 7450 4200
 Wire Wire Line
 	7450 4200 7450 4450
-$Comp
-L Device:C C13
-U 1 1 601A1375
-P 7600 4200
-F 0 "C13" V 7550 4300 50  0000 C CNN
-F 1 "150nF" V 7450 4200 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 7638 4050 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X7R1A154K050BB/3951151" H 7600 4200 50  0001 C CNN
-F 4 "0.12" H 7600 4200 50  0001 C CNN "Поле4"
-F 5 "C1005X7R1A154K050BB" H 7600 4200 50  0001 C CNN "Поле5"
-	1    7600 4200
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C C18
-U 1 1 601A1381
-P 7600 4450
-F 0 "C18" V 7852 4450 50  0000 C CNN
-F 1 "10uF" V 7761 4450 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 7638 4300 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 7600 4450 50  0001 C CNN
-F 4 "0.46*4" H 7600 4450 50  0001 C CNN "Поле4"
-F 5 "CL10A106KP8NQSC" H 7600 4450 50  0001 C CNN "Поле5"
-	1    7600 4450
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	7450 4850 7550 4850
-Wire Wire Line
-	7450 4450 7450 4850
-Connection ~ 7450 4850
 Wire Wire Line
 	7450 7150 7450 7050
 Wire Wire Line
@@ -1449,30 +825,6 @@ Wire Wire Line
 	9100 5650 9550 5650
 Wire Wire Line
 	8150 5750 8600 5750
-$Comp
-L Device:R R3
-U 1 1 5FAA6E85
-P 8950 5650
-F 0 "R3" V 8950 5700 50  0000 R CNN
-F 1 "470" V 9000 5950 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 8880 5741 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8950 5650 50  0001 C CNN
-F 4 "CR0402-16W-4700FT" H 8950 5650 50  0001 C CNN "Поле5"
-	1    8950 5650
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R2
-U 1 1 5FAA6E90
-P 8750 5750
-F 0 "R2" V 8680 5704 50  0000 R CNN
-F 1 "470" V 8850 5800 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 8680 5841 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8750 5750 50  0001 C CNN
-F 4 "CR0402-16W-4700FT" H 8750 5750 50  0001 C CNN "Поле5"
-	1    8750 5750
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	7750 4200 7750 4350
 Wire Wire Line
@@ -1480,18 +832,6 @@ Wire Wire Line
 Connection ~ 7750 4350
 Wire Wire Line
 	7750 4350 7750 4450
-$Comp
-L Connector:Conn_01x04_Male J5
-U 1 1 5FAC5879
-P 950 6600
-F 0 "J5" H 850 6600 50  0000 C CNN
-F 1 "Conn_01x04_Male" H 1000 7150 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 950 6600 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/adam-tech/PH1-05-UA/9830343" H 950 6600 50  0001 C CNN
-F 4 "PH1-05-UA" H 950 6600 50  0001 C CNN "Поле5"
-	1    950  6600
-	1    0    0    -1  
-$EndComp
 Text Label 1250 6600 0    50   ~ 0
 ISP_MISO
 Text Label 1250 6700 0    50   ~ 0
@@ -1508,18 +848,6 @@ Wire Wire Line
 	1150 6700 1250 6700
 Wire Wire Line
 	1150 6800 1250 6800
-$Comp
-L Connector:Conn_01x05_Male J1
-U 1 1 5F93CDF7
-P 1000 5100
-F 0 "J1" H 900 5100 50  0000 C CNN
-F 1 "Conn_01x05_Male" H 1050 5650 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical" H 1000 5100 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/adam-tech/PH1-05-UA/9830343" H 1000 5100 50  0001 C CNN
-F 4 "PH1-05-UA" H 1000 5100 50  0001 C CNN "Поле5"
-	1    1000 5100
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5100 8750 5500 8750
 Wire Wire Line
@@ -1553,35 +881,11 @@ NoConn ~ 4400 7500
 NoConn ~ 4500 7500
 NoConn ~ 4600 7500
 NoConn ~ 4700 7500
-$Comp
-L Device:C C4
-U 1 1 5FF9BBF6
-P 7600 9050
-F 0 "C4" V 7700 8950 50  0000 C CNN
-F 1 "1.2 pF" V 7450 9050 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 7638 8900 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM1555C1H1R2BA01D/3693934" H 7600 9050 50  0001 C CNN
-F 4 "GRM1555C1H1R2BA01D" H 7600 9050 50  0001 C CNN "Поле5"
-	1    7600 9050
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	7750 9050 8050 9050
 Connection ~ 8050 9050
 Wire Wire Line
 	8050 9050 8950 9050
-$Comp
-L Device:R R4
-U 1 1 6004C267
-P 11350 3000
-F 0 "R4" H 11280 2954 50  0000 R CNN
-F 1 "0" H 11280 3045 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 11280 3091 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/meritek/CR20000J/13410265" H 11350 3000 50  0001 C CNN
-F 4 "CR20000J" H 11350 3000 50  0001 C CNN "Поле5"
-	1    11350 3000
-	1    0    0    -1  
-$EndComp
 Connection ~ 11350 2850
 Wire Wire Line
 	11350 2850 12000 2850
@@ -1612,18 +916,6 @@ Wire Wire Line
 	10750 1350 10750 1250
 Wire Wire Line
 	10750 1250 10850 1250
-$Comp
-L Device:R R11
-U 1 1 600B4A3C
-P 11000 1250
-F 0 "R11" H 10930 1204 50  0000 R CNN
-F 1 "0" H 10930 1295 50  0000 R CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" H 10930 1341 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/meritek/CR20000J/13410265" H 11000 1250 50  0001 C CNN
-F 4 "CR20000J" H 11000 1250 50  0001 C CNN "Поле5"
-	1    11000 1250
-	0    1    1    0   
-$EndComp
 $Comp
 L power:GNDREF #PWR0104
 U 1 1 600B52BA
@@ -1823,35 +1115,11 @@ Wire Wire Line
 	1900 3900 1900 4050
 Text Label 10350 3400 0    50   ~ 0
 SIM_DETECT_LINE
-$Comp
-L Transistor_FET:IRLML5203 Q1
-U 1 1 5FB77A47
-P 10350 2950
-F 0 "Q1" H 10554 2996 50  0000 L CNN
-F 1 "DMG2305UXQ" H 10554 2905 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 10550 2875 50  0001 L CIN
-F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 10350 2950 50  0001 L CNN
-F 4 "DMG2305UXQ-13 " H 10350 2950 50  0001 C CNN "Поле5"
-	1    10350 2950
-	0    1    -1   0   
-$EndComp
 Wire Wire Line
 	9900 2850 10000 2850
 Connection ~ 9900 2850
 Wire Wire Line
 	10550 2850 11350 2850
-$Comp
-L Device:R R15
-U 1 1 5FB9E73A
-P 10000 3100
-F 0 "R15" H 9950 3100 50  0000 L CNN
-F 1 "100K" H 9850 3000 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 10070 3009 50  0001 L CNN
-F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 10000 3100 50  0001 C CNN
-F 4 "CR161003F" H 10000 3100 50  0001 C CNN "Поле5"
-	1    10000 3100
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	10000 2850 10000 2950
 Connection ~ 10000 2850
@@ -1962,6 +1230,211 @@ Wire Wire Line
 	1850 8250 1850 8050
 Wire Wire Line
 	1850 7850 1850 8050
+Text Label 9800 2850 0    50   ~ 0
+POWER_INPUT
+Text Label 9750 9050 0    50   ~ 0
+LNA_OUTPUT
+Text Label 7100 8700 0    50   ~ 0
+ANT_OUT
+NoConn ~ 8150 6350
+NoConn ~ 8150 6650
+NoConn ~ 8150 5850
+NoConn ~ 8150 5550
+Wire Wire Line
+	9150 8450 9250 8450
+Text Label 9700 6300 2    50   ~ 0
+LOW_CURRENT
+Wire Wire Line
+	9700 6750 9700 6700
+Wire Wire Line
+	9700 6300 9700 6400
+$Comp
+L power:GNDD #PWR0129
+U 1 1 5FD7EB32
+P 8850 4750
+F 0 "#PWR0129" H 8850 4500 50  0001 C CNN
+F 1 "GNDD" H 8854 4595 50  0000 C CNN
+F 2 "" H 8850 4750 50  0001 C CNN
+F 3 "" H 8850 4750 50  0001 C CNN
+	1    8850 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7450 4450 7450 4850
+Wire Wire Line
+	8600 4400 8650 4400
+Wire Wire Line
+	8850 4700 8850 4750
+Wire Wire Line
+	7450 4050 8300 4050
+Wire Wire Line
+	8300 4050 8300 4400
+Wire Wire Line
+	8650 4400 8650 4850
+Wire Wire Line
+	7550 4850 8650 4850
+Connection ~ 8650 4400
+Wire Wire Line
+	8650 4400 8850 4400
+Text Label 8100 4850 0    50   ~ 0
+AVCC
+Wire Wire Line
+	7450 4050 7450 3950
+Connection ~ 7450 4050
+Wire Wire Line
+	8600 6750 8600 7350
+Text Label 8600 6750 0    50   ~ 0
+AVR_RST
+Wire Wire Line
+	8600 6750 9700 6750
+Connection ~ 8600 6750
+$Comp
+L power:GNDD #PWR0130
+U 1 1 5FEDE85B
+P 12300 8700
+F 0 "#PWR0130" H 12300 8450 50  0001 C CNN
+F 1 "GNDD" H 12304 8545 50  0000 C CNN
+F 2 "" H 12300 8700 50  0001 C CNN
+F 3 "" H 12300 8700 50  0001 C CNN
+	1    12300 8700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12300 7650 12300 7700
+Connection ~ 12300 7700
+Wire Wire Line
+	12300 7700 12300 7750
+Wire Wire Line
+	12200 6850 12300 6850
+Wire Wire Line
+	12300 6850 12300 7350
+Wire Wire Line
+	12300 8050 12300 8150
+Wire Wire Line
+	12300 8550 12300 8700
+Text Label 12300 7250 1    50   ~ 0
+LOW_CURRENT
+Wire Wire Line
+	8150 6550 8400 6550
+Text Label 8400 6550 0    50   ~ 0
+ADC_IN
+Text Label 11750 7700 0    50   ~ 0
+ADC_IN
+Text Label 11600 8350 0    50   ~ 0
+ADC_ENABLE
+Wire Wire Line
+	11750 7700 12300 7700
+Wire Wire Line
+	11600 8350 12000 8350
+Text Label 8300 5450 0    50   ~ 0
+2.5v
+Wire Wire Line
+	8150 5450 8300 5450
+Text Label 9000 6450 0    50   ~ 0
+ADC_ENABLE
+Wire Wire Line
+	8750 6450 9000 6450
+Wire Wire Line
+	8150 6450 8450 6450
+Wire Wire Line
+	4850 550  5000 550 
+NoConn ~ 5000 550 
+$Comp
+L Device:R R18
+U 1 1 5FBD9E28
+P 8600 6450
+F 0 "R18" V 8530 6404 50  0000 R CNN
+F 1 "470" V 8550 6750 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8530 6541 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8600 6450 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8600 6450 50  0001 C CNN "Поле5"
+	1    8600 6450
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:Q_NMOS_GSD Q4
+U 1 1 6010F4B9
+P 12200 8350
+F 0 "Q4" H 12404 8396 50  0000 L CNN
+F 1 "DMN60H080DS" H 12404 8305 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 12400 8450 50  0001 C CNN
+F 3 "https://www.diodes.com/assets/Datasheets/DMN60H080DS.pdf" H 12200 8350 50  0001 C CNN
+	1    12200 8350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R20
+U 1 1 6002EEF3
+P 12300 7900
+F 0 "R20" V 12230 7854 50  0000 R CNN
+F 1 "10K" V 12400 7950 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 12230 7991 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 12300 7900 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 12300 7900 50  0001 C CNN "Поле5"
+	1    12300 7900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R19
+U 1 1 5FEDC971
+P 12300 7500
+F 0 "R19" H 12250 7500 50  0000 L CNN
+F 1 "5K" H 12150 7400 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 12370 7409 50  0001 L CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR205001F/13412102" H 12300 7500 50  0001 C CNN
+F 4 "CR205001F" H 12300 7500 50  0001 C CNN "Поле5"
+	1    12300 7500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:L L1
+U 1 1 5FD930BF
+P 8450 4400
+F 0 "L1" H 8503 4446 50  0000 L CNN
+F 1 "10uH" H 8503 4355 50  0000 L CNN
+F 2 "Inductor_SMD:L_0603_1608Metric" H 8450 4400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/taiyo-yuden/LK1608100M-T/1171508" H 8450 4400 50  0001 C CNN
+F 4 "LK1608100M" H 8450 4400 50  0001 C CNN "Поле5"
+	1    8450 4400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C5
+U 1 1 5FD7BD42
+P 8850 4550
+F 0 "C5" H 8965 4596 50  0000 L CNN
+F 1 "100nF" H 8965 4505 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 8888 4400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X5R1A104K050BA/513705" H 8850 4550 50  0001 C CNN
+F 4 "0.10" H 8850 4550 50  0001 C CNN "Поле4"
+F 5 "C1005X5R1A104K050BA" H 8850 4550 50  0001 C CNN "Поле5"
+	1    8850 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R16
+U 1 1 5FCEF734
+P 9700 6550
+F 0 "R16" V 9630 6504 50  0000 R CNN
+F 1 "10K" V 9800 6600 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 9630 6641 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 9700 6550 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 9700 6550 50  0001 C CNN "Поле5"
+	1    9700 6550
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R14
+U 1 1 5FB75EE7
+P 8800 1900
+F 0 "R14" V 8730 1854 50  0000 R CNN
+F 1 "10K" V 8900 1950 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1991 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8800 1900 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 8800 1900 50  0001 C CNN "Поле5"
+	1    8800 1900
+	1    0    0    -1  
+$EndComp
 $Comp
 L eec:78727-0001 J6
 U 1 1 5FC4195D
@@ -1974,31 +1447,726 @@ F 4 "78727-0001" H 1950 7850 50  0001 C CNN "Поле5"
 	1    1950 7850
 	1    0    0    -1  
 $EndComp
-Text Label 9800 2850 0    50   ~ 0
-POWER_INPUT
-Text Label 9750 9050 0    50   ~ 0
-LNA_OUTPUT
-Text Label 7100 8700 0    50   ~ 0
-ANT_OUT
-NoConn ~ 8150 6350
-NoConn ~ 8150 6450
-NoConn ~ 8150 6550
-NoConn ~ 8150 6650
-NoConn ~ 8150 5850
-NoConn ~ 8150 5550
-NoConn ~ 8150 5450
-Wire Wire Line
-	9150 8450 9250 8450
 $Comp
-L Device:R R14
-U 1 1 5FB75EE7
-P 8800 1900
-F 0 "R14" V 8730 1854 50  0000 R CNN
-F 1 "10K" V 8900 1950 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1991 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8800 1900 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 8800 1900 50  0001 C CNN "Поле5"
-	1    8800 1900
+L Device:R R15
+U 1 1 5FB9E73A
+P 10000 3100
+F 0 "R15" H 9950 3100 50  0000 L CNN
+F 1 "100K" H 9850 3000 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 10070 3009 50  0001 L CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 10000 3100 50  0001 C CNN
+F 4 "CR161003F" H 10000 3100 50  0001 C CNN "Поле5"
+	1    10000 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:IRLML5203 Q1
+U 1 1 5FB77A47
+P 10350 2950
+F 0 "Q1" H 10554 2996 50  0000 L CNN
+F 1 "DMG2305UXQ" H 10554 2905 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 10550 2875 50  0001 L CIN
+F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 10350 2950 50  0001 L CNN
+F 4 "DMG2305UXQ-13 " H 10350 2950 50  0001 C CNN "Поле5"
+	1    10350 2950
+	0    1    -1   0   
+$EndComp
+$Comp
+L Device:R R11
+U 1 1 600B4A3C
+P 11000 1250
+F 0 "R11" H 10930 1204 50  0000 R CNN
+F 1 "0" H 10930 1295 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 10930 1341 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR20000J/13410265" H 11000 1250 50  0001 C CNN
+F 4 "CR20000J" H 11000 1250 50  0001 C CNN "Поле5"
+	1    11000 1250
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 6004C267
+P 11350 3000
+F 0 "R4" H 11280 2954 50  0000 R CNN
+F 1 "0" H 11280 3045 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 11280 3091 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR20000J/13410265" H 11350 3000 50  0001 C CNN
+F 4 "CR20000J" H 11350 3000 50  0001 C CNN "Поле5"
+	1    11350 3000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C4
+U 1 1 5FF9BBF6
+P 7600 9050
+F 0 "C4" V 7700 8950 50  0000 C CNN
+F 1 "1.2 pF" V 7450 9050 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 7638 8900 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM1555C1H1R2BA01D/3693934" H 7600 9050 50  0001 C CNN
+F 4 "GRM1555C1H1R2BA01D" H 7600 9050 50  0001 C CNN "Поле5"
+	1    7600 9050
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:Conn_01x05_Male J1
+U 1 1 5F93CDF7
+P 1000 5100
+F 0 "J1" H 900 5100 50  0000 C CNN
+F 1 "Conn_01x05_Male" H 1050 5650 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical" H 1000 5100 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/adam-tech/PH1-05-UA/9830343" H 1000 5100 50  0001 C CNN
+F 4 "PH1-05-UA" H 1000 5100 50  0001 C CNN "Поле5"
+	1    1000 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x04_Male J5
+U 1 1 5FAC5879
+P 950 6600
+F 0 "J5" H 850 6600 50  0000 C CNN
+F 1 "Conn_01x04_Male" H 1000 7150 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 950 6600 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/adam-tech/PH1-05-UA/9830343" H 950 6600 50  0001 C CNN
+F 4 "PH1-05-UA" H 950 6600 50  0001 C CNN "Поле5"
+	1    950  6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5FAA6E90
+P 8750 5750
+F 0 "R2" V 8680 5704 50  0000 R CNN
+F 1 "470" V 8850 5800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8680 5841 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8750 5750 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8750 5750 50  0001 C CNN "Поле5"
+	1    8750 5750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 5FAA6E85
+P 8950 5650
+F 0 "R3" V 8950 5700 50  0000 R CNN
+F 1 "470" V 9000 5950 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8880 5741 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8950 5650 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8950 5650 50  0001 C CNN "Поле5"
+	1    8950 5650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C18
+U 1 1 601A1381
+P 7600 4450
+F 0 "C18" V 7700 4550 50  0000 C CNN
+F 1 "10uF" V 7761 4450 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7638 4300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 7600 4450 50  0001 C CNN
+F 4 "0.46*4" H 7600 4450 50  0001 C CNN "Поле4"
+F 5 "CL10A106KP8NQSC" H 7600 4450 50  0001 C CNN "Поле5"
+	1    7600 4450
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C13
+U 1 1 601A1375
+P 7600 4200
+F 0 "C13" V 7550 4300 50  0000 C CNN
+F 1 "150nF" V 7450 4200 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 7638 4050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X7R1A154K050BB/3951151" H 7600 4200 50  0001 C CNN
+F 4 "0.12" H 7600 4200 50  0001 C CNN "Поле4"
+F 5 "C1005X7R1A154K050BB" H 7600 4200 50  0001 C CNN "Поле5"
+	1    7600 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L MCU_Microchip_ATtiny:ATtiny861A-MU U8
+U 1 1 6001D0A4
+P 7450 5950
+F 0 "U8" H 6806 5996 50  0000 R CNN
+F 1 "ATtiny861A-MU" H 6806 5905 50  0000 R CNN
+F 2 "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm" H 7450 5950 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/doc8197.pdf" H 7450 5950 50  0001 C CNN
+F 4 "ATtiny861A-MU" H 7450 5950 50  0001 C CNN "Поле5"
+	1    7450 5950
+	1    0    0    -1  
+$EndComp
+$Comp
+L TLV62585PDRLR:TLV62585PDRLR U1
+U 1 1 5FC75302
+P 7550 1250
+F 0 "U1" H 7550 1920 50  0000 C CNN
+F 1 "TLV62585PDRLR" H 7550 1829 50  0000 C CNN
+F 2 "imported:SOT50P160X60-6N" H 7550 1250 50  0001 L BNN
+F 3 "https://www.ti.com/lit/ds/symlink/tlv62585.pdf?HQS=TI-null-null-mousermode-df-pf-null-wwe&DCM=yes&ref_url=https%3A%2F%2Fru.mouser.com%2F&distId=26" H 7550 1250 50  0001 L BNN
+F 4 "TLV62585PDRLR" H 7550 1250 50  0001 C CNN "Поле5"
+	1    7550 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C16
+U 1 1 5F3D5D6D
+P 5950 9050
+F 0 "C16" H 6068 9096 50  0000 L CNN
+F 1 "470uF" H 6068 9005 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_8x10.5" H 5988 8900 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/kemet/EEV477M010S9MAA/6597922" H 5950 9050 50  0001 C CNN
+F 4 "0.75*2" H 5950 9050 50  0001 C CNN "Поле4"
+F 5 "EEV477M010S9MAA" H 5950 9050 50  0001 C CNN "Поле5"
+	1    5950 9050
+	1    0    0    -1  
+$EndComp
+$Comp
+L ANT-GNSSCP-TH18L1:ANT-GNSSCP-TH18L1 E1
+U 1 1 5FA52FC2
+P 7050 8950
+F 0 "E1" H 7135 8979 50  0000 L CNN
+F 1 "ANT-GNSSCP-TH18L1" V 6800 8600 50  0000 L CNN
+F 2 "XDCR_ANT-GNSSCP-TH18L1" H 7050 8950 50  0001 L BNN
+F 3 "https://linxtechnologies.com/wp/wp-content/uploads/ant-gnsscp-th18l1-ds.pdf" H 7050 8950 50  0001 L BNN
+F 4 "" H 7050 8950 50  0001 L BNN "STANDARD"
+F 5 "" H 7050 8950 50  0001 L BNN "PARTREV"
+F 6 "" H 7050 8950 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
+F 7 "" H 7050 8950 50  0001 L BNN "MANUFACTURER"
+F 8 "ANT-GNSSCP-TH18L1" H 7050 8950 50  0001 C CNN "Поле5"
+	1    7050 8950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C20
+U 1 1 5FB03A7B
+P 8050 9500
+F 0 "C20" V 8150 9400 50  0000 C CNN
+F 1 "6.8 pF" V 7900 9500 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 8088 9350 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM1555C1E6R8CA01D/3693772" H 8050 9500 50  0001 C CNN
+F 4 "GRM1555C1E6R8CA01D" H 8050 9500 50  0001 C CNN "Поле5"
+	1    8050 9500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:L L4
+U 1 1 5FAF40C7
+P 8050 9200
+F 0 "L4" H 8103 9246 50  0000 L CNN
+F 1 "6.2nH" H 8103 9155 50  0000 L CNN
+F 2 "Inductor_SMD:L_0402_1005Metric" H 8050 9200 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/LQW15AN6N2B0ZD/9815988" H 8050 9200 50  0001 C CNN
+F 4 "LQW15AN6N2B0ZD" H 8050 9200 50  0001 C CNN "Поле5"
+	1    8050 9200
+	1    0    0    -1  
+$EndComp
+$Comp
+L MUC-20PFFR-JS7001:MUC-20PFFR-JS7001 J2
+U 1 1 5FA008B3
+P 4650 850
+F 0 "J2" H 4978 872 50  0000 L CNN
+F 1 "MUC-20PFFR-JS7001" H 4978 781 50  0000 L CNN
+F 2 "AMPHENOL_MUC-20PFFR-JS7001" H 4650 850 50  0001 L BNN
+F 3 "https://www.amphenolltw.com/p2-products-detail.php?sn=4282" H 4650 850 50  0001 L BNN
+F 4 "MUC-20PFFR-JS7001" H 4650 850 50  0001 C CNN "Поле5"
+	1    4650 850 
+	-1   0    0    1   
+$EndComp
+$Comp
+L Filter:SF14-1575F5UUC1 FL1
+U 1 1 5F9AA44C
+P 10550 9200
+F 0 "FL1" H 10550 9567 50  0000 C CNN
+F 1 "SF14-1582M5UUD2" H 10550 9476 50  0000 C CNN
+F 2 "Filter:Filter_1411-5_1.4x1.1mm" H 10550 9200 50  0001 C CNN
+F 3 "https://ru.mouser.com/datasheet/2/909/AVX_140127_Connectivity-1316412.pdf" H 10550 9200 50  0001 C CNN
+F 4 "SF14-1582M5UUD2" H 10550 9200 50  0001 C CNN "Поле5"
+	1    10550 9200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:IRLML5203 Q3
+U 1 1 5F3D5D19
+P 9550 2750
+F 0 "Q3" H 9754 2796 50  0000 L CNN
+F 1 "DMG2305UXQ" H 9754 2705 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 9750 2675 50  0001 L CIN
+F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 9550 2750 50  0001 L CNN
+F 4 "DMG2305UXQ-13 " H 9550 2750 50  0001 C CNN "Поле5"
+	1    9550 2750
+	0    -1   1    0   
+$EndComp
+$Comp
+L Device:C C17
+U 1 1 5FBEB468
+P 9250 1200
+F 0 "C17" H 9000 1150 50  0000 L CNN
+F 1 "22uF" H 8950 1250 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 9288 1050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM21BD71A226ME44K/4905521" H 9250 1200 50  0001 C CNN
+F 4 "" H 9250 1200 50  0001 C CNN "Поле4"
+F 5 "GRM21BD71A226ME44K" H 9250 1200 50  0001 C CNN "Поле5"
+	1    9250 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R13
+U 1 1 5FB5F896
+P 8800 1450
+F 0 "R13" H 8730 1404 50  0000 R CNN
+F 1 "56.2K" H 8730 1495 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 1541 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/walsin-technology-corporation/WR06X5622FTL/13241739" H 8800 1450 50  0001 C CNN
+F 4 "WR06X5622FTL" H 8800 1450 50  0001 C CNN "Поле5"
+	1    8800 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L mailboxNotifier-eagle-import:INDUCTOR1210K L2
+U 1 1 5FB5B9EC
+P 8450 1050
+F 0 "L2" H 8450 1235 42  0000 C CNN
+F 1 "1uH" H 8450 1156 42  0000 C CNN
+F 2 "Inductor_SMD:L_Vishay_IHLP-2020" H 8450 1050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/vishay-dale/IHLP2020BZER1R0M01/1869310" H 8450 1050 50  0001 C CNN
+F 4 "IHLP2020BZER1R0M01" H 8450 1050 50  0001 C CNN "Поле5"
+	1    8450 1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L BGU8019:BGU8019 U5
+U 1 1 5F9DF24D
+P 9250 9050
+F 0 "U5" H 9150 9050 50  0000 L CNN
+F 1 "BGU8019" H 9400 8850 50  0000 L CNN
+F 2 "SOT1232" H 9250 9050 50  0001 L BNN
+F 3 "https://static6.arrow.com/aropdfconversion/fc28c774ed2fc26a39a112b212114be16dd4645e/bgu8019.pdf" H 9250 9050 50  0001 C CNN
+F 4 "BGU8019X" H 9250 9050 50  0001 C CNN "Поле5"
+	1    9250 9050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R6
+U 1 1 5F9B2052
+P 8800 8450
+F 0 "R6" V 8730 8404 50  0000 R CNN
+F 1 "10K" V 8900 8500 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 8730 8541 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8800 8450 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 8800 8450 50  0001 C CNN "Поле5"
+	1    8800 8450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C9
+U 1 1 5FA71C5A
+P 9400 8450
+F 0 "C9" V 9500 8350 50  0000 C CNN
+F 1 "1nF" V 9250 8450 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 9438 8300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/murata-electronics/GRM1555C2A102JE01D/13401927" H 9400 8450 50  0001 C CNN
+F 4 "GRM1555C2A102JE01D" H 9400 8450 50  0001 C CNN "Поле5"
+	1    9400 8450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C7
+U 1 1 5F3D5D20
+P 6650 3000
+F 0 "C7" V 6902 3000 50  0000 C CNN
+F 1 "4.7uF" V 6811 3000 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 6688 2850 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 6650 3000 50  0001 C CNN
+F 4 "0.29*5" H 6650 3000 50  0001 C CNN "Поле4"
+F 5 "C1608X7S1A475K080AC" H 6650 3000 50  0001 C CNN "Поле5"
+	1    6650 3000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C6
+U 1 1 5F3D5D2D
+P 5750 2150
+F 0 "C6" V 6002 2150 50  0000 C CNN
+F 1 "4.7uF" V 5911 2150 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5788 2000 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X7S1A475K080AC/3951494" H 5750 2150 50  0001 C CNN
+F 4 "0.29*5" H 5750 2150 50  0001 C CNN "Поле4"
+F 5 "C1608X7S1A475K080AC" H 5750 2150 50  0001 C CNN "Поле5"
+	1    5750 2150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R12
+U 1 1 5F3D5D3B
+P 6300 1250
+F 0 "R12" H 6230 1204 50  0000 R CNN
+F 1 "150" H 6230 1295 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 6230 1250 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/vishay-dale/CRCW0402150RFKEDC/7928426" H 6300 1250 50  0001 C CNN
+F 4 "CRCW0402150RFKEDC" H 6300 1250 50  0001 C CNN "Поле5"
+	1    6300 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D4
+U 1 1 5F3D5D42
+P 6300 1600
+F 0 "D4" H 6400 1700 50  0000 C CNN
+F 1 "LED" H 6250 1700 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 6300 1600 50  0001 C CNN
+F 3 "https://ru.mouser.com/datasheet/2/239/LTST-C190KRKT-1141828.pdf" H 6300 1600 50  0001 C CNN
+F 4 "LTST-C190KRKT" H 6300 1600 50  0001 C CNN "Поле5"
+	1    6300 1600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R9
+U 1 1 5F3D5D48
+P 5500 3400
+F 0 "R9" H 5430 3354 50  0000 R CNN
+F 1 "2000" H 5430 3445 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 5430 3491 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-2001FT/12328554" H 5500 3400 50  0001 C CNN
+F 4 "CR0402-16W-2001FT" H 5500 3400 50  0001 C CNN "Поле5"
+	1    5500 3400
+	-1   0    0    1   
+$EndComp
+$Comp
+L Battery_Management:MCP73831-2-OT U4
+U 1 1 5F3D5D5D
+P 5900 2950
+F 0 "U4" H 5456 2904 50  0000 R CNN
+F 1 "MCP73831-2-OT" H 6600 2650 50  0000 R CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 5950 2700 50  0001 L CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf" H 5750 2900 50  0001 C CNN
+F 4 "MCP73831-2-OT" H 5900 2950 50  0001 C CNN "Поле5"
+	1    5900 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C15
+U 1 1 5F3D5D67
+P 5500 9050
+F 0 "C15" H 5618 9096 50  0000 L CNN
+F 1 "470uF" H 5618 9005 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_8x10.5" H 5538 8900 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/kemet/EEV477M010S9MAA/6597922" H 5500 9050 50  0001 C CNN
+F 4 "0.75*2" H 5500 9050 50  0001 C CNN "Поле4"
+F 5 "EEV477M010S9MAA" H 5500 9050 50  0001 C CNN "Поле5"
+	1    5500 9050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C14
+U 1 1 5F3D5D91
+P 5100 9100
+F 0 "C14" H 5215 9146 50  0000 L CNN
+F 1 "1uF" H 5215 9055 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5138 8950 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X5R1A105K080AC/513793" H 5100 9100 50  0001 C CNN
+F 4 "0.11" H 5100 9100 50  0001 C CNN "Поле4"
+F 5 "C1608X5R1A105K080AC" H 5100 9100 50  0001 C CNN "Поле5"
+	1    5100 9100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R10
+U 1 1 5F3D5DBE
+P 5600 1300
+F 0 "R10" H 5550 1300 50  0000 L CNN
+F 1 "100K" H 5450 1200 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 5670 1209 50  0001 L CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 5600 1300 50  0001 C CNN
+F 4 "CR161003F" H 5600 1300 50  0001 C CNN "Поле5"
+	1    5600 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Screw_Terminal_01x02 J3
+U 1 1 5F3D5DC8
+P 7350 3500
+F 0 "J3" V 7350 3650 50  0000 R CNN
+F 1 "Battery" V 7450 3750 50  0000 R CNN
+F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 7350 3500 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S-LF-SN/926611" H 7350 3500 50  0001 C CNN
+F 4 "B2B-PH-K-S(LF)(SN)" H 7350 3500 50  0001 C CNN "Поле5"
+	1    7350 3500
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Schottky D3
+U 1 1 5F3D5DD1
+P 9900 2450
+F 0 "D3" V 9946 2371 50  0000 R CNN
+F 1 "D_Schottky" V 9855 2371 50  0000 R CNN
+F 2 "Diode_SMD:D_SMA" H 9900 2450 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/vishay-semiconductor-diodes-division/b340a-e3-61t/2149679" H 9900 2450 50  0001 C CNN
+F 4 "0.51" H 9900 2450 50  0001 C CNN "Поле4"
+F 5 "B340A-E3/61T" H 9900 2450 50  0001 C CNN "Поле5"
+	1    9900 2450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Tracker:A9G D1
+U 1 1 5F3D6B88
+P 4450 5500
+F 0 "D1" H 4500 6106 50  0000 C CNN
+F 1 "A9G" H 4500 6015 50  0000 C CNN
+F 2 "imported:A9" V 3950 4450 50  0001 C CNN
+F 3 "https://www.alibaba.com/product-detail/GPRS-GPS-Module-A9G-Module-SMS_62458730712.html?spm=a2700.galleryofferlist.normal_offer.3.6881306fMlvXSR" V 3950 4450 50  0001 C CNN
+F 4 "3" H 4450 5500 50  0001 C CNN "Поле4"
+F 5 "A9G" H 4450 5500 50  0001 C CNN "Поле5"
+	1    4450 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R8
+U 1 1 5F429F48
+P 5200 1250
+F 0 "R8" H 5130 1204 50  0000 R CNN
+F 1 "150" H 5130 1295 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 5130 1250 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/vishay-dale/CRCW0402150RFKEDC/7928426" H 5200 1250 50  0001 C CNN
+F 4 "CRCW0402150RFKEDC" H 5200 1250 50  0001 C CNN "Поле5"
+	1    5200 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D2
+U 1 1 5F429F4E
+P 5200 1650
+F 0 "D2" H 5193 1395 50  0000 C CNN
+F 1 "LED" H 5193 1486 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5200 1650 50  0001 C CNN
+F 3 "https://ru.mouser.com/datasheet/2/239/LTST-C190KRKT-1141828.pdf" H 5200 1650 50  0001 C CNN
+F 4 "LTST-C190KRKT" H 5200 1650 50  0001 C CNN "Поле5"
+	1    5200 1650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Sensor_Motion:LIS3DH U2
+U 1 1 5F3C2349
+P 2650 3100
+F 0 "U2" H 2650 2411 50  0000 C CNN
+F 1 "LIS3DSH" H 2850 2700 50  0000 C CNN
+F 2 "Package_LGA:LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y" H 2750 2050 50  0001 C CNN
+F 3 "https://www.st.com/resource/en/datasheet/cd00274221.pdf" H 2450 3000 50  0001 C CNN
+F 4 "LIS3DSH" H 2650 3100 50  0001 C CNN "Поле5"
+	1    2650 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L mailboxNotifier-eagle-import:U.FL U6
+U 1 1 5F4E0DE8
+P 4800 4300
+F 0 "U6" H 4850 4350 50  0001 C CNN
+F 1 "U.FL" H 4800 4300 50  0001 C CNN
+F 2 "mailboxNotifier:U.FL" H 4800 4300 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/te-connectivity-amp-connectors/2337019-1/9974052" H 4800 4300 50  0001 C CNN
+F 4 "2337019-1" H 4800 4300 50  0001 C CNN "Поле5"
+	1    4800 4300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C12
+U 1 1 5F5001FA
+P 4400 9100
+F 0 "C12" H 4515 9146 50  0000 L CNN
+F 1 "100uF" H 4515 9055 50  0000 L CNN
+F 2 "Capacitor_Tantalum_SMD:CP_EIA-6032-28_Kemet-C" H 4438 8950 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/vishay-sprague/593D107X9010C2TE3/1579081" H 4400 9100 50  0001 C CNN
+F 4 "0.72" H 4400 9100 50  0001 C CNN "Поле4"
+F 5 "593D107X9010C2TE3" H 4400 9100 50  0001 C CNN "Поле5"
+	1    4400 9100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C10
+U 1 1 5F520BC8
+P 3900 9100
+F 0 "C10" H 4015 9146 50  0000 L CNN
+F 1 "33pF" H 4015 9055 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 3938 8950 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/avx-corporation/0402ZC330KAT2A/1597937" H 3900 9100 50  0001 C CNN
+F 4 "0.29" H 3900 9100 50  0001 C CNN "Поле4"
+F 5 "0402ZC330KAT2A" H 3900 9100 50  0001 C CNN "Поле5"
+	1    3900 9100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C8
+U 1 1 5F525B81
+P 3350 9100
+F 0 "C8" H 3465 9146 50  0000 L CNN
+F 1 "10pF" H 3465 9055 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 3388 8950 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/würth-elektronik/885012005007/5453280" H 3350 9100 50  0001 C CNN
+F 4 "0.10" H 3350 9100 50  0001 C CNN "Поле4"
+F 5 "885012005007" H 3350 9100 50  0001 C CNN "Поле5"
+	1    3350 9100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5F56C46E
+P 2900 2200
+F 0 "C2" H 3015 2246 50  0000 L CNN
+F 1 "10uF" H 2950 2100 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2938 2050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 2900 2200 50  0001 C CNN
+F 4 "0.46*4" H 2900 2200 50  0001 C CNN "Поле4"
+F 5 "CL10A106KP8NQSC" H 2900 2200 50  0001 C CNN "Поле5"
+	1    2900 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C3
+U 1 1 5F56E883
+P 3200 2200
+F 0 "C3" H 3315 2246 50  0000 L CNN
+F 1 "100nF" H 3315 2155 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 3238 2050 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X5R1A104K050BA/513705" H 3200 2200 50  0001 C CNN
+F 4 "0.10" H 3200 2200 50  0001 C CNN "Поле4"
+F 5 "C1005X5R1A104K050BA" H 3200 2200 50  0001 C CNN "Поле5"
+	1    3200 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R7
+U 1 1 5F607443
+P 3300 6550
+F 0 "R7" V 3230 6504 50  0000 R CNN
+F 1 "10K" V 3150 6800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3230 6641 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3300 6550 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 3300 6550 50  0001 C CNN "Поле5"
+	1    3300 6550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LED:SK6812 D5
+U 1 1 5F663DCF
+P 11000 6350
+F 0 "D5" H 11344 6396 50  0000 L CNN
+F 1 "SK6812" H 11344 6305 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 11050 6050 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 11100 5975 50  0001 L TNN
+F 4 "SK6812" H 11000 6350 50  0001 C CNN "Поле5"
+	1    11000 6350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 5F7C93B8
+P 2550 1400
+F 0 "C1" H 2665 1446 50  0000 L CNN
+F 1 "0.47uF" H 2665 1355 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2588 1250 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/taiyo-yuden/AMK063C6474KP-F/7066005" H 2550 1400 50  0001 C CNN
+F 4 "" H 2550 1400 50  0001 C CNN "Поле4"
+F 5 "AMK063C6474KP-F" H 2550 1400 50  0001 C CNN "Поле5"
+	1    2550 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C11
+U 1 1 5FA3ACD0
+P 6500 1250
+F 0 "C11" H 6615 1296 50  0000 L CNN
+F 1 "10uF" H 6615 1205 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 6538 1100 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 6500 1250 50  0001 C CNN
+F 4 "0.46*4" H 6500 1250 50  0001 C CNN "Поле4"
+F 5 "CL10A106KP8NQSC" H 6500 1250 50  0001 C CNN "Поле5"
+	1    6500 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:IRLML5203 Q2
+U 1 1 5F66A3D8
+P 2850 7100
+F 0 "Q2" H 3054 7146 50  0000 L CNN
+F 1 "DMG2305UXQ" H 2600 6900 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3050 7025 50  0001 L CIN
+F 3 "https://www.diodes.com/assets/Datasheets/DMG2305UXQ.pdf" H 2850 7100 50  0001 L CNN
+F 4 "DMG2305UXQ-13 " H 2850 7100 50  0001 C CNN "Поле5"
+	1    2850 7100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5F753720
+P 2400 7250
+F 0 "R1" V 2330 7204 50  0000 R CNN
+F 1 "100K" V 2500 7300 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 2330 7341 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR161003F/13412806" H 2400 7250 50  0001 C CNN
+F 4 "CR161003F" H 2400 7250 50  0001 C CNN "Поле5"
+	1    2400 7250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R17
+U 1 1 5F85A184
+P 3200 6150
+F 0 "R17" V 3300 6200 50  0000 R CNN
+F 1 "10K" V 3200 6200 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3130 6241 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3200 6150 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 3200 6150 50  0001 C CNN "Поле5"
+	1    3200 6150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L PTS647SK38SMTR2LFS:PTS647SK38SMTR2LFS SW1
+U 1 1 5F9A40F7
+P 8600 7350
+F 0 "SW1" H 9200 7617 50  0000 C CNN
+F 1 "PTS647SK38SMTR2LFS" H 9200 7526 50  0000 C CNN
+F 2 "PTS647SK38SMTR2LFS" H 8600 7350 50  0001 L BNN
+F 3 "https://www.digikey.com/en/products/detail/c-k/PTS-647-SK38-SMTR2-LFS/9649862" H 8600 7350 50  0001 L BNN
+F 4 "" H 8600 7350 50  0001 L BNN "Поле4"
+F 5 "611-PTS647SK38SMTR2L" H 8600 7350 50  0001 L BNN "Поле5"
+F 6 "3.8mm" H 8600 7350 50  0001 L BNN "Поле6"
+F 7 "Tactile Switches 50mA 12VDC, 2.5N 3.8mm H, G leads" H 8600 7350 50  0001 L BNN "Поле7"
+F 8 "C & K COMPONENTS" H 8600 7350 50  0001 L BNN "Поле8"
+	1    8600 7350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R5
+U 1 1 5F919A02
+P 1900 3750
+F 0 "R5" V 1830 3704 50  0000 R CNN
+F 1 "10K" V 2000 3800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 1830 3841 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 1900 3750 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 1900 3750 50  0001 C CNN "Поле5"
+	1    1900 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C19
+U 1 1 5FD2D725
+P 1350 1400
+F 0 "C19" H 1100 1350 50  0000 L CNN
+F 1 "1uF" H 1150 1250 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 1388 1250 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1608X5R1A105K080AC/513793" H 1350 1400 50  0001 C CNN
+F 4 "0.11" H 1350 1400 50  0001 C CNN "Поле4"
+F 5 "C1608X5R1A105K080AC" H 1350 1400 50  0001 C CNN "Поле5"
+	1    1350 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Linear:MIC5504-3.3YM5 U7
+U 1 1 5F99592F
+P 1950 1350
+F 0 "U7" H 1950 1717 50  0000 C CNN
+F 1 "MIC5232-2.8YD5" H 1950 1626 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 1950 950 50  0001 C CNN
+F 3 "https://ru.mouser.com/datasheet/2/268/mic5232-1082293.pdf" H 1700 1600 50  0001 C CNN
+F 4 "MIC5232-2.8YD5" H 1950 1350 50  0001 C CNN "Поле5"
+	1    1950 1350
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC

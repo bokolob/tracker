@@ -506,8 +506,6 @@ VBAT
 Text GLabel 12000 2850 2    50   Input ~ 0
 BAT_IN
 NoConn ~ 4000 7500
-Wire Wire Line
-	8600 6750 8600 7350
 Connection ~ 8600 7350
 Wire Wire Line
 	8600 7350 8600 7450
@@ -615,7 +613,7 @@ $Comp
 L Device:R R17
 U 1 1 5F85A184
 P 3200 6150
-F 0 "R17" V 3250 6350 50  0000 R CNN
+F 0 "R17" V 3300 6200 50  0000 R CNN
 F 1 "10K" V 3200 6200 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" H 3130 6241 50  0001 R CNN
 F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3200 6150 50  0001 C CNN
@@ -816,7 +814,7 @@ U 1 1 5F3D6B88
 P 4450 5500
 F 0 "D1" H 4500 6106 50  0000 C CNN
 F 1 "A9G" H 4500 6015 50  0000 C CNN
-F 2 "Tracker:A9G2" V 3950 4450 50  0001 C CNN
+F 2 "imported:A9" V 3950 4450 50  0001 C CNN
 F 3 "https://www.alibaba.com/product-detail/GPRS-GPS-Module-A9G-Module-SMS_62458730712.html?spm=a2700.galleryofferlist.normal_offer.3.6881306fMlvXSR" V 3950 4450 50  0001 C CNN
 F 4 "3" H 4450 5500 50  0001 C CNN "Поле4"
 F 5 "A9G" H 4450 5500 50  0001 C CNN "Поле5"
@@ -1242,7 +1240,6 @@ F 3 "" H 5500 650 50  0001 C CNN
 	1    5500 650 
 	1    0    0    -1  
 $EndComp
-NoConn ~ 4850 550 
 Connection ~ 5200 1050
 Wire Wire Line
 	9250 8450 9250 8750
@@ -1373,8 +1370,6 @@ Text Label 8600 6250 0    50   ~ 0
 ISP_SCK
 Wire Wire Line
 	8150 6750 8600 6750
-Text Label 8600 6750 0    50   ~ 0
-AVR_RST
 $Comp
 L MCU_Microchip_ATtiny:ATtiny861A-MU U8
 U 1 1 6001D0A4
@@ -1418,7 +1413,7 @@ $Comp
 L Device:C C18
 U 1 1 601A1381
 P 7600 4450
-F 0 "C18" V 7852 4450 50  0000 C CNN
+F 0 "C18" V 7700 4550 50  0000 C CNN
 F 1 "10uF" V 7761 4450 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 7638 4300 50  0001 C CNN
 F 3 "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NQSC/10479013" H 7600 4450 50  0001 C CNN
@@ -1427,11 +1422,6 @@ F 5 "CL10A106KP8NQSC" H 7600 4450 50  0001 C CNN "Поле5"
 	1    7600 4450
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	7450 4850 7550 4850
-Wire Wire Line
-	7450 4450 7450 4850
-Connection ~ 7450 4850
 Wire Wire Line
 	7450 7150 7450 7050
 Wire Wire Line
@@ -1981,12 +1971,9 @@ LNA_OUTPUT
 Text Label 7100 8700 0    50   ~ 0
 ANT_OUT
 NoConn ~ 8150 6350
-NoConn ~ 8150 6450
-NoConn ~ 8150 6550
 NoConn ~ 8150 6650
 NoConn ~ 8150 5850
 NoConn ~ 8150 5550
-NoConn ~ 8150 5450
 Wire Wire Line
 	9150 8450 9250 8450
 $Comp
@@ -2001,4 +1988,185 @@ F 4 "RMCF0603FG10K0" H 8800 1900 50  0001 C CNN "Поле5"
 	1    8800 1900
 	1    0    0    -1  
 $EndComp
+$Comp
+L Device:R R16
+U 1 1 5FCEF734
+P 9700 6550
+F 0 "R16" V 9630 6504 50  0000 R CNN
+F 1 "10K" V 9800 6600 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 9630 6641 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 9700 6550 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 9700 6550 50  0001 C CNN "Поле5"
+	1    9700 6550
+	-1   0    0    1   
+$EndComp
+Text Label 9700 6300 2    50   ~ 0
+LOW_CURRENT
+Wire Wire Line
+	9700 6750 9700 6700
+Wire Wire Line
+	9700 6300 9700 6400
+$Comp
+L Device:C C5
+U 1 1 5FD7BD42
+P 8850 4550
+F 0 "C5" H 8965 4596 50  0000 L CNN
+F 1 "100nF" H 8965 4505 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 8888 4400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/tdk-corporation/C1005X5R1A104K050BA/513705" H 8850 4550 50  0001 C CNN
+F 4 "0.10" H 8850 4550 50  0001 C CNN "Поле4"
+F 5 "C1005X5R1A104K050BA" H 8850 4550 50  0001 C CNN "Поле5"
+	1    8850 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDD #PWR0129
+U 1 1 5FD7EB32
+P 8850 4750
+F 0 "#PWR0129" H 8850 4500 50  0001 C CNN
+F 1 "GNDD" H 8854 4595 50  0000 C CNN
+F 2 "" H 8850 4750 50  0001 C CNN
+F 3 "" H 8850 4750 50  0001 C CNN
+	1    8850 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:L L1
+U 1 1 5FD930BF
+P 8450 4400
+F 0 "L1" H 8503 4446 50  0000 L CNN
+F 1 "10uH" H 8503 4355 50  0000 L CNN
+F 2 "Inductor_SMD:L_0603_1608Metric" H 8450 4400 50  0001 C CNN
+F 3 "https://www.digikey.com/en/products/detail/taiyo-yuden/LK1608100M-T/1171508" H 8450 4400 50  0001 C CNN
+F 4 "LK1608100M" H 8450 4400 50  0001 C CNN "Поле5"
+	1    8450 4400
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7450 4450 7450 4850
+Wire Wire Line
+	8600 4400 8650 4400
+Wire Wire Line
+	8850 4700 8850 4750
+Wire Wire Line
+	7450 4050 8300 4050
+Wire Wire Line
+	8300 4050 8300 4400
+Wire Wire Line
+	8650 4400 8650 4850
+Wire Wire Line
+	7550 4850 8650 4850
+Connection ~ 8650 4400
+Wire Wire Line
+	8650 4400 8850 4400
+Text Label 8100 4850 0    50   ~ 0
+AVCC
+Wire Wire Line
+	7450 4050 7450 3950
+Connection ~ 7450 4050
+Wire Wire Line
+	8600 6750 8600 7350
+Text Label 8600 6750 0    50   ~ 0
+AVR_RST
+Wire Wire Line
+	8600 6750 9700 6750
+Connection ~ 8600 6750
+$Comp
+L Device:R R19
+U 1 1 5FEDC971
+P 12300 7500
+F 0 "R19" H 12250 7500 50  0000 L CNN
+F 1 "5K" H 12150 7400 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 12370 7409 50  0001 L CNN
+F 3 "https://www.digikey.com/en/products/detail/meritek/CR205001F/13412102" H 12300 7500 50  0001 C CNN
+F 4 "CR205001F" H 12300 7500 50  0001 C CNN "Поле5"
+	1    12300 7500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDD #PWR0130
+U 1 1 5FEDE85B
+P 12300 8700
+F 0 "#PWR0130" H 12300 8450 50  0001 C CNN
+F 1 "GNDD" H 12304 8545 50  0000 C CNN
+F 2 "" H 12300 8700 50  0001 C CNN
+F 3 "" H 12300 8700 50  0001 C CNN
+	1    12300 8700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12300 7650 12300 7700
+Connection ~ 12300 7700
+Wire Wire Line
+	12300 7700 12300 7750
+Wire Wire Line
+	12200 6850 12300 6850
+Wire Wire Line
+	12300 6850 12300 7350
+Wire Wire Line
+	12300 8050 12300 8150
+Wire Wire Line
+	12300 8550 12300 8700
+Text Label 12300 7250 1    50   ~ 0
+LOW_CURRENT
+$Comp
+L Device:R R20
+U 1 1 6002EEF3
+P 12300 7900
+F 0 "R20" V 12230 7854 50  0000 R CNN
+F 1 "10K" V 12400 7950 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 12230 7991 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 12300 7900 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 12300 7900 50  0001 C CNN "Поле5"
+	1    12300 7900
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8150 6550 8400 6550
+Text Label 8400 6550 0    50   ~ 0
+ADC_IN
+Text Label 11750 7700 0    50   ~ 0
+ADC_IN
+Text Label 11600 8350 0    50   ~ 0
+ADC_ENABLE
+Wire Wire Line
+	11750 7700 12300 7700
+$Comp
+L Device:Q_NMOS_GSD Q4
+U 1 1 6010F4B9
+P 12200 8350
+F 0 "Q4" H 12404 8396 50  0000 L CNN
+F 1 "DMN60H080DS" H 12404 8305 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 12400 8450 50  0001 C CNN
+F 3 "https://www.diodes.com/assets/Datasheets/DMN60H080DS.pdf" H 12200 8350 50  0001 C CNN
+	1    12200 8350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11600 8350 12000 8350
+Text Label 8300 5450 0    50   ~ 0
+2.5v
+Wire Wire Line
+	8150 5450 8300 5450
+Text Label 9000 6450 0    50   ~ 0
+ADC_ENABLE
+Wire Wire Line
+	8750 6450 9000 6450
+$Comp
+L Device:R R18
+U 1 1 5FBD9E28
+P 8600 6450
+F 0 "R18" V 8530 6404 50  0000 R CNN
+F 1 "470" V 8550 6750 50  0000 R CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" H 8530 6541 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/venkel/CR0402-16W-4700FT/12332416" H 8600 6450 50  0001 C CNN
+F 4 "CR0402-16W-4700FT" H 8600 6450 50  0001 C CNN "Поле5"
+	1    8600 6450
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8150 6450 8450 6450
+Wire Wire Line
+	4850 550  5000 550 
+NoConn ~ 5000 550 
 $EndSCHEMATC
