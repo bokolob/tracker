@@ -778,7 +778,7 @@ Wire Wire Line
 	9250 1050 9750 1050
 Wire Wire Line
 	8800 1050 9250 1050
-Text Label 8300 5250 0    50   ~ 0
+Text Label 8300 6650 0    50   ~ 0
 ACCEL_INT1
 Wire Wire Line
 	8150 6150 8600 6150
@@ -801,7 +801,7 @@ Wire Wire Line
 Wire Wire Line
 	8150 5350 8300 5350
 Wire Wire Line
-	8150 5250 8300 5250
+	8150 6650 8300 6650
 Connection ~ 7450 4450
 Wire Wire Line
 	7450 4050 7450 4200
@@ -1237,7 +1237,6 @@ LNA_OUTPUT
 Text Label 7100 8700 0    50   ~ 0
 ANT_OUT
 NoConn ~ 8150 6350
-NoConn ~ 8150 6650
 NoConn ~ 8150 5850
 NoConn ~ 8150 5550
 Wire Wire Line
@@ -2169,4 +2168,9 @@ F 4 "MIC5232-2.8YD5" H 1950 1350 50  0001 C CNN "Поле5"
 	1    1950 1350
 	1    0    0    -1  
 $EndComp
+NoConn ~ 8150 5250
+Wire Notes Line
+	4050 450  4050 4350
+Wire Notes Line
+	4050 4350 450  4350
 $EndSCHEMATC

@@ -16,8 +16,9 @@ void blink(void);
 
 #define POWER_PIN PORTA6
 #define NEOPIXEL_PIN PORTA5
+#define DEBUG PORTA4
 
-#define MASK  (1 << NEOPIXEL_PIN) | (1 << POWER_PIN) 
+#define MASK  (1 << NEOPIXEL_PIN) | (1 << POWER_PIN) | (1 << DEBUG) 
 // 7 bit slave I2C address
 #define SLAVE_ADDR  0x8
 
@@ -37,6 +38,7 @@ volatile uint8_t i2c_regs[] =
     0x1,  //A9G poer-off time multiplier
     0x0,  //Ping
     0xEF,
+    0x0,
 };
 
 // Tracks the current register pointer position
@@ -88,16 +90,18 @@ void watchdog_disable() {
 }
 
 void initAccelInterrupt() {
-    MCUCR |= 1 << ISC00;      // configure INT0 to ..
-    MCUCR &= ~(1 << ISC01);   // .. interrupt at any logical change at INT0
+    DDRB &= ~ (1 << DDB6);
+    MCUCR = 0;
+//    MCUCR |= 1 << ISC00;      // configure INT1 to ..
+//    MCUCR &= ~(1 << ISC01);   // .. interrupt at any logical change at INT1
 }
 
 void enableAccelInt() {
-    GIMSK |= 1 << INT1;       // enable INT0 interrupt
+    GIMSK |= 1 << INT0;
 }
 
 void disableAccelInt() {
-    GIMSK &= ~(1 << INT1);       // enable INT0 interrupt
+    GIMSK &= ~(1 << INT0);
 }
 
 int main() {
@@ -105,6 +109,7 @@ int main() {
     enable_a9g();
     initAccelInterrupt();
     sei();
+    PORTA |= (1 << DEBUG);
 
     DDRA = MASK;
 
@@ -136,6 +141,8 @@ int main() {
        if (i2c_regs[POWER_REG] != 0) {
            watchdog_disable();
            timeout = i2c_regs[POWER_REG] * i2c_regs[POWER_TIME_MULTIPLIER];
+           i2c_regs[5]=timeout;
+           PORTA &= ~(1 << DEBUG);
 
            if (timeout & 0x7) {
                 timeout &= ~(0x7);
@@ -155,8 +162,9 @@ int main() {
     return 0;
 }
 
-ISR(INT1_vect) {
+ISR(INT0_vect) {
     state |= PCINT1_INT;
+    PORTA |= (1 << DEBUG);
 }
 
 ISR(WDT_vect) {

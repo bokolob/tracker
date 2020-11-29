@@ -72,7 +72,7 @@ OUTS2 = const(0x7F)
 
 WAKE_UP = (
             (CTRL_REG1, 0x01),
-            (CTRL_REG3, 0x48),
+            (CTRL_REG3, 0x8),
             (CTRL_REG4, 0x67),
             (CTRL_REG5, 0x00),
             (THRS1_1, 0x55),
