@@ -458,16 +458,16 @@ Wire Wire Line
 Connection ~ 5950 9350
 NoConn ~ 4100 7500
 Wire Wire Line
-	3050 6150 2850 6150
-Text Label 2850 6150 0    50   ~ 0
+	4300 7900 4300 8100
+Text Label 4300 8100 3    50   ~ 0
 +5V
 NoConn ~ 3450 5950
 NoConn ~ 3450 6050
 NoConn ~ 3450 6250
 NoConn ~ 3450 6350
 Wire Wire Line
-	3450 6450 2950 6450
-Text Label 2950 6450 0    50   ~ 0
+	4200 7500 4200 8000
+Text Label 4200 8000 3    50   ~ 0
 CHARGER_STAT
 $Comp
 L power:GNDREF #PWR0101
@@ -536,7 +536,7 @@ Wire Wire Line
 	1550 7100 2400 7100
 Connection ~ 2400 7100
 Wire Wire Line
-	3350 6150 3450 6150
+	4300 7600 4300 7500
 Text Label 5800 6850 2    50   ~ 0
 GPS_POWER
 Wire Wire Line
@@ -705,9 +705,6 @@ Wire Wire Line
 	10250 9300 10250 9550
 Wire Wire Line
 	10150 9100 10250 9100
-NoConn ~ 4850 750 
-NoConn ~ 4850 950 
-NoConn ~ 4850 850 
 Text Label 5050 1050 2    50   ~ 0
 +5V
 $Comp
@@ -852,7 +849,6 @@ Wire Wire Line
 	5100 9350 5500 9350
 Connection ~ 5100 9350
 Connection ~ 5500 9350
-NoConn ~ 4200 7500
 Wire Wire Line
 	750  3100 750  3500
 Wire Wire Line
@@ -866,7 +862,6 @@ Text Label 1700 3300 2    50   ~ 0
 AVR_SCK
 Text Label 1700 3200 2    50   ~ 0
 AVR_MOSI_SDA
-NoConn ~ 4300 7500
 NoConn ~ 4400 7500
 NoConn ~ 4500 7500
 NoConn ~ 4600 7500
@@ -1281,9 +1276,6 @@ Wire Wire Line
 	8900 6450 9100 6450
 Wire Wire Line
 	8150 6450 8600 6450
-Wire Wire Line
-	4850 550  5000 550 
-NoConn ~ 5000 550 
 $Comp
 L Device:R R18
 U 1 1 5FBD9E28
@@ -1592,18 +1584,6 @@ F 4 "LQW15AN6N2B0ZD" H 8050 9200 50  0001 C CNN "Поле5"
 	1    0    0    -1  
 $EndComp
 $Comp
-L MUC-20PFFR-JS7001:MUC-20PFFR-JS7001 J2
-U 1 1 5FA008B3
-P 4650 850
-F 0 "J2" H 4978 872 50  0000 L CNN
-F 1 "MUC-20PFFR-JS7001" H 4978 781 50  0000 L CNN
-F 2 "AMPHENOL_MUC-20PFFR-JS7001" H 4650 850 50  0001 L BNN
-F 3 "https://www.amphenolltw.com/p2-products-detail.php?sn=4282" H 4650 850 50  0001 L BNN
-F 4 "MUC-20PFFR-JS7001" H 4650 850 50  0001 C CNN "Поле5"
-	1    4650 850 
-	-1   0    0    1   
-$EndComp
-$Comp
 L Filter:SF14-1575F5UUC1 FL1
 U 1 1 5F9AA44C
 P 10550 9200
@@ -1818,9 +1798,9 @@ U 1 1 5F3D5DC8
 P 7350 3500
 F 0 "J3" V 7350 3650 50  0000 R CNN
 F 1 "Battery" V 7450 3750 50  0000 R CNN
-F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 7350 3500 50  0001 C CNN
-F 3 "https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S-LF-SN/926611" H 7350 3500 50  0001 C CNN
-F 4 "B2B-PH-K-S(LF)(SN)" H 7350 3500 50  0001 C CNN "Поле5"
+F 2 "Connector_Wire:SolderWirePad_1x02_P3.81mm_Drill0.8mm" H 7350 3500 50  0001 C CNN
+F 3 "" H 7350 3500 50  0001 C CNN
+F 4 "" H 7350 3500 50  0001 C CNN "Поле5"
 	1    7350 3500
 	0    1    1    0   
 $EndComp
@@ -2040,14 +2020,14 @@ $EndComp
 $Comp
 L Device:R R17
 U 1 1 5F85A184
-P 3200 6150
-F 0 "R17" V 3300 6200 50  0000 R CNN
-F 1 "10K" V 3200 6200 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3130 6241 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 3200 6150 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 3200 6150 50  0001 C CNN "Поле5"
-	1    3200 6150
-	0    -1   -1   0   
+P 4300 7750
+F 0 "R17" V 4400 7800 50  0000 R CNN
+F 1 "10K" V 4300 7800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 4230 7841 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 4300 7750 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 4300 7750 50  0001 C CNN "Поле5"
+	1    4300 7750
+	-1   0    0    1   
 $EndComp
 $Comp
 L Device:R R5
@@ -2087,10 +2067,6 @@ F 4 "MIC5232-3.3YD5-TR" H 1950 1350 50  0001 C CNN "Поле5"
 	1    0    0    -1  
 $EndComp
 NoConn ~ 8150 5250
-Wire Notes Line
-	4050 450  4050 4350
-Wire Notes Line
-	4050 4350 450  4350
 Wire Wire Line
 	9900 2850 10150 2850
 Wire Wire Line
@@ -2127,4 +2103,20 @@ Text Label 9400 6750 0    50   ~ 0
 2.5v
 Wire Wire Line
 	8150 6750 9000 6750
+$Comp
+L Connector:Screw_Terminal_01x02 J2
+U 1 1 5FD7857D
+P 4650 1050
+F 0 "J2" V 4650 1200 50  0000 R CNN
+F 1 "USB" V 4750 1300 50  0000 R CNN
+F 2 "Connector_Wire:SolderWirePad_1x02_P3.81mm_Drill0.8mm" H 4650 1050 50  0001 C CNN
+F 3 "" H 4650 1050 50  0001 C CNN
+F 4 "" H 4650 1050 50  0001 C CNN "Поле5"
+	1    4650 1050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4850 950  4850 650 
+NoConn ~ 3450 6150
+NoConn ~ 3450 6450
 $EndSCHEMATC
