@@ -458,16 +458,16 @@ Wire Wire Line
 Connection ~ 5950 9350
 NoConn ~ 4100 7500
 Wire Wire Line
-	4300 7900 4300 8100
-Text Label 4300 8100 3    50   ~ 0
+	8550 6350 8750 6350
+Text Label 8750 6350 0    50   ~ 0
 +5V
 NoConn ~ 3450 5950
 NoConn ~ 3450 6050
 NoConn ~ 3450 6250
 NoConn ~ 3450 6350
 Wire Wire Line
-	4200 7500 4200 8000
-Text Label 4200 8000 3    50   ~ 0
+	8150 5250 8650 5250
+Text Label 8650 5250 0    50   ~ 0
 CHARGER_STAT
 $Comp
 L power:GNDREF #PWR0101
@@ -536,7 +536,7 @@ Wire Wire Line
 	1550 7100 2400 7100
 Connection ~ 2400 7100
 Wire Wire Line
-	4300 7600 4300 7500
+	8250 6350 8150 6350
 Text Label 5800 6850 2    50   ~ 0
 GPS_POWER
 Wire Wire Line
@@ -1190,7 +1190,6 @@ Text Label 9750 9050 0    50   ~ 0
 LNA_OUTPUT
 Text Label 7100 8700 0    50   ~ 0
 ANT_OUT
-NoConn ~ 8150 6350
 NoConn ~ 8150 5850
 NoConn ~ 8150 5550
 Wire Wire Line
@@ -2020,14 +2019,14 @@ $EndComp
 $Comp
 L Device:R R17
 U 1 1 5F85A184
-P 4300 7750
-F 0 "R17" V 4400 7800 50  0000 R CNN
-F 1 "10K" V 4300 7800 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 4230 7841 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 4300 7750 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 4300 7750 50  0001 C CNN "Поле5"
-	1    4300 7750
-	-1   0    0    1   
+P 8400 6350
+F 0 "R17" V 8500 6400 50  0000 R CNN
+F 1 "10K" V 8400 6400 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 8330 6441 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8400 6350 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 8400 6350 50  0001 C CNN "Поле5"
+	1    8400 6350
+	0    1    1    0   
 $EndComp
 $Comp
 L Device:R R5
@@ -2066,7 +2065,6 @@ F 4 "MIC5232-3.3YD5-TR" H 1950 1350 50  0001 C CNN "Поле5"
 	1    1950 1350
 	1    0    0    -1  
 $EndComp
-NoConn ~ 8150 5250
 Wire Wire Line
 	9900 2850 10150 2850
 Wire Wire Line
@@ -2098,7 +2096,6 @@ F 3 "" H 10000 3650 50  0001 C CNN
 $EndComp
 Text Label 7450 3950 0    50   ~ 0
 2.5v
-NoConn ~ 8150 5450
 Text Label 9400 6750 0    50   ~ 0
 2.5v
 Wire Wire Line
@@ -2119,4 +2116,7 @@ Wire Wire Line
 	4850 950  4850 650 
 NoConn ~ 3450 6150
 NoConn ~ 3450 6450
+NoConn ~ 8150 5450
+NoConn ~ 4200 7500
+NoConn ~ 4300 7500
 $EndSCHEMATC
