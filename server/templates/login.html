@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="bokolob">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+            integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+            integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+            crossorigin="anonymous"></script>
+    <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+    <title>Login</title>
+    <style>
+            #intro-header {
+                 background: url('https://source.unsplash.com/twukN12EN7c/1920x1080') no-repeat center center fixed;
+                  -webkit-background-size: cover;
+                  -moz-background-size: cover;
+                  background-size: cover;
+                  -o-background-size: cover;
+                  height:100vh;
+                  padding-top: 65px;
+                }
+            .card{
+                background-color: rgba(0,0,0,0.5) !important;
+            }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-white fixed-top bg-white">
+    <div class="list-inline bg-white">
+        <a class="p-2 list-inline-item text-dark" href="#about">About</a>
+        <a class="p-2 list-inline-item text-dark" href="#pricing">Pricing</a>
+        <a class="p-2 list-inline-item text-dark" href="#contact">Support</a>
+    </div>
+</nav>
+<div class="d-flex flex-column justify-content-center flex-grow-1 flex-fill" id="intro-header">
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card text-white" id="sign_in_form">
+                <div class="card-header">
+                    <h3>Sign In</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/auth" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" placeholder="email" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" placeholder="password" id="password">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-light float-right">
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Don't have an account?<a href="javascript:void" id="goto_sign_up">Sign Up</a>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <a href="#">Forgot your password?</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-white d-none" id="sign_up_form">
+                <div class="card-header">
+                    <h3>Sign In</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/signup" method="post">
+                        <div class="mb-3">
+                            <label for="imei" class="form-label">Imei</label>
+                            <input type="text" class="form-control" placeholder="imei" id="imei">
+                        </div
+                        ><div class="mb-3">
+                            <label for="email2" class="form-label">Email address</label>
+                            <input type="email" class="form-control" placeholder="email" id="email2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">Password</label>
+                            <input type="password" class="form-control" placeholder="password" id="password2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password2r" class="form-label">Repeat</label>
+                            <input type="password" class="form-control" placeholder="password" id="password2r">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-light float-right">
+                        </div>
+                    </form>
+                </div>
+                    <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Have already an account?<a href="javascript:void" id="goto_sign_in">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<section id="about">
+    <h1 class="text-center">Company name</h1>
+</section>
+<script>
+    function show_sign_up() {
+       $('#sign_up_form').removeClass("d-none");
+       $('#sign_in_form').addClass("d-none");
+    }
+
+    function show_sign_in() {
+       $('#sign_up_form').addClass("d-none");
+       $('#sign_in_form').removeClass("d-none");
+    }
+
+    $('#goto_sign_up').click(show_sign_up);
+    $('#goto_sign_in').click(show_sign_in);
+
+</script>
+</body>
+</html>

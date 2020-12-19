@@ -1,14 +1,4 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from ..app import app.db
-import os
-
-app = Flask(__name__)
-# mysql://username:password@server/db
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI');
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
+from app import db
 
 
 # an example mapping using the base

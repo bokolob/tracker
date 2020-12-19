@@ -1,14 +1,13 @@
 import socket
 import os
-import asyncio
-import logging
-import db.model
+import model
 import datetime
 import asyncio
 from urllib.parse import urlparse
 from aiomysql.sa import create_engine
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.sql import select
+from app import app
 
 PROC_COUNT = 5
 BULK_SIZE = 500
@@ -17,7 +16,7 @@ queue = asyncio.Queue()
 known_devices = dict()
 tmp = 0
 
-db.model.db.create_all()
+model.db.create_all()
 
 
 def create_server():
@@ -34,7 +33,7 @@ async def get_device_id(imei, engine):
     if known_devices.get(imei) is not None:
         return known_devices.get(imei)
 
-    statement = select([db.model.Device.id]).select_from(db.model.Device).where(db.model.Device.imei == imei).limit(1)
+    statement = select([model.Device.id]).select_from(model.Device).where(model.Device.imei == imei).limit(1)
 
     async with engine.acquire() as conn:
         result_set = await conn.execute(statement)
@@ -79,7 +78,7 @@ async def process_queue(engine):
             async with engine.acquire() as conn:
                 trans = await conn.begin()
 
-                act = insert(db.model.Coordinates).values(buf)
+                act = insert(model.Coordinates).values(buf)
 
                 on_duplicate_key_stmt = act.on_duplicate_key_update(
                     {'lat': act.inserted.lat, 'lng': act.inserted.lng}
@@ -115,7 +114,7 @@ async def handler(event_loop, client, engine):
 
 
 async def server_loop(loop, server_sock):
-    mysql_params = urlparse(db.model.app.config['SQLALCHEMY_DATABASE_URI'])
+    mysql_params = urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
     engine = await create_engine(user=mysql_params.username, db=mysql_params.path.strip("/"),
                                  host=mysql_params.hostname, password=mysql_params.password, loop=loop)
 
