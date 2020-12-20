@@ -17,19 +17,24 @@
             crossorigin=""></script>
 
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
-
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #mapid {
+            height: 100%;
+            width: 100vw;
+        }
+    </style>
 </head>
 <body>
 
-<style>
-    #mapid {
-          margin:10px;
-          height:100vh;
-    }
-</style>
+
 
 <div id="mapid"></div>
 <script>
+    var imei = "{{ imei }}";
 	var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -40,22 +45,6 @@
 		tileSize: 512,
 		zoomOffset: -1
 	}).addTo(mymap);
-
-	L.marker([51.5, -0.09]).addTo(mymap)
-		.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-
-	L.circle([51.508, -0.11], 500, {
-		color: 'red',
-		fillColor: '#f03',
-		fillOpacity: 0.5
-	}).addTo(mymap).bindPopup("I am a circle.");
-
-	L.polygon([
-		[51.509, -0.08],
-		[51.503, -0.06],
-		[51.51, -0.047]
-	]).addTo(mymap).bindPopup("I am a polygon.");
-
 
 	var popup = L.popup();
 
@@ -68,6 +57,31 @@
 
 	mymap.on('click', onMapClick);
 
+    marker = null;
+
+    function updateWaypoints() {
+        $.ajax({
+            url: '/'+imei+'/coordinates',
+            success: function(data) {
+                if (data.length > 0) {
+                    if (marker != null) {
+                        mymap.removeLayer(marker);
+                    }
+
+                    let first = L.latLng(data[0][0], data[0][1]);
+                    console.log(first);
+                    mymap.flyTo(first);
+                    marker = new L.Marker(first);
+
+                    mymap.addLayer(marker);
+                }
+            
+                // do something with the return value here if you like
+            }
+        });
+    }
+
+    setInterval(updateWaypoints, 1000);
 
 </script>
 

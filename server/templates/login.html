@@ -25,9 +25,15 @@
                   height:100vh;
                   padding-top: 65px;
                 }
-            .card{
+            .card {
                 background-color: rgba(0,0,0,0.5) !important;
             }
+
+            .navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
     </style>
 </head>
 
@@ -41,71 +47,76 @@
 </nav>
 <div class="d-flex flex-column justify-content-center flex-grow-1 flex-fill" id="intro-header">
     <div class="container">
-        <div class="d-flex justify-content-center h-100">
-            <div class="card text-white" id="sign_in_form">
-                <div class="card-header">
-                    <h3>Sign In</h3>
-                </div>
-                <div class="card-body">
-                    <form action="/auth" method="post">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" placeholder="email" id="email">
+        <div class="row vh-100 justify-content-center">
+            <div class="col-md-auto align-self-center">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#sign_in_tab" role="tab" aria-controls="sign_in_tab" aria-selected="true">Sign In</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#sign_up_tab" role="tab" aria-controls="sign_up_tab" aria-selected="false">Sign Up</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane show active" id="sign_in_tab" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="card text-white" >
+                            <div class="card-body">
+                                <form action="/auth" method="post" id="sign_in_form">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address!</label>
+                                        <input type="email" class="form-control" placeholder="email" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" placeholder="password" id="password" name="password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Login" class="btn btn-light float-right">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    <a href="#">Forgot your password?</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" placeholder="password" id="password">
+                    </div>   
+
+                    <div class="tab-pane" id="sign_up_tab" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="card text-white">
+                            <div class="card-body">
+                                <form action="/signup" method="post" id="sign_up_form" class="needs-validation" novalidate>
+                                    <div class="mb-3">
+                                        <label for="imei" class="form-label">Imei</label>
+                                        <input type="text" class="form-control" placeholder="imei" id="imei" name="imei" required>
+                                        <div class="invalid-tooltip"></div>
+                                    </div
+                                    ><div class="mb-3">
+                                        <label for="email2" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" placeholder="email" id="email2" name="email" required>
+                                        <div class="invalid-tooltip"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password2" class="form-label">Password</label>
+                                        <input type="password" class="form-control" placeholder="password" id="password2" name="password" required>
+                                        <div class="invalid-tooltip"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password2r" class="form-label">Repeat</label>
+                                        <input type="password" class="form-control" placeholder="password" id="password2r" name="password_confirm" required>
+                                        <div class="invalid-tooltip"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="submit" value="Login" class="btn btn-light float-right">
+                                    </div>
+                                </form>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" value="Login" class="btn btn-light float-right">
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-center links">
-                        Don't have an account?<a href="javascript:void" id="goto_sign_up">Sign Up</a>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="#">Forgot your password?</a>
-                    </div>
                 </div>
+
             </div>
-
-            <div class="card text-white d-none" id="sign_up_form">
-                <div class="card-header">
-                    <h3>Sign In</h3>
-                </div>
-                <div class="card-body">
-                    <form action="/signup" method="post">
-                        <div class="mb-3">
-                            <label for="imei" class="form-label">Imei</label>
-                            <input type="text" class="form-control" placeholder="imei" id="imei">
-                        </div
-                        ><div class="mb-3">
-                            <label for="email2" class="form-label">Email address</label>
-                            <input type="email" class="form-control" placeholder="email" id="email2">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password2" class="form-label">Password</label>
-                            <input type="password" class="form-control" placeholder="password" id="password2">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password2r" class="form-label">Repeat</label>
-                            <input type="password" class="form-control" placeholder="password" id="password2r">
-                        </div>
-
-                        <div class="form-group">
-                            <input type="submit" value="Login" class="btn btn-light float-right">
-                        </div>
-                    </form>
-                </div>
-                    <div class="card-footer">
-                    <div class="d-flex justify-content-center links">
-                        Have already an account?<a href="javascript:void" id="goto_sign_in">Sign In</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
@@ -113,18 +124,52 @@
     <h1 class="text-center">Company name</h1>
 </section>
 <script>
-    function show_sign_up() {
-       $('#sign_up_form').removeClass("d-none");
-       $('#sign_in_form').addClass("d-none");
-    }
+  
+  function serializeFormToJson(form) {
+    let a = form.serializeArray();
+    let o = {};
 
-    function show_sign_in() {
-       $('#sign_up_form').addClass("d-none");
-       $('#sign_in_form').removeClass("d-none");
-    }
+    a.forEach(pair => {
+        o[pair['name']] = pair['value'];
+    });    
 
-    $('#goto_sign_up').click(show_sign_up);
-    $('#goto_sign_in').click(show_sign_in);
+    return JSON.stringify(o);
+  }
+
+   // this is the id of the form
+    $("form").submit(function(e) {
+                        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                        var form = $(this);
+                        var url = form.attr('action');
+
+                        if (!form[0].checkValidity()) {
+                             event.preventDefault();
+                             event.stopPropagation();
+                             form[0].classList.add('was-validated');
+                             return false;
+                        }
+
+                        form[0].classList.add('was-validated');
+                        
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            dataType: 'json',
+                            data: serializeFormToJson( form ), // serializes the form's elements.
+                            contentType: 'application/json;charset=UTF-8',
+                            success: function(data)
+                            {
+                                console.log(data); // show response from the php script.
+                                if (data.redirect) {
+                                    window.location.href = data.redirect;
+                                }
+                            }
+                            });
+
+                        return false;
+    });
+    
 
 </script>
 </body>
