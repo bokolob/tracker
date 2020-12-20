@@ -106,6 +106,6 @@ def get_coordinates(imei=None):
 
     rs = model.Coordinates.query.with_entities(model.Coordinates.lat, model.Coordinates.lng) \
         .filter(and_(model.Coordinates.id > shifted, model.Coordinates.id < shifted_high)) \
-        .order_by(desc(model.Coordinates.id)).limit(20).all()
+        .order_by(desc(model.Coordinates.id)).limit(60).all()
 
     return jsonify(list(map(lambda x: [str(x.lat), str(x.lng)], rs)))

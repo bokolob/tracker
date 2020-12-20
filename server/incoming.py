@@ -18,7 +18,6 @@ tmp = 0
 
 model.db.create_all()
 
-
 def create_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -49,7 +48,9 @@ async def get_device_id(imei, engine):
 
 
 def get_id(device_id):
-    return (device_id << 32) | int(datetime.datetime.utcnow().timestamp() / 10)
+    global tmp
+    tmp = tmp + 1
+    return (device_id << 32) | int(datetime.datetime.utcnow().timestamp() / 10 + tmp)
 
 
 async def parse_input(line, engine):
