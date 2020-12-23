@@ -52,6 +52,35 @@ def logout():
     return redirect("/")
 
 
+@app.route('/devices/add', methods=['POST'])
+def add_device():
+    args = request.get_json()
+
+    if args is None:
+        abort_json(400, message="No payload")
+
+    imei = args.get("imei")
+    name = args.get("name")
+
+    if is_blank(imei) or is_blank(name):
+        abort(make_response(jsonify(message="Required fields are empty", fields="*"), 400))
+
+    device = model.Device.query.filter_by(imei=imei).first()
+
+    if device is not None:
+        abort_json(400, message="Imei already registered", fields="imei")
+
+    device = model.Device
+    device.imei = imei
+    device.user_id = flask_login.current_user.id
+    device.name = name
+
+    db.session().add(device)
+    db.session.commit()
+
+    return jsonify({})
+
+
 @app.route('/signup', methods=['POST'])
 def signup():
     args = request.get_json()

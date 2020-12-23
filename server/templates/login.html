@@ -14,6 +14,7 @@
             integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
             crossorigin="anonymous"></script>
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/static/forms.js"></script>
     <title>Login</title>
     <style>
             #intro-header {
@@ -136,16 +137,15 @@
     return JSON.stringify(o);
   }
 
-   // this is the id of the form
-    $("form").submit(function(e) {
+  $("form").submit(function(e) {
                         e.preventDefault(); // avoid to execute the actual submit of the form.
 
                         var form = $(this);
                         var url = form.attr('action');
 
                         if (!form[0].checkValidity()) {
-                             event.preventDefault();
-                             event.stopPropagation();
+                             e.preventDefault();
+                             e.stopPropagation();
                              form[0].classList.add('was-validated');
                              return false;
                         }
