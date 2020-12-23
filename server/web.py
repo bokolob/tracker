@@ -1,8 +1,8 @@
 import flask_login
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 
 import model
-from flask import abort, jsonify, render_template, request, make_response, redirect
+from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory
 from sqlalchemy import and_, desc
 from app import app, db, login_manager
 from email.utils import parseaddr
@@ -38,6 +38,18 @@ def login():
         return jsonify({'redirect': "/map"})
 
     abort_json(403, message="User not found")
+
+
+@app.route('/static/<path:path>')
+def send_js(path):
+    return send_from_directory('static', path)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 @app.route('/signup', methods=['POST'])
@@ -90,6 +102,13 @@ def is_blank(s):
 @login_required
 def index():
     return render_template('leaflet.html', imei="deadbeef")
+
+
+@app.route('/devices')
+@login_required
+def get_devices():
+    devices = model.Device.query.filter_by(user_id=flask_login.current_user.id).all()
+    return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
 
 
 @app.route('/<imei>/coordinates')

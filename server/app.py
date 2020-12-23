@@ -3,7 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import os
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='',
+            static_folder='/static')
+
 login_manager = LoginManager()
 # app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
