@@ -1,5 +1,6 @@
 import flask_login
 from flask_login import login_user, login_required, logout_user
+from sqlalchemy.exc import IntegrityError
 
 import model
 from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory
@@ -31,13 +32,13 @@ def login():
     user = model.User.query.filter_by(login=email).first()
 
     if user is None:
-        abort_json(403, message="User not found")
+        abort_json(403, errors={"email":"User not found"})
 
     if user.verify_password(pass1):
         login_user(user, remember=True)
         return jsonify({'redirect': "/map"})
 
-    abort_json(403, message="User not found")
+    abort_json(403, errors={"email": "User not found"})
 
 
 @app.route('/static/<path:path>')
@@ -61,22 +62,27 @@ def add_device():
 
     imei = args.get("imei")
     name = args.get("name")
+    errors = {}
 
-    if is_blank(imei) or is_blank(name):
-        abort(make_response(jsonify(message="Required fields are empty", fields="*"), 400))
+    if is_blank(imei):
+        errors['imei'] = "Field is required"
 
-    device = model.Device.query.filter_by(imei=imei).first()
+    if is_blank(name):
+        errors['name'] = "Field is required"
 
-    if device is not None:
-        abort_json(400, message="Imei already registered", fields="imei")
+    if len(errors) > 0:
+        return abort_json(400, errors=errors)
 
-    device = model.Device
+    device = model.Device()
     device.imei = imei
     device.user_id = flask_login.current_user.id
     device.name = name
 
-    db.session().add(device)
-    db.session.commit()
+    try:
+        db.session().add(device)
+        db.session.commit()
+    except IntegrityError:
+        return abort_json(400, errors={"imei": "Imei already registered"})
 
     return jsonify({})
 
@@ -86,37 +92,53 @@ def signup():
     args = request.get_json()
 
     if args is None:
-        abort_json(400, message="No payload")
+        return abort_json(400, message="No payload")
 
     imei = args.get("imei")
     email = args.get("email")
     pass1 = args.get("password")
     pass2 = args.get("password_confirm")
 
-    if is_blank(imei) or is_blank(email) or is_blank(pass1) or is_blank(pass2):
-        abort(make_response(jsonify(message="Required fields are empty", fields="*"), 400))
+    errors = {}
+
+    if is_blank(imei):
+        errors["imei"] = "Imei must be filled in"
+
+    if is_blank(email):
+        errors["email"] = "Email must be filled in"
+
+    if is_blank(pass1) or is_blank(pass2):
+        errors["password"] = "Password must be filled in"
 
     if pass1 != pass2:
-        abort(make_response(jsonify(message="Passwords are different", fields="password"), 400))
+        errors["password_confirm"] = "Passwords must be the same"
 
-    if '@' not in parseaddr(email)[1]:
-        abort(make_response(jsonify(message="invalid email", fields="email"), 400))
+    if not is_blank(email) and '@' not in parseaddr(email)[1]:
+        errors["email"] = "Invalid email"
 
-    device = model.Device.query.filter_by(imei=imei).first()
+    if not is_blank(imei):
+        device = model.Device.query.filter_by(imei=imei).first()
 
-    if device is not None:
-        abort_json(400, message="Imei registered", fields="imei")
+        if device is not None:
+            errors["imei"] = "Imei already registered"
+
+    if len(errors) > 0:
+        return abort_json(400, errors=errors)
 
     user = model.User()
     user.password = pass1
     user.login = email
     user.name = ""
 
-    db.session().add(user)
-    db.session.commit()
-    # TODO add device
+    try:
+        db.session().add(user)
+        db.session.commit()
+    except IntegrityError:
+        return abort_json(400, errors={"email": "Already registered"})
 
-    return jsonify({})
+    # TODO add device
+    login_user(user, remember=True)
+    return jsonify({'redirect': "/map"})
 
 
 def abort_json(code, **kwargs):
@@ -137,6 +159,13 @@ def index():
 @login_required
 def get_devices():
     devices = model.Device.query.filter_by(user_id=flask_login.current_user.id).all()
+    return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
+
+@app.route('/devices/remove/<imei>')
+@login_required
+def remove_device(imei):
+    devices = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).delete()
+    db.session.commit()
     return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
 
 

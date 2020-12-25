@@ -15,6 +15,7 @@
             crossorigin="anonymous"></script>
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
     <script src="/static/forms.js"></script>
+    <script src="/static/models.js"></script>
     <title>Login</title>
     <style>
             #intro-header {
@@ -63,13 +64,15 @@
                         <div class="card text-white" >
                             <div class="card-body">
                                 <form action="/auth" method="post" id="sign_in_form">
-                                    <div class="mb-3">
+                                    <div class="mb-3 position-relative">
                                         <label for="email" class="form-label">Email address!</label>
                                         <input type="email" class="form-control" placeholder="email" id="email" name="email" required>
+                                        <div class="invalid-tooltip"></div>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 position-relative">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" placeholder="password" id="password" name="password" required>
+                                        <div class="invalid-tooltip"></div>
                                     </div>
                                     <div class="form-group">
                                         <input type="submit" value="Login" class="btn btn-light float-right">
@@ -88,22 +91,22 @@
                         <div class="card text-white">
                             <div class="card-body">
                                 <form action="/signup" method="post" id="sign_up_form" class="needs-validation" novalidate>
-                                    <div class="mb-3">
+                                    <div class="mb-3 position-relative">
                                         <label for="imei" class="form-label">Imei</label>
                                         <input type="text" class="form-control" placeholder="imei" id="imei" name="imei" required>
                                         <div class="invalid-tooltip"></div>
                                     </div
-                                    ><div class="mb-3">
+                                    ><div class="mb-3 position-relative">
                                         <label for="email2" class="form-label">Email address</label>
                                         <input type="email" class="form-control" placeholder="email" id="email2" name="email" required>
                                         <div class="invalid-tooltip"></div>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 position-relative">
                                         <label for="password2" class="form-label">Password</label>
                                         <input type="password" class="form-control" placeholder="password" id="password2" name="password" required>
                                         <div class="invalid-tooltip"></div>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 position-relative">
                                         <label for="password2r" class="form-label">Repeat</label>
                                         <input type="password" class="form-control" placeholder="password" id="password2r" name="password_confirm" required>
                                         <div class="invalid-tooltip"></div>
@@ -125,51 +128,17 @@
     <h1 class="text-center">Company name</h1>
 </section>
 <script>
-  
-  function serializeFormToJson(form) {
-    let a = form.serializeArray();
-    let o = {};
 
-    a.forEach(pair => {
-        o[pair['name']] = pair['value'];
-    });    
+ var userModel = new User();
 
-    return JSON.stringify(o);
-  }
+ new AjaxForm(
+     $("#sign_in_form")[0],
+     function (data, onSuccess, onFail){  userModel.login(data, onFail, onSuccess) }).bind();
 
-  $("form").submit(function(e) {
-                        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-                        var form = $(this);
-                        var url = form.attr('action');
-
-                        if (!form[0].checkValidity()) {
-                             e.preventDefault();
-                             e.stopPropagation();
-                             form[0].classList.add('was-validated');
-                             return false;
-                        }
-
-                        form[0].classList.add('was-validated');
-                        
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            dataType: 'json',
-                            data: serializeFormToJson( form ), // serializes the form's elements.
-                            contentType: 'application/json;charset=UTF-8',
-                            success: function(data)
-                            {
-                                console.log(data); // show response from the php script.
-                                if (data.redirect) {
-                                    window.location.href = data.redirect;
-                                }
-                            }
-                            });
-
-                        return false;
-    });
-    
+new AjaxForm(
+     $("#sign_up_form")[0],
+     function (data, onSuccess, onFail){  userModel.signup(data, onFail, onSuccess) }).bind();     
+     
 
 </script>
 </body>

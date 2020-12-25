@@ -1,16 +1,23 @@
 class AjaxForm {
     #form;
+    #modelCallback;
+    #onDoneCallback;
+    #onFailCallback;
 
-    constructor(form) {
-        this.#form = $($(form)[0]);
+    constructor(form, modelCallback, onDoneCallback, onFailCallback) {
+        this.#form = $(form);
+        this.#modelCallback = modelCallback;
+        this.#onDoneCallback=onDoneCallback;
+        this.#onFailCallback=onFailCallback;
     }
 
     bind() {
         let thisCopy = this;
         this.#form.submit(function(e) { thisCopy.#onSubmit(e) });
+        return this;
     }
 
-    #serializeFormToJson() {
+    #serializeForm() {
         let a = this.#form.serializeArray();
         let o = {};
 
@@ -18,25 +25,44 @@ class AjaxForm {
             o[pair['name']] = pair['value'];
         });    
 
-        return JSON.stringify(o);
+        return o;
     }
 
     #onDone(data)
     {
-        console.log(data); // show response from the php script.
+        console.log(data);
         if (data.redirect) {
             window.location.href = data.redirect;
         }
-        
-        for (var prop in data.errors) {
-            let input = this.#form.find("input[name="+prop+"]");
 
-            if (input.length) {
-                input.siblings(".invalid-tooltip")[0].innerHtml = data.errors[prop]; 
-                input.addClass("is-invalid");
-            }
+        this.#form.find(":input").removeClass("is-invalid");
+        this.#form.find(":input").removeClass("is-valid");
+        this.#form.find(":input").siblings(".invalid-tooltip").empty();
+
+        if (this.#onDoneCallback) {
+            this.#onDoneCallback(data); 
         }
 
+    }
+
+    #onFail(jqXHR) {
+        if (jqXHR.responseJSON) {
+            let data = jqXHR.responseJSON;
+            console.log(data);
+            for (var prop in data.errors) {
+                let input = this.#form.find("input[name="+prop+"]");
+                
+                console.log(["input[name="+prop+"]", input, data.errors[prop]]);
+
+                if (input.length) {
+                    input.siblings(".invalid-tooltip")[0].innerHTML = data.errors[prop]; 
+                    input.addClass("is-invalid");
+                }
+            }
+        }
+        if (this.#onFailCallback) {
+            this.#onFailCallback(); 
+        }
     }
 
     #onSubmit(e){
@@ -50,21 +76,17 @@ class AjaxForm {
             this.#form[0].classList.add('was-validated');
             return false;
         }
+
         this.#form.addClass('was-validated');
         this.#form.find(":input").removeClass("is-invalid");
         this.#form.find(":input").siblings(".invalid-tooltip").empty();
 
         let thisCopy = this;
 
-        $.ajax({
-                'url': url,
-                'method': "POST", 
-                'contentType': 'application/json;charset=UTF-8',
-                'dataType': 'json',
-                'data': this.#serializeFormToJson()
-               })
-               .done(function(data) { thisCopy.#onDone })
-               //TODO .fail()
+        this.#modelCallback(this.#serializeForm(), 
+                            function(data) {thisCopy.#onDone(data)},
+                            function(jqXHR) {thisCopy.#onFail(jqXHR)}
+        );
 
         return false;
     }
