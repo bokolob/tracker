@@ -1,12 +1,11 @@
 class UserSettings {
-    #settings;
     updateSettings() {
 
     }
 };
 
 class User {
-    login(description, onFail, onSuccess) {
+    login = (description, onSuccess, onFail) => {
         $.ajax({
                 'url': '/auth',
                 'method': "POST", 
@@ -17,15 +16,15 @@ class User {
         )
         .done(onSuccess)
         .fail(onFail)
-    }
+    };
 
-    logout(onFail, onSuccess) {
+    logout = (onSuccess, onFail)  => {
         $.ajax('/logout')
         .done(onSuccess)
         .fail(onFail)
-    }
+    };
 
-    signup(description, onFail, onSuccess ) {
+    signup = (description, onSuccess, onFail ) => {
         $.ajax({
                 'url': '/signup',
                 'method': "POST", 
@@ -36,23 +35,21 @@ class User {
         )
         .done(onSuccess)
         .fail(onFail)
-    }
-};
+    };
+}
 
 class Devices {
-    #beforeUpdateCallback;
-    #onUpdateCallback;
-    #devices = []
 
     constructor(onUpdate, beforeUpdateCallback) {
-        this.#onUpdateCallback=onUpdate;
-        this.#beforeUpdateCallback = beforeUpdateCallback;
+        this.onUpdateCallback = onUpdate;
+        this.beforeUpdateCallback = beforeUpdateCallback;
+        this.devices = [] 
     }
 
-    removeDevice(imei) {
-    }
+    remove = function(imei) {
+    }.bind(this);
 
-    addDevice(description, onFail, onSuccess) {
+    add = (description, onSuccess, onFail) => {
         let thisCopy = this;
         $.ajax({
                 'url': '/devices/add',
@@ -64,32 +61,29 @@ class Devices {
         )
         .done(function(data) {
             console.log(data);
-            thisCopy.#devices.push(description);
-            thisCopy.getDevices(onFail, onSuccess); 
+            thisCopy.reload(onSuccess, onFail); 
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
                 if (onFail) {
                     onFail(jqXHR, textStatus, errorThrown);
                 }
          });
-    }
+    };
 
-    getDevices(onFail, onSuccess) {
-        this.#beforeUpdateCallback();
+    reload = (onSuccess, onFail) => {
+        this.beforeUpdateCallback();
         let thisCopy = this;
         $.ajax('/devices')
             .done(function(data) {
                 console.log(data)
-                thisCopy.#devices=data;
-                thisCopy.#onUpdateCallback(thisCopy.#devices);
+                thisCopy.devices=data;
+                thisCopy.onUpdateCallback(thisCopy.devices);
 
                 if (onSuccess) {
                     onSuccess(data); 
                 }
             })
             .fail( function(jqXHR) { if(onFail){ onFail(jqXHR); } });
-    }
-
-
+    };
 
 }

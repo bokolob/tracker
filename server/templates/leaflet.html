@@ -21,6 +21,7 @@
 
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
 
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 
@@ -43,36 +44,148 @@
             margin: 0;
         }
         html, body {
-            height: 100%;
+            height: 100vh;
+        }
+
+        
+        .map_container {
+            
+            height: calc(100% - 51px); 
         }
 
         #mapid {
             height: 100%;
-            width: 100vw;
+            width: 100%;
         }   
         
-        .close {
-            z-index: 800 !important;
+        header.navbar {
+            margin-bottom: 0px;
+        }
+
+        .settings_page {
+            position: absolute;
+            width: 100%;
+            background: transparent;
+            z-index: 3000;
         }
 
     </style>
 </head>
 <body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Expand at md</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarsExample04">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item active">
+                <a class="nav-link" data-bs-toggle="collapse" href="#nav-trackers-list" role="button" aria-expanded="false" aria-controls="nav-trackers-list">Devices</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#nav-add-tracker" role="button" aria-expanded="false" aria-controls="nav-add-tracker">Add device</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout" role="button">Logout</a>
+              </li>
+            </ul>
+          </div>
+        
+        </div>
+      </nav>
 
-<div id="mapid"></div>
+      <div class="collapse settings_page" id="nav-trackers-list">
+        <div class="card container overflow-auto h-100">
+            <div>
+            <div class="card-header">
+                <div class="container-fluid">
+                <span class="text-start">
+                    Trackers list
+                </span>
+                <span class="text-end">
+                <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-trackers-list" aria-expanded="false" aria-controls="#nav-trackers-list" ></button>
+                </span>
+                </div>
+            </div>
+            <div class="card-body">
+                    <div class="accordion" id="tracker_list"> </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <div class="collapse settings_page" id="nav-add-tracker" >
+            <div class="card container overflow-auto h-100">
+                <div class="card-header text-end">
+                    <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-add-tracker" aria-expanded="false" aria-controls="nav-add-tracker" ></button>
+                </div>
+                <div class="card-body">
+                    <form action="/devices/add" method="post" id="add_device_form" class="needs-validation" novalidate>
+                        <div class="mb-3 position-relative">
+                            <label for="imeiInput" class="form-label">Imei</label>
+                            <input type="text" class="form-control" id="imeiInput" placeholder="imei" name="imei" required>
+                            <div class="invalid-tooltip"></div>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="nameInput" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="nameInput" placeholder="name" name="name" required>
+                            <div class="invalid-tooltip"></div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Add device</button>
+                        </div>
+                    </form> 
+                </div>
+            </div>    
+        </div> 
+</div>
+</header>
+
+<div id="map_container" class="map_container">
+    <div id="mapid"></div>
+</div>
+
 {% raw %}
 <script id="trackers_list_entry_template" type="x-tmpl-mustache">
 {{#trackers}}
-<div class="row row-cols-2"> 
-    <div class="col">
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="tracker{{id}}_enabled" onChange="console.log(devicesModel)">
-            <label class="form-check-label" for="tracker{{id}}_enabled">{{name}}</label>
+<div class="accordion-item" >
+    <h2 class="accordion-header" id="heading_{{imei}}">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{imei}}" aria-expanded="true" aria-controls="collapse_{{imei}}">
+            {{name}}
+        </button>
+      </h2>
+      <div id="collapse_{{imei}}" class="accordion-collapse collapse" aria-labelledby="heading_{{imei}}" data-bs-parent="#tracker_list">
+        <div class="accordion-body">
+            <div class="row row-cols-auto mt-3"> 
+                <div class="col-lg-6 justify-content-start"> 
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="{{imei}}_enabled" onChange="console.log(devicesModel)">
+                        <label class="form-check-label" for="{{imei}}_enabled">Show on map</label>
+                    </div>
+                </div>
+            </div>   
+            <div class="row row-cols-auto mt-3">  
+                <div class="col-lg-6 justify-content-start"> 
+                    <div class="form-check">
+                        <input type="color" class="form-control form-control-color" id="{{imei}}_color" onChange="console.log(devicesModel)">
+                        <label class="form-check-label" for="{{imei}}_color">Color</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-end"> 
+                <div class="col-md-auto"> 
+                    <button type="button" class="btn btn-danger btn-sm" id="remove_{{imei}}">Remove</button>
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-end"> 
+                <div class="col-md-auto">
+                    <button type="button" class="btn btn-secondary btn-sm" id="settings_{{imei}}">Settings</button>
+                </div>
+            </div> 
         </div>
-    </div>
-    <div class="col">
-        {{imei}}
-    </div>
+      </div>
 </div>
 {{/trackers}}
 </script>
@@ -86,52 +199,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                      <a class="nav-link active" id="nav-trackers-tab" data-bs-toggle="tab" href="#nav-trackers-list" role="tab" aria-controls="nav-home" aria-selected="true">Trackers</a>
-                      <a class="nav-link" id="nav-add-tracker-tab" data-bs-toggle="tab" href="#nav-add-tracker" role="tab" aria-controls="nav-profile" aria-selected="false">Add device</a>
-                    </div>
-                  </nav>
-                  <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-trackers-list" role="tabpanel" aria-labelledby="nav-trackers-tab">
-                        <div class="card">
-                            <div class="card-header text-end">
-                                <button class="btn btn-sm" type="button" id="trackers_list_refresh">
-                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="trackers_list_spinner"></span>
-                                    Reload list
-                                  </button>
-                            </div>
-                            <div class="card-body">
-                                    <div class="container-fluid" id="tracker_list"></div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="tab-pane fade" id="nav-add-tracker" role="tabpanel" aria-labelledby="nav-add-tracker-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form action="/devices/add" method="post" id="add_device_form" class="needs-validation" novalidate>
-                                        <div class="mb-3 position-relative">
-                                            <label for="imeiInput" class="form-label">Imei</label>
-                                            <input type="text" class="form-control" id="imeiInput" placeholder="imei" name="imei">
-                                            <div class="invalid-tooltip"></div>
-                                        </div>
-                                        <div class="mb-3 position-relative">
-                                            <label for="nameInput" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="nameInput" placeholder="name" name="name">
-                                            <div class="invalid-tooltip"></div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary">Add device</button>
-                                          </div>
-                                    </form> 
-                                </div>
-                            </div>    
-                        </div> 
-                    </div>
-                  </div>
-               </div>
+                
             </div>
         </div>
     </div>
@@ -147,11 +215,12 @@
         console.log(data);
         $("#trackers_list_spinner").addClass("d-none");
         let rendered = Mustache.render($('#trackers_list_entry_template')[0].innerHTML, { 'trackers': data });
-        $('#tracker_list')[0].innerHTML = rendered; 
+        $('#tracker_list')[0].innerHTML = rendered;
     }
 
     var devicesModel = new Devices(renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
 
+    
 	var mymap = L.map('mapid').setView([55.750996996, 37.617330864], 13);
 
     var baseLayers = {
@@ -193,7 +262,7 @@
     L.easyButton('fa fa-bars', function(btn, map){
             modal.show();
     }).addTo( mymap );
-
+    
     var marker = new L.Marker(currentPosition);
     marker.addTo(mymap);
 
@@ -201,6 +270,7 @@
         var radius = e.accuracy;
         L.circle(e.latlng, radius).addTo(mymap);
     }
+
 
     //mymap.on('locationfound', onLocationFound);
 
@@ -236,11 +306,44 @@
     }
 
     setInterval(updateWaypoints, 1000);
+    
+    devicesModel.reload();
 
-    devicesModel.getDevices();
+    $('#trackers_list_refresh').on('click', function() { devicesModel.reload() });
+    new AjaxForm( $("#add_device_form"), function (data, onSuccess, onFail){ devicesModel.add(data, onSuccess, onFail) }).init();
 
-    $('#trackers_list_refresh').on('click', function() { devicesModel.getDevices() });
-    new AjaxForm( $("#add_device_form"), function (data, onSuccess, onFail){ devicesModel.addDevice(data, onFail, onSuccess) }).bind();
+    let pages = {};
+    $(".settings_page").each( function() { 
+        pages[this.id] = new bootstrap.Collapse(this, {toggle: false});
+    });
+
+    let navbarCollapse = new bootstrap.Collapse($("#navbarsExample04")[0],{toggle: false}); 
+
+    function onPageShow(event) {
+        let target = event.target;
+        let id = target.id;
+        
+        if (!pages[id]) {
+            return;
+        }
+
+        for (let i in pages) {
+            if (id != i) {
+                pages[i].hide();
+            }
+        }
+
+        $('.settings_page').css("height", $("#map_container").height()+"px"); 
+
+      //  $("#map_container").addClass("d-none");
+    }
+
+    $(".settings_page").on('show.bs.collapse', () => navbarCollapse.hide());
+    $(".settings_page").on('hidden.bs.collapse', (e) => pages[e.target.id] && $("#map_container").removeClass("d-none") );
+    $(".settings_page").on('shown.bs.collapse', onPageShow);
+    $('.settings_page').bind('click dblclick mouseover mouseout scroll',function(e){ e.stopPropagation();});
+    
+    $('#map_container').css("height","calc(100% - "+$("header").height()+"px)"); 
 
 </script>
 

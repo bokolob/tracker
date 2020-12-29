@@ -129,17 +129,11 @@
 </section>
 <script>
 
- var userModel = new User();
+var userModel = new User();
 
- new AjaxForm(
-     $("#sign_in_form")[0],
-     function (data, onSuccess, onFail){  userModel.login(data, onFail, onSuccess) }).bind();
-
-new AjaxForm(
-     $("#sign_up_form")[0],
-     function (data, onSuccess, onFail){  userModel.signup(data, onFail, onSuccess) }).bind();     
+new AjaxForm($("#sign_in_form")[0],userModel.login).init();
+new AjaxForm($("#sign_up_form")[0],userModel.signup).init();     
      
-
 </script>
 </body>
 </html>

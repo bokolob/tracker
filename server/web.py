@@ -32,7 +32,7 @@ def login():
     user = model.User.query.filter_by(login=email).first()
 
     if user is None:
-        abort_json(403, errors={"email":"User not found"})
+        abort_json(403, errors={"email": "User not found"})
 
     if user.verify_password(pass1):
         login_user(user, remember=True)
@@ -160,6 +160,7 @@ def index():
 def get_devices():
     devices = model.Device.query.filter_by(user_id=flask_login.current_user.id).all()
     return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
+
 
 @app.route('/devices/remove/<imei>')
 @login_required

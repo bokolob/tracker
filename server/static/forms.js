@@ -1,24 +1,20 @@
 class AjaxForm {
-    #form;
-    #modelCallback;
-    #onDoneCallback;
-    #onFailCallback;
 
     constructor(form, modelCallback, onDoneCallback, onFailCallback) {
-        this.#form = $(form);
-        this.#modelCallback = modelCallback;
-        this.#onDoneCallback=onDoneCallback;
-        this.#onFailCallback=onFailCallback;
+        this.form = $(form);
+        this.modelCallback = modelCallback;
+        this.onDoneCallback=onDoneCallback;
+        this.onFailCallback=onFailCallback;
     }
 
-    bind() {
+    init = () => {
         let thisCopy = this;
-        this.#form.submit(function(e) { thisCopy.#onSubmit(e) });
+        this.form.submit(function(e) { thisCopy.onSubmit(e) });
         return this;
-    }
+    };
 
-    #serializeForm() {
-        let a = this.#form.serializeArray();
+    serializeForm() {
+        let a = this.form.serializeArray();
         let o = {};
 
         a.forEach(pair => {
@@ -28,29 +24,29 @@ class AjaxForm {
         return o;
     }
 
-    #onDone(data)
+    onDone(data)
     {
         console.log(data);
         if (data.redirect) {
             window.location.href = data.redirect;
         }
 
-        this.#form.find(":input").removeClass("is-invalid");
-        this.#form.find(":input").removeClass("is-valid");
-        this.#form.find(":input").siblings(".invalid-tooltip").empty();
+        this.form.find(":input").removeClass("is-invalid");
+        this.form.find(":input").removeClass("is-valid");
+        this.form.find(":input").siblings(".invalid-tooltip").empty();
 
-        if (this.#onDoneCallback) {
-            this.#onDoneCallback(data); 
+        if (this.onDoneCallback) {
+            this.onDoneCallback(data); 
         }
 
     }
 
-    #onFail(jqXHR) {
+    onFail(jqXHR) {
         if (jqXHR.responseJSON) {
             let data = jqXHR.responseJSON;
             console.log(data);
             for (var prop in data.errors) {
-                let input = this.#form.find("input[name="+prop+"]");
+                let input = this.form.find("input[name="+prop+"]");
                 
                 console.log(["input[name="+prop+"]", input, data.errors[prop]]);
 
@@ -60,32 +56,30 @@ class AjaxForm {
                 }
             }
         }
-        if (this.#onFailCallback) {
-            this.#onFailCallback(); 
+        if (this.onFailCallback) {
+            this.onFailCallback(); 
         }
     }
 
-    #onSubmit(e){
+    onSubmit(e){
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
-        var url = this.#form.attr('action');
-
-        if (!this.#form[0].checkValidity()) {
+        if (!this.form[0].checkValidity()) {
             e.preventDefault();
             e.stopPropagation();
-            this.#form[0].classList.add('was-validated');
+            this.form.addClass('was-validated');
             return false;
         }
 
-        this.#form.addClass('was-validated');
-        this.#form.find(":input").removeClass("is-invalid");
-        this.#form.find(":input").siblings(".invalid-tooltip").empty();
+        this.form.addClass('was-validated');
+        this.form.find(":input").removeClass("is-invalid");
+        this.form.find(":input").siblings(".invalid-tooltip").empty();
 
         let thisCopy = this;
 
-        this.#modelCallback(this.#serializeForm(), 
-                            function(data) {thisCopy.#onDone(data)},
-                            function(jqXHR) {thisCopy.#onFail(jqXHR)}
+        this.modelCallback(this.serializeForm(), 
+                            function(data) {thisCopy.onDone(data)},
+                            function(jqXHR) {thisCopy.onFail(jqXHR)}
         );
 
         return false;
