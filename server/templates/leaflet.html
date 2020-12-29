@@ -342,8 +342,12 @@
     $(".settings_page").on('hidden.bs.collapse', (e) => pages[e.target.id] && $("#map_container").removeClass("d-none") );
     $(".settings_page").on('shown.bs.collapse', onPageShow);
     $('.settings_page').bind('click dblclick mouseover mouseout scroll',function(e){ e.stopPropagation();});
-    
     $('#map_container').css("height","calc(100% - "+$("header").height()+"px)"); 
+
+    $(window).resize(function () { 
+        $('#map_container').css("height","calc(100% - "+$("header").height()+"px)"); 
+        $('.settings_page').css("height", $("#map_container").height()+"px"); 
+    });
 
 </script>
 
