@@ -67,6 +67,7 @@
             width: 100%;
             background: transparent;
             z-index: 3000;
+            background-color: rgba(200, 200, 200, 0.8);
         }
 
     </style>
@@ -209,7 +210,6 @@
     var firstLoad = true;
     var imei = "{{ imei }}";
     var currentPosition = L.latLng(55.750996996, 37.617330864);
-    var track = null;
 
     function renderDevices(data) {
         console.log(data);
@@ -274,12 +274,21 @@
 
     //mymap.on('locationfound', onLocationFound);
 
+
+    let segments = [];
+    let last_ts = Math.round(new Date().getTime()/1000) - 48*3600;
+
     function updateWaypoints() {
         $.ajax({
             url: '/'+imei+'/coordinates',
+            data: {
+                'since': last_ts
+            },
             success: function(data) {
                 if (data.length > 0) {
-                    var newPosition = L.latLng(data[0][0], data[0][1]);
+                    let p = data.length - 1;
+                    let newPosition = L.latLng(data[p]['lat'], data[p]['lng']);
+                    last_ts = data[p]['ts']; 
 
                     if (firstLoad) {
                         //mymap.flyTo(newPosition);
@@ -290,13 +299,14 @@
                     if (currentPosition != newPosition) {
                         currentPosition = newPosition;
                         marker.setLatLng(newPosition);
-
-                        if (track != null) {
-                            mymap.removeLayer(track);
+                        
+                        if (segments.length == 0 ||  segments[segments.length-1].getLatLngs().length >= 100) {
+                            let track = L.polyline([], {color: 'red'});
+                            mymap.addLayer(track);
+                            segments.push(track);
                         }
-
-                        track = L.polyline(data, {color: 'red'});
-                        mymap.addLayer(track);
+                       
+                        data.forEach(el => segments[segments.length-1].addLatLng(el));
                     }
 
                     mymap.locate({setView: false, maxZoom: 16});
@@ -334,8 +344,6 @@
         }
 
         $('.settings_page').css("height", $("#map_container").height()+"px"); 
-
-      //  $("#map_container").addClass("d-none");
     }
 
     $(".settings_page").on('show.bs.collapse', () => navbarCollapse.hide());

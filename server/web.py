@@ -4,9 +4,10 @@ from sqlalchemy.exc import IntegrityError
 
 import model
 from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory
-from sqlalchemy import and_, desc
+from sqlalchemy import and_, desc, asc
 from app import app, db, login_manager
 from email.utils import parseaddr
+from sqlalchemy.dialects import mysql
 
 
 @login_manager.user_loader
@@ -173,7 +174,18 @@ def remove_device(imei):
 @app.route('/<imei>/coordinates')
 @login_required
 def get_coordinates(imei=None):
-    # TODO auth and imei check
+    since = request.args.get('since')
+
+    if not is_blank(since):
+        if not since.isdigit():
+            abort(400, description="Bad 'since' param")
+        else:
+            since = int(since)
+            if since > 2 ** 31 or since < 0:
+                abort(400, description="Bad 'since' param")
+    else:
+        since=None
+
     device = model.Device.query.filter_by(imei=imei, user_id=flask_login.current_user.id).first()
 
     if device is None:
@@ -181,9 +193,15 @@ def get_coordinates(imei=None):
 
     shifted = device.id << 32
     shifted_high = (device.id + 1) << 32
+    timestamp_mask = 0xffffffff
 
-    rs = model.Coordinates.query.with_entities(model.Coordinates.lat, model.Coordinates.lng) \
-        .filter(and_(model.Coordinates.id > shifted, model.Coordinates.id < shifted_high)) \
-        .order_by(desc(model.Coordinates.id)).limit(60).all()
+    where = [model.Coordinates.id > shifted, model.Coordinates.id < shifted_high]
 
-    return jsonify(list(map(lambda x: [str(x.lat), str(x.lng)], rs)))
+    if since is not None:
+        since = shifted | since
+        where.append(model.Coordinates.id > since)
+
+    rs = model.Coordinates.query.with_entities(model.Coordinates.lat, model.Coordinates.lng, model.Coordinates.id) \
+        .filter(and_(*where)).order_by(asc(model.Coordinates.id)).limit(100).all()
+
+    return jsonify(list(map(lambda x: {'lat': str(x.lat), 'lng': str(x.lng), 'ts': int(x.id & timestamp_mask)}, rs)))

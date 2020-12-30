@@ -11,12 +11,13 @@ from app import app
 
 PROC_COUNT = 5
 BULK_SIZE = 500
+TIMEOUT = 2
 
 queue = asyncio.Queue()
 known_devices = dict()
-tmp = 0
 
 model.db.create_all()
+
 
 def create_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,35 +48,42 @@ async def get_device_id(imei, engine):
         return res
 
 
-def get_id(device_id):
-    global tmp
-    tmp = tmp + 1
-    return (device_id << 32) | int(datetime.datetime.utcnow().timestamp() / 10 + tmp)
+def get_id(device_id, timestamp=None):
+    if timestamp is None:
+        timestamp = datetime.datetime.now().timestamp();
+
+    return (device_id << 32) | int(timestamp / 10) * 10
 
 
 async def parse_input(line, engine):
-    print(line)
-    proto, imei, lat, lng, satelites, battery, status = line.split(b',')
-    device_id = await get_device_id(imei, engine)
-    return {'id': get_id(device_id),
+    # print("XXXX " + str(line))
+    proto, imei, timestamp, lat, lng, satelites, battery, status = line.split(b',')
+    device_id = await get_device_id(imei.decode("latin1"), engine)
+    return {'id': get_id(device_id, int(timestamp)),
             'device_id': device_id,
-            'lat': lat,
-            'lng': lng}
+            'lat': lat.decode("latin1"),
+            'lng': lng.decode("latin1")}
 
 
 async def process_queue(engine):
     buf = []
+
+    timeout = None
+
     while True:
-        timeout = False
         try:
-            coords = await asyncio.wait_for(queue.get(), timeout=15.0)
+            coords = await asyncio.wait_for(queue.get(), timeout=int(TIMEOUT/2))
             buf.append(coords)
             queue.task_done()
+
+            if timeout is None:
+                timeout = datetime.datetime.now().timestamp() + TIMEOUT
+
         except asyncio.TimeoutError:
-            timeout = True
             pass
 
-        if len(buf) >= BULK_SIZE or (len(buf) > 0 and timeout):
+        if len(buf) >= BULK_SIZE or (
+                len(buf) > 0 and timeout is not None and datetime.datetime.now().timestamp() >= timeout):
             async with engine.acquire() as conn:
                 trans = await conn.begin()
 
@@ -87,6 +95,9 @@ async def process_queue(engine):
 
                 await conn.execute(on_duplicate_key_stmt)
                 await trans.commit()
+
+            timeout = None
+
             buf = []
 
 
@@ -104,7 +115,7 @@ async def handler(event_loop, client, engine):
                 else:
                     buf += data
                     if b'\n' in buf:
-                        coords = await parse_input(data, engine)
+                        coords = await parse_input(buf, engine)
                         await queue.put(coords)
 
                         print(coords)
@@ -119,7 +130,6 @@ async def server_loop(loop, server_sock):
     engine = await create_engine(user=mysql_params.username, db=mysql_params.path.strip("/"),
                                  host=mysql_params.hostname, password=mysql_params.password, loop=loop)
 
-    print("ddd")
     loop.create_task(process_queue(engine))
 
     while True:
