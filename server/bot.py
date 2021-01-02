@@ -33,7 +33,7 @@ def send_coords(lat, long, timestamp):
 
 files = [join('./gpx_examples', f) for f in listdir('./gpx_examples') if isfile(join('./gpx_examples', f))]
 
-for file in files[2:3]:
+for file in files[4:5]:
     gpx_file = open(file, 'r')
     gpx = gpxpy.parse(gpx_file)
 

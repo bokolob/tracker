@@ -36,6 +36,10 @@
       integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
       crossorigin="anonymous"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <script src="/static/forms.js"></script>
     <script src="/static/models.js"></script>
     <style>
@@ -88,6 +92,12 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#nav-add-tracker" role="button" aria-expanded="false" aria-controls="nav-add-tracker">Add device</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#nav-friends" role="button" aria-expanded="false" aria-controls="nav-friends">Friends</a> 
+              </li>
+              <li class="nav-item">
+                <input type="text" name="daterange" class="form-control" value="01/01/2018 - 01/15/2018" id="track_dates"/>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/logout" role="button">Logout</a>
@@ -220,6 +230,30 @@
 
     var devicesModel = new Devices(renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
 
+    $('#track_dates').daterangepicker({
+            timePicker: true,
+            "showDropdowns": true,
+            "timePicker": true,
+            "timePicker24Hour": true,
+            "timePickerIncrement": 5,
+            "autoApply": true,
+            "startDate": "12/26/2020",
+            "endDate": "01/01/2021",
+            ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+                format: 'M/DD hh:mm' 
+            }
+
+    });
     
 	var mymap = L.map('mapid').setView([55.750996996, 37.617330864], 13);
 
@@ -273,7 +307,6 @@
 
 
     //mymap.on('locationfound', onLocationFound);
-
 
     let segments = [];
     let last_ts = Math.round(new Date().getTime()/1000) - 48*3600;

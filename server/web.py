@@ -1,13 +1,17 @@
+from email.utils import parseaddr
+
 import flask_login
+from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory, Blueprint
 from flask_login import login_user, login_required, logout_user
+from sqlalchemy import and_, asc, or_
 from sqlalchemy.exc import IntegrityError
 
 import model
-from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory
-from sqlalchemy import and_, desc, asc
-from app import app, db, login_manager
-from email.utils import parseaddr
-from sqlalchemy.dialects import mysql
+from app import login_manager
+from model import db
+
+
+main_page = Blueprint('main_page', __name__, template_folder='templates')
 
 
 @login_manager.user_loader
@@ -15,12 +19,12 @@ def load_user(user_id):
     return model.User.query.filter_by(id=int(user_id)).first()
 
 
-@app.route('/', methods=['POST', 'GET'])
+@main_page.route('/', methods=['POST', 'GET'])
 def root():
     return render_template('login.html')
 
 
-@app.route('/auth', methods=['POST', 'GET'])
+@main_page.route('/auth', methods=['POST', 'GET'])
 def login():
     args = request.get_json()
 
@@ -42,19 +46,19 @@ def login():
     abort_json(403, errors={"email": "User not found"})
 
 
-@app.route('/static/<path:path>')
+@main_page.route('/static/<path:path>')
 def send_js(path):
     return send_from_directory('static', path)
 
 
-@app.route("/logout")
+@main_page.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
 
-@app.route('/devices/add', methods=['POST'])
+@main_page.route('/devices/add', methods=['POST'])
 def add_device():
     args = request.get_json()
 
@@ -88,7 +92,7 @@ def add_device():
     return jsonify({})
 
 
-@app.route('/signup', methods=['POST'])
+@main_page.route('/signup', methods=['POST'])
 def signup():
     args = request.get_json()
 
@@ -150,20 +154,29 @@ def is_blank(s):
     return bool(not s or s.isspace())
 
 
-@app.route('/map')
+@main_page.route('/map')
 @login_required
 def index():
     return render_template('leaflet.html', imei="deadbeef")
 
 
-@app.route('/devices')
+@main_page.route('/devices')
 @login_required
 def get_devices():
-    devices = model.Device.query.filter_by(user_id=flask_login.current_user.id).all()
+    subquery = model.Friends.query. \
+        with_entities(model.Friends.user_id).filter_by(accepted=True,
+                                                       friend=flask_login.current_user.id).subquery()
+
+    devices = model.Device.query.filter(
+        or_(model.Device.user_id.in_(subquery),
+            model.Device.user_id == flask_login.current_user.id,
+            )
+    ).all()
+
     return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
 
 
-@app.route('/devices/remove/<imei>')
+@main_page.route('/devices/remove/<imei>')
 @login_required
 def remove_device(imei):
     devices = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).delete()
@@ -171,22 +184,23 @@ def remove_device(imei):
     return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
 
 
-@app.route('/<imei>/coordinates')
+@main_page.route('/<imei>/coordinates')
 @login_required
 def get_coordinates(imei=None):
-    since = request.args.get('since')
+    since = request.args.get('since', None, type=int)
 
-    if not is_blank(since):
-        if not since.isdigit():
+    if since is not None:
+        if since > 2 ** 31 or since < 0:
             abort(400, description="Bad 'since' param")
-        else:
-            since = int(since)
-            if since > 2 ** 31 or since < 0:
-                abort(400, description="Bad 'since' param")
-    else:
-        since=None
 
-    device = model.Device.query.filter_by(imei=imei, user_id=flask_login.current_user.id).first()
+    subquery = model.Friends.query.with_entities(model.Friends.user_id).filter_by(accepted=True,
+                                                                                  friend=flask_login.current_user.id).subquery()
+
+    device = model.Device.query.filter(imei == imei,
+                                       or_(model.Device.user_id.in_(subquery),
+                                           model.Device.user_id == flask_login.current_user.id,
+                                           )
+                                       ).first()
 
     if device is None:
         abort(404, description="Device not found")

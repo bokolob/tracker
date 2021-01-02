@@ -1,6 +1,10 @@
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Index
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+
+db = SQLAlchemy()
 
 
 # an example mapping using the base
@@ -22,6 +26,15 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+class Friends(db.Model):
+    __tablename__ = 'friends'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    friend = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    accepted = db.Column(db.Boolean, nullable=False, default=False)
+    __table_args__ = (Index('user_friend', 'user_id', 'friend', unique=True),)
 
 
 class Device(db.Model):
