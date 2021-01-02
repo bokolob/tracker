@@ -39,6 +39,8 @@ class AjaxForm {
             this.onDoneCallback(data); 
         }
 
+        this.form.reset();
+
     }
 
     onFail(jqXHR) {

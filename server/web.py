@@ -7,16 +7,9 @@ from sqlalchemy import and_, asc, or_
 from sqlalchemy.exc import IntegrityError
 
 import model
-from app import login_manager
 from model import db
 
-
 main_page = Blueprint('main_page', __name__, template_folder='templates')
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return model.User.query.filter_by(id=int(user_id)).first()
 
 
 @main_page.route('/', methods=['POST', 'GET'])
@@ -56,40 +49,6 @@ def send_js(path):
 def logout():
     logout_user()
     return redirect("/")
-
-
-@main_page.route('/devices/add', methods=['POST'])
-def add_device():
-    args = request.get_json()
-
-    if args is None:
-        abort_json(400, message="No payload")
-
-    imei = args.get("imei")
-    name = args.get("name")
-    errors = {}
-
-    if is_blank(imei):
-        errors['imei'] = "Field is required"
-
-    if is_blank(name):
-        errors['name'] = "Field is required"
-
-    if len(errors) > 0:
-        return abort_json(400, errors=errors)
-
-    device = model.Device()
-    device.imei = imei
-    device.user_id = flask_login.current_user.id
-    device.name = name
-
-    try:
-        db.session().add(device)
-        db.session.commit()
-    except IntegrityError:
-        return abort_json(400, errors={"imei": "Imei already registered"})
-
-    return jsonify({})
 
 
 @main_page.route('/signup', methods=['POST'])
@@ -160,30 +119,6 @@ def index():
     return render_template('leaflet.html', imei="deadbeef")
 
 
-@main_page.route('/devices')
-@login_required
-def get_devices():
-    subquery = model.Friends.query. \
-        with_entities(model.Friends.user_id).filter_by(accepted=True,
-                                                       friend=flask_login.current_user.id).subquery()
-
-    devices = model.Device.query.filter(
-        or_(model.Device.user_id.in_(subquery),
-            model.Device.user_id == flask_login.current_user.id,
-            )
-    ).all()
-
-    return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
-
-
-@main_page.route('/devices/remove/<imei>')
-@login_required
-def remove_device(imei):
-    devices = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).delete()
-    db.session.commit()
-    return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
-
-
 @main_page.route('/<imei>/coordinates')
 @login_required
 def get_coordinates(imei=None):
@@ -193,14 +128,16 @@ def get_coordinates(imei=None):
         if since > 2 ** 31 or since < 0:
             abort(400, description="Bad 'since' param")
 
-    subquery = model.Friends.query.with_entities(model.Friends.user_id).filter_by(accepted=True,
-                                                                                  friend=flask_login.current_user.id).subquery()
+    subquery = model.Friends.query.with_entities(model.Friends.user_id) \
+        .filter_by(accepted=True,
+                   friend=flask_login.current_user.id).subquery()
 
-    device = model.Device.query.filter(imei == imei,
-                                       or_(model.Device.user_id.in_(subquery),
-                                           model.Device.user_id == flask_login.current_user.id,
-                                           )
-                                       ).first()
+    device = model.Device.query.with_entities(model.Device.id) \
+        .filter(imei == imei,
+                or_(model.Device.user_id.in_(subquery),
+                    model.Device.user_id == flask_login.current_user.id,
+                    )
+                ).first()
 
     if device is None:
         abort(404, description="Device not found")

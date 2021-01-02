@@ -151,6 +151,33 @@
                 </div>
             </div>    
         </div> 
+        <div class="collapse settings_page" id="nav-friends" >
+            <div class="card container overflow-auto h-100">
+                <div class="card-header text-end">
+                    <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-friends" aria-expanded="false" aria-controls="nav-friends" ></button>
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <form action="/friends/add" method="post" id="add_friend_form" class="needs-validation" novalidate>
+                            <div class="mb-3 position-relative">
+                                <label for="nameInput" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="nameInput" placeholder="name" name="friend_login" required>
+                                <div class="invalid-tooltip"></div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Offer friendship</button>
+                            </div>
+                        </form> 
+                    </div>
+                    <div class="container border-top mt-3">
+                        <div class="row row-cols-auto mt-3">
+                            <div class="col-lg-6 justify-content-start">Name</div>
+                            <div class="col-md-auto">Button</div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div> 
 </div>
 </header>
 
@@ -217,9 +244,10 @@
   </div>
 
 <script>
-    var firstLoad = true;
-    var imei = "{{ imei }}";
-    var currentPosition = L.latLng(55.750996996, 37.617330864);
+    let firstLoad = true;
+    let imei = "{{ imei }}";
+    let currentPosition = L.latLng(55.750996996, 37.617330864);
+    let follow=false;
 
     function renderDevices(data) {
         console.log(data);
@@ -228,7 +256,8 @@
         $('#tracker_list')[0].innerHTML = rendered;
     }
 
-    var devicesModel = new Devices(renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
+    let devicesModel = new Devices(renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
+    let friendsModel = new Friends();
 
     $('#track_dates').daterangepicker({
             timePicker: true,
@@ -291,11 +320,29 @@
             }
     }).addTo( mymap );
 
-    var modal = new bootstrap.Modal($('#settings')[0]);  
-
-    L.easyButton('fa fa-bars', function(btn, map){
-            modal.show();
-    }).addTo( mymap );
+    var stateChangingButton = L.easyButton({
+        states: [ 
+        {
+                stateName: 'follow_tracker',        // name the state
+                icon:      'fa fa-link',               // and define its properties
+                title:     'follow tracker',        // like its title
+                onClick: function(btn, map) {       // and its callback
+                    follow=true;
+                    btn.state('dont_follow');    // change state on click!
+                }
+            },
+            {
+                stateName: 'dont_follow',
+                icon:      'fa fa-chain-broken',
+                title:     'Don\'t follow',
+                onClick: function(btn, map) {
+                    follow=false;
+                    btn.state('follow_tracker');
+                }
+        },
+    ]
+    });
+    stateChangingButton.addTo(mymap);
     
     var marker = new L.Marker(currentPosition);
     marker.addTo(mymap);
@@ -323,7 +370,7 @@
                     let newPosition = L.latLng(data[p]['lat'], data[p]['lng']);
                     last_ts = data[p]['ts']; 
 
-                    if (firstLoad) {
+                    if (firstLoad || follow) {
                         //mymap.flyTo(newPosition);
                         mymap.panTo(newPosition,13);
                         firstLoad=false;
@@ -353,7 +400,8 @@
     devicesModel.reload();
 
     $('#trackers_list_refresh').on('click', function() { devicesModel.reload() });
-    new AjaxForm( $("#add_device_form"), function (data, onSuccess, onFail){ devicesModel.add(data, onSuccess, onFail) }).init();
+    new AjaxForm( $("#add_device_form"), devicesModel.add).init();
+    new AjaxForm( $("#add_friend_form"), friendsModel.add).init();
 
     let pages = {};
     $(".settings_page").each( function() { 

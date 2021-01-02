@@ -36,7 +36,10 @@ def create_app(config_filename):
 
     from friends import friends_page
     from web import main_page
+    from devices import devices_page
+
     app.register_blueprint(friends_page)
     app.register_blueprint(main_page)
+    app.register_blueprint(devices_page)
 
     return app

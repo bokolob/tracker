@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from aiomysql.sa import create_engine
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.sql import select
-from app import app
+from app import create_app
 
 PROC_COUNT = 5
 BULK_SIZE = 500
@@ -16,8 +16,7 @@ TIMEOUT = 2
 queue = asyncio.Queue()
 known_devices = dict()
 
-model.db.create_all()
-
+app = create_app('')
 
 def create_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

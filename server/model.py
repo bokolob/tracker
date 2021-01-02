@@ -43,14 +43,14 @@ class Device(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     imei = db.Column(db.String(16), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    user = db.relationship("User", back_populates="devices", lazy=True)
-    coordinates = db.relationship("Coordinates", back_populates="device", lazy=True)
+    user = db.relationship("User", back_populates="devices", lazy="joined")
+    # coordinates = db.relationship("Coordinates", back_populates="device", lazy=True)
 
 
 class Coordinates(db.Model):
     __tablename__ = 'coordinates'
     id = db.Column(db.BigInteger, primary_key=True)
     device_id = db.Column(db.Integer, db.ForeignKey('devices.id'), nullable=False)
-    device = db.relationship("Device", back_populates="coordinates")
+    device = db.relationship("Device")
     lat = db.Column(db.Numeric)
     lng = db.Column(db.Numeric)

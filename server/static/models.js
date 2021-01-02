@@ -4,6 +4,33 @@ class UserSettings {
     }
 };
 
+class Friends {
+    add = (description, onSuccess, onFail) => {
+        $.ajax({
+                'url': '/friends/add',
+                'method': "POST", 
+                'contentType': 'application/json;charset=UTF-8',
+                'dataType': 'json',
+                'data': JSON.stringify(description)
+             }
+        )
+        .done(onSuccess)
+        .fail(onFail)
+    };
+
+    remove = (onSuccess, onFail)  => {
+        $.ajax('/friends/remove')
+        .done(onSuccess)
+        .fail(onFail)
+    };
+
+    list = (onSuccess, onFail ) => {
+        $.ajax({'url': '/friends'})
+        .done(onSuccess)
+        .fail(onFail)
+    };
+}
+
 class User {
     login = (description, onSuccess, onFail) => {
         $.ajax({

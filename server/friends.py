@@ -38,6 +38,13 @@ def friends_reject(id):
     return jsonify({'result': rows})
 
 
+@friends_page.route('/friends/remove/<int:id>', methods=['POST'])
+@login_required
+def friends_remove(id):
+    model.Friends.query.filter_by(user_id=flask_login.current_user.id, id=id).delete()
+    return jsonify({})
+
+
 @friends_page.route('/friends/add', methods=['POST'])
 @login_required
 def friends_add():
@@ -49,7 +56,7 @@ def friends_add():
     friend_login = args.get("friend_login")
     friend = model.User.query.filter_by(login=friend_login).first()
 
-    if friend is None:
+    if friend is None or friend.id == flask_login.current_user.id:
         return abort_json(400, errors={'friend_login': 'Not found'})
 
     friend = model.Friends()
