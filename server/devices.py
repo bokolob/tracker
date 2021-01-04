@@ -48,9 +48,9 @@ def add_device():
 @devices_page.route('/devices')
 @login_required
 def get_devices():
-    subquery = model.Friends.query. \
-        with_entities(model.Friends.user_id).filter_by(accepted=True,
-                                                       friend=flask_login.current_user.id).subquery()
+    subquery = model.SharedDevices.query. \
+        with_entities(model.SharedDevices.device_id).filter_by(state=model.SharingState.accepted,
+                                                               shared_with=flask_login.current_user.id).subquery()
 
     devices = model.Device.query. \
         options(joinedload(model.Device.user, innerjoin=True)) \
@@ -58,7 +58,9 @@ def get_devices():
                 ).all()
 
     return jsonify(list(
-        map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei, 'user': {'id': x.user.id, 'name': x.user.login}},
+        map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei,
+                       'user': {'id': x.user.id, 'name': x.user.login,
+                                'shared': x.user.id != flask_login.current_user.id}},
             devices)))
 
 

@@ -128,9 +128,9 @@ def get_coordinates(imei=None):
         if since > 2 ** 31 or since < 0:
             abort(400, description="Bad 'since' param")
 
-    subquery = model.Friends.query.with_entities(model.Friends.user_id) \
-        .filter_by(accepted=True,
-                   friend=flask_login.current_user.id).subquery()
+    subquery = model.SharedDevices.query. \
+        with_entities(model.SharedDevices.device_id).filter_by(state=model.SharingState.accepted,
+                                                               shared_with=flask_login.current_user.id).subquery()
 
     device = model.Device.query.with_entities(model.Device.id) \
         .filter(imei == imei,

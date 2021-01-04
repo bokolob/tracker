@@ -64,6 +64,12 @@
                         <div class="card text-white" >
                             <div class="card-body">
                                 <form action="/auth" method="post" id="sign_in_form">
+                                    <div class="alert alert-success d-none" role="alert">
+                                        Success!
+                                    </div>
+                                    <div class="alert alert-danger d-none" role="alert">
+                                        Failed :(
+                                    </div>
                                     <div class="mb-3 position-relative">
                                         <label for="email" class="form-label">Email address!</label>
                                         <input type="email" class="form-control" placeholder="email" id="email" name="email" required>
@@ -91,12 +97,17 @@
                         <div class="card text-white">
                             <div class="card-body">
                                 <form action="/signup" method="post" id="sign_up_form" class="needs-validation" novalidate>
+                                    <div class="alert alert-success d-none" role="alert">
+                                        Success!
+                                    </div>
+                                    <div class="alert alert-danger d-none" role="alert">
+                                        Failed :(
+                                    </div>
                                     <div class="mb-3 position-relative">
                                         <label for="imei" class="form-label">Imei</label>
                                         <input type="text" class="form-control" placeholder="imei" id="imei" name="imei" required>
                                         <div class="invalid-tooltip"></div>
-                                    </div
-                                    ><div class="mb-3 position-relative">
+                                    </div><div class="mb-3 position-relative">
                                         <label for="email2" class="form-label">Email address</label>
                                         <input type="email" class="form-control" placeholder="email" id="email2" name="email" required>
                                         <div class="invalid-tooltip"></div>
@@ -124,12 +135,13 @@
         </div>
     </div>
 </div>
+</div>
 <section id="about">
     <h1 class="text-center">Company name</h1>
 </section>
 <script>
 
-var userModel = new User();
+var userModel = new User("{{ csrf_token() }}");
 
 new AjaxForm($("#sign_in_form")[0],userModel.login).init();
 new AjaxForm($("#sign_up_form")[0],userModel.signup).init();     

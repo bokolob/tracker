@@ -134,6 +134,12 @@
                 </div>
                 <div class="card-body">
                     <form action="/devices/add" method="post" id="add_device_form" class="needs-validation" novalidate>
+                        <div class="alert alert-success d-none" role="alert">
+                            Success!
+                        </div>
+                        <div class="alert alert-danger d-none" role="alert">
+                            Failed :(
+                        </div>
                         <div class="mb-3 position-relative">
                             <label for="imeiInput" class="form-label">Imei</label>
                             <input type="text" class="form-control" id="imeiInput" placeholder="imei" name="imei" required>
@@ -159,6 +165,12 @@
                 <div class="card-body">
                     <div class="container">
                         <form action="/friends/add" method="post" id="add_friend_form" class="needs-validation" novalidate>
+                            <div class="alert alert-success d-none" role="alert">
+                                Success!
+                            </div>
+                            <div class="alert alert-danger d-none" role="alert">
+                                Failed :(
+                            </div>
                             <div class="mb-3 position-relative">
                                 <label for="nameInput" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="name" name="friend_login" required>
@@ -169,11 +181,7 @@
                             </div>
                         </form> 
                     </div>
-                    <div class="container border-top mt-3">
-                        <div class="row row-cols-auto mt-3">
-                            <div class="col-lg-6 justify-content-start">Name</div>
-                            <div class="col-md-auto">Button</div>
-                        </div>
+                    <div class="container border-top mt-3" id="friends_requests">
                     </div>
                 </div>
             </div>    
@@ -186,6 +194,57 @@
 </div>
 
 {% raw %}
+<script id="friends_list_template" type="x-tmpl-mustache">
+<hr>
+<div class="card">
+    <div class="card-header">
+        My devices are visible by
+      </div>
+      <div class="card-body">
+        {{#friends_of_mine}}
+            <div class="row row-cols-auto mt-3">
+                <div class="col-lg-6 justify-content-start">{{friend}}</div>
+                <div class="col-lg-6 justify-content-start">{{state}}</div>
+                <div class="col-md-auto">
+                    <button type="button" class="btn btn-success" onClick="removeFromFriends({{id}});">Remove</button>
+                </div>
+            </div>
+        {{/friends_of_mine}}
+      </div>
+</div>
+<hr>
+<div class="card">
+    <div class="card-header">
+        I see their devices:
+      </div>
+      <div class="card-body">
+        {{#i_am_their_friend}}
+            <div class="row row-cols-auto mt-3">
+                <div class="col-lg-6 justify-content-start">{{user_id}}</div>
+                <div class="col-lg-6 justify-content-start">{{state}}</div>
+                <div class="col-md-auto">
+                    <button type="button" class="btn btn-success" onClick="removeMyselfFromFriends({{id}});">Remove</button>
+                </div>
+            </div>
+        {{/i_am_their_friend}}
+      </div>
+</div>
+</script>
+
+<script id="friendship_requests_template" type="x-tmpl-mustache">
+{{#requests}}
+    <div class="row row-cols-auto mt-3">
+        <div class="col-lg-6 justify-content-start">{{friend}}</div>
+        <div class="col-md-auto">
+            <button type="button" class="btn btn-success" onClick="onAcceptFriend({{id}});">Accept</button>
+        </div>
+        <div class="col-md-auto">
+            <button type="button" class="btn btn-danger" onClick="onDeclineFriend({{id}});">Decline</button>
+        </div>
+    </div>
+{{/requests}}
+</script>
+
 <script id="trackers_list_entry_template" type="x-tmpl-mustache">
 {{#trackers}}
 <div class="accordion-item" >
@@ -342,8 +401,9 @@
         },
     ]
     });
+
     stateChangingButton.addTo(mymap);
-    
+
     var marker = new L.Marker(currentPosition);
     marker.addTo(mymap);
 
@@ -352,6 +412,23 @@
         L.circle(e.latlng, radius).addTo(mymap);
     }
 
+    function updateFriendsRequests() {
+        $.ajax({url: '/friends/requests'})
+        .done(
+            function(data) {
+                let rendered = Mustache.render($('#friendship_requests_template')[0].innerHTML, { 'requests': data });
+                $('#friends_requests')[0].innerHTML = rendered; 
+            }
+        )
+    }
+
+    function onAcceptFriend(id) {
+        friendsModel.accept(id);
+    }
+
+    function onDeclineFriend(id) {
+        friendsModel.reject(id);
+    }
 
     //mymap.on('locationfound', onLocationFound);
 
@@ -396,6 +473,7 @@
     }
 
     setInterval(updateWaypoints, 1000);
+    setInterval(updateFriendsRequests, 10000);
     
     devicesModel.reload();
 

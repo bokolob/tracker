@@ -34,6 +34,7 @@ class AjaxForm {
         this.form.find(":input").removeClass("is-invalid");
         this.form.find(":input").removeClass("is-valid");
         this.form.find(":input").siblings(".invalid-tooltip").empty();
+        this.form.find(".alert-success").removeClass("d-none");
 
         if (this.onDoneCallback) {
             this.onDoneCallback(data); 
@@ -44,6 +45,7 @@ class AjaxForm {
     }
 
     onFail(jqXHR) {
+        this.form.find(".alert-danger").removeClass("d-none");
         if (jqXHR.responseJSON) {
             let data = jqXHR.responseJSON;
             console.log(data);
@@ -76,6 +78,9 @@ class AjaxForm {
         this.form.addClass('was-validated');
         this.form.find(":input").removeClass("is-invalid");
         this.form.find(":input").siblings(".invalid-tooltip").empty();
+        
+        this.form.find(".alert-success").addClass("d-none");
+        this.form.find(".alert-danger").addClass("d-none");
 
         let thisCopy = this;
 

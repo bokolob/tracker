@@ -1,3 +1,33 @@
+class BaseModel {
+    constructor(csrf) {
+        this.csrf = csrf;        
+    } 
+
+    xhr(options) {
+        let prevBeforeSend = options['beforeSend'];
+        let wrapper = null;
+        let thisCopy=this;
+
+        wrapper = function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", thisCopy.csrf);
+            }
+            if (prevBeforeSend != null) {
+                prevBeforeSend(xhr, settings);
+            }
+        }
+
+        options['beforeSend'] = wrapper;
+
+        let result = $.ajax(options); 
+
+        options['beforeSend'] = prevBeforeSend;
+
+        return result;
+    }
+
+}
+
 class UserSettings {
     updateSettings() {
 
@@ -5,6 +35,11 @@ class UserSettings {
 };
 
 class Friends {
+    constructor(onListUpdate, onRequestsUpdate) {
+        this.onListUpdateCallback = onListUpdate;
+        this.onRequestsUpdateCallback = onRequestsUpdate;
+    }
+
     add = (description, onSuccess, onFail) => {
         $.ajax({
                 'url': '/friends/add',
@@ -14,7 +49,7 @@ class Friends {
                 'data': JSON.stringify(description)
              }
         )
-        .done(onSuccess)
+        .done( (data) => { onSuccess(data); this.list() })
         .fail(onFail)
     };
 
@@ -29,11 +64,24 @@ class Friends {
         .done(onSuccess)
         .fail(onFail)
     };
+
+    accept = (id) => {
+        alert("accept " + id);
+    };
+
+    reject = (id) => {
+        alert("reject " + id);
+    };
+
 }
 
-class User {
+class User extends BaseModel {
+    constructor(csrf) {
+        super(csrf);
+    }
+
     login = (description, onSuccess, onFail) => {
-        $.ajax({
+        this.xhr({
                 'url': '/auth',
                 'method': "POST", 
                 'contentType': 'application/json;charset=UTF-8',
@@ -46,13 +94,13 @@ class User {
     };
 
     logout = (onSuccess, onFail)  => {
-        $.ajax('/logout')
+        this.xhr('/logout')
         .done(onSuccess)
         .fail(onFail)
     };
 
     signup = (description, onSuccess, onFail ) => {
-        $.ajax({
+        this.xhr({
                 'url': '/signup',
                 'method': "POST", 
                 'contentType': 'application/json;charset=UTF-8',
