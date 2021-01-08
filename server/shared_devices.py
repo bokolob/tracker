@@ -1,79 +1,73 @@
+import time
+
 import flask_login
-from flask import jsonify, request, Blueprint
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from flask import jsonify, request, Blueprint, url_for
 from flask_login import login_required
-from sqlalchemy import or_
+from sqlalchemy import or_, asc, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 import model
+from app import csrf
 from model import db
-from web import abort_json
+from web import abort_json, is_blank
 
 shared_devices_page = Blueprint('shared_page', __name__, template_folder='templates')
+key = bytearray.fromhex('754409aece52cc7c71c5ebd3e684e23ae2b288c25f70a1c91d86479920ebea76')
+iv = bytearray.fromhex('afd607ff3c9a34261a76129b1767efb3')
+cipher = Cipher(algorithms.AES(key), modes.CFB(iv))
 
 
 @shared_devices_page.route('/shared/list', methods=['GET'])
 @login_required
-def friends_list():
-    devices = model.Device.query \
-        .options(joinedload(model.Device.share, innerjoin=True), joinedload(model.Device.user, innerjoin=True)) \
+def shared_list():
+    devices = model.SharedDevices.query \
+        .options(joinedload(model.SharedDevices.device, innerjoin=True).joinedload(model.Device.user, innerjoin=True)) \
         .filter(or_(model.Device.user_id == flask_login.current_user.id,
-                    model.SharedDevices.shared_with == flask_login.current_user.id)).all()
+                    model.SharedDevices.shared_with == flask_login.current_user.id)) \
+        .order_by(asc(model.Device.id)) \
+        .all()
 
     def converter(x):
         return {
-            'id': x.share.id,
-            'owner': x.user.name,
-            'device_id': x.id,
-            'state': x.share.state.value
+            'id': x.id,
+            'is_mine': x.device.user.id == flask_login.current_user.id,
+            'owner': x.device.user.name,
+            'device_id': x.device.id,
+            'device_name': x.device.name,
         }
 
     return jsonify(list(map(converter, devices)))
 
 
-@shared_devices_page.route('/shared/accept/<int:id>', methods=['GET'])
+@shared_devices_page.route('/shared/link/<token>', methods=['GET'])
+@csrf.exempt
 @login_required
-def friends_accept(id):
-    rows = model.SharedDevices.query.filter_by(shared_with=flask_login.current_user.id, id=id,
-                                               state=model.SharingState.requested).update(
-        {'state': model.SharingState.accepted})
-    db.session.commit()
+def shared_accept(token):
+    if is_blank(token):
+        return abort_json(400, message="No token")
 
-    return jsonify({'result': rows})
+    decryptor = cipher.decryptor()
+    content = (decryptor.update(bytearray.fromhex(token)) + decryptor.finalize()).decode("latin1")
 
+    if not content.startswith("deadbeef"):
+        return abort_json(400, message="Invalid link")
 
-@shared_devices_page.route('/shared/revoke/<int:id>', methods=['GET'])
-@login_required
-def friends_reject(id):
-    rows = model.SharedDevices.query.filter_by(shared_with=flask_login.current_user.id, id=id).update(
-        {'state': model.SharingState.declined})
-    db.session.commit()
-    return jsonify({'result': rows})
+    (prefix, ts, device_id) = content.split(":")
 
+    if time.time() > int(ts) + 24 * 3600:
+        return abort_json(400, message="Stale link")
 
-@shared_devices_page.route('/shared/request', methods=['POST'])
-@login_required
-def friends_add():
-    args = request.get_json()
-
-    if args is None:
-        return abort_json(400, message="No payload")
-
-    friend_login = args.get("friend_login")
-    friend = model.User.query.filter_by(login=friend_login).first()
-
-    if friend is None or friend.id == flask_login.current_user.id:
-        return abort_json(400, errors={'friend_login': 'Not found'})
-
-    device_id = args.get("device_id")
-    device = model.Device.query.filter_by(id=device_id).first()
+    device = model.Device.query.filter(
+        and_(model.Device.id == device_id, model.Device.user_id != flask_login.current_user.id)).first()
 
     if device is None:
         return abort_json(400, errors={'device_id': 'Not found'})
 
     new_record = model.SharedDevices()
-    new_record.shared_with = friend.id
-    new_record.device_id = device_id
+    new_record.shared_with = flask_login.current_user.id
+    new_record.device_id = device.id
 
     try:
         db.session().add(new_record)
@@ -82,3 +76,32 @@ def friends_add():
         pass
 
     return jsonify({})
+
+
+@shared_devices_page.route('/shared/<int:id>', methods=['DELETE'])
+@login_required
+def shared_reject(id):
+    rows = model.SharedDevices.query.filter_by(shared_with=flask_login.current_user.id, id=id).delete()
+    db.session.commit()
+    return jsonify({'result': rows})
+
+
+@shared_devices_page.route('/shared/link', methods=['POST'])
+@login_required
+def gen_link_for_device():
+    args = request.get_json()
+
+    if args is None:
+        return abort_json(400, message="No payload")
+
+    device_id = args.get("device_id")
+    device = model.Device.query.filter_by(id=device_id, user_id=flask_login.current_user.id, is_shareable=True).first()
+
+    if device is None:
+        return abort_json(400, errors={'device_id': 'Not found'})
+
+    data = ":".join(("deadbeef", str(int(time.time())), str(device.id)))
+    encryptor = cipher.encryptor()
+    ct = encryptor.update(bytes(data, "latin1")) + encryptor.finalize()
+
+    return jsonify({'link': url_for('shared_page.shared_accept', _external=True, token=ct.hex())})

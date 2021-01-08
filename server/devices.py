@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 import model
+from device_settings import default_settings
 from web import abort_json, is_blank
 
 devices_page = Blueprint('devices_page', __name__, template_folder='templates')
@@ -35,6 +36,7 @@ def add_device():
     device.imei = imei
     device.user_id = flask_login.current_user.id
     device.name = name
+    device.settings = default_settings()
 
     try:
         model.db.session().add(device)
@@ -49,22 +51,23 @@ def add_device():
 @login_required
 def get_devices():
     subquery = model.SharedDevices.query. \
-        with_entities(model.SharedDevices.device_id).filter_by(state=model.SharingState.accepted,
-                                                               shared_with=flask_login.current_user.id).subquery()
-
+        with_entities(model.SharedDevices.device_id).filter_by(shared_with=flask_login.current_user.id).subquery()
     devices = model.Device.query. \
         options(joinedload(model.Device.user, innerjoin=True)) \
         .filter(or_(model.Device.user_id.in_(subquery), model.Device.user_id == flask_login.current_user.id, )
                 ).all()
 
     return jsonify(list(
-        map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei,
+        map(lambda x: {'name': x.name,
+                       'id': x.id,
+                       'imei': x.imei,
+                       'is_shareable': x.user.id == flask_login.current_user.id and x.is_shareable,
                        'user': {'id': x.user.id, 'name': x.user.login,
                                 'shared': x.user.id != flask_login.current_user.id}},
             devices)))
 
 
-@devices_page.route('/devices/remove/<imei>')
+@devices_page.route('/devices/remove/<imei>', methods=['DELETE'])
 @login_required
 def remove_device(imei):
     devices = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).delete()

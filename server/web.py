@@ -1,4 +1,5 @@
 from email.utils import parseaddr
+from urllib.parse import urlparse
 
 import flask_login
 from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory, Blueprint
@@ -14,7 +15,21 @@ main_page = Blueprint('main_page', __name__, template_folder='templates')
 
 @main_page.route('/', methods=['POST', 'GET'])
 def root():
-    return render_template('login.html')
+    return render_template('login.html', target=request.args.get('next', '', type=str))
+
+
+def process_target_url(target):
+    if not is_blank(target):
+        o = None
+        try:
+            o = urlparse(target)
+        except ValueError:
+            pass
+
+        if o is not None:
+            return o[2] + '?' + o[3]
+
+    return None
 
 
 @main_page.route('/auth', methods=['POST', 'GET'])
@@ -34,7 +49,8 @@ def login():
 
     if user.verify_password(pass1):
         login_user(user, remember=True)
-        return jsonify({'redirect': "/map"})
+        possible_redirect = process_target_url(args.get('target')) or '/map'
+        return jsonify({'redirect': possible_redirect})
 
     abort_json(403, errors={"email": "User not found"})
 
@@ -102,7 +118,8 @@ def signup():
 
     # TODO add device
     login_user(user, remember=True)
-    return jsonify({'redirect': "/map"})
+    possible_redirect = process_target_url(args.get('target')) or '/map'
+    return jsonify({'redirect': possible_redirect})
 
 
 def abort_json(code, **kwargs):
@@ -123,14 +140,14 @@ def index():
 @login_required
 def get_coordinates(imei=None):
     since = request.args.get('since', None, type=int)
+    until = request.args.get('until', None, type=int)
 
     if since is not None:
         if since > 2 ** 31 or since < 0:
             abort(400, description="Bad 'since' param")
 
     subquery = model.SharedDevices.query. \
-        with_entities(model.SharedDevices.device_id).filter_by(state=model.SharingState.accepted,
-                                                               shared_with=flask_login.current_user.id).subquery()
+        with_entities(model.SharedDevices.device_id).filter_by(shared_with=flask_login.current_user.id).subquery()
 
     device = model.Device.query.with_entities(model.Device.id) \
         .filter(imei == imei,
@@ -150,7 +167,11 @@ def get_coordinates(imei=None):
 
     if since is not None:
         since = shifted | since
-        where.append(model.Coordinates.id > since)
+        where.append(model.Coordinates.id >= since)
+
+    if until is not None:
+        until = shifted | until
+        where.append(model.Coordinates.id <= until)
 
     rs = model.Coordinates.query.with_entities(model.Coordinates.lat, model.Coordinates.lng, model.Coordinates.id) \
         .filter(and_(*where)).order_by(asc(model.Coordinates.id)).limit(100).all()

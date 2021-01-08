@@ -1,8 +1,9 @@
 import os
 
-from flask import Flask
-from flask_wtf.csrf import CSRFProtect
+from flask import Flask, request
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
+from werkzeug.utils import redirect
 
 import model
 
@@ -13,6 +14,11 @@ csrf = CSRFProtect()
 @login_manager.user_loader
 def load_user(user_id):
     return model.User.query.filter_by(id=int(user_id)).first()
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect('/?next=' + request.path)
 
 
 def create_app(config_filename):
@@ -27,6 +33,8 @@ def create_app(config_filename):
     app.config['DEBUG'] = True
     app.config['WTF_CSRF_TIME_LIMIT'] = None
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+    app.config['SHARED_DEVICES_SECRET_KEY'] = bytearray.fromhex(
+        '754409aece52cc7c71c5ebd3e684e23ae2b288c25f70a1c91d86479920ebea76')
 
     from model import db
     db.init_app(app)

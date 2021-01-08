@@ -1,26 +1,11 @@
-import enum
-
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Index, Enum
+from sqlalchemy import Index
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
 
-class FriendState(enum.Enum):
-    requested = "Requested"
-    accepted = "Accepted"
-    declined = "Declined"
-
-
-class SharingState(enum.Enum):
-    requested = "Requested"
-    accepted = "Accepted"
-    declined = "Declined"
-
-
-# an example mapping using the base
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -47,11 +32,25 @@ class SharedDevices(db.Model):
     device_id = db.Column(db.Integer, db.ForeignKey('devices.id'), nullable=False)
     shared_with = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    device = db.relationship("Device", lazy="joined", back_populates="share")
-    user = db.relationship("User", lazy="joined")
+    device = db.relationship("Device", lazy="joined", uselist=False, back_populates="share")
+    user = db.relationship("User", uselist=False, lazy=True)
 
-    state = db.Column(Enum(SharingState), nullable=False, default=SharingState.requested)
     __table_args__ = (Index('User_device', 'shared_with', 'device_id', unique=True),)
+
+
+class SubscriptionPlan(db.Model):
+    __tablename__ = 'subscription_plans'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Integer, nullable=False, default=0)
+
+
+class SubscriptionOptions(db.Model):
+    __tablename__ = 'subscription_option'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    key = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.String(100), nullable=False)
 
 
 class Device(db.Model):
@@ -60,7 +59,9 @@ class Device(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     imei = db.Column(db.String(16), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    user = db.relationship("User", back_populates="devices", lazy="joined")
+    is_shareable = db.Column(db.Boolean, nullable=False, default=False)
+    settings = db.relationship("DeviceSettings", lazy="joined")
+    user = db.relationship("User", back_populates="devices", uselist=False, lazy="joined")
     share = db.relationship("SharedDevices", back_populates="device", lazy="joined")
     # coordinates = db.relationship("Coordinates", back_populates="device", lazy=True)
 
@@ -72,3 +73,23 @@ class Coordinates(db.Model):
     device = db.relationship("Device")
     lat = db.Column(db.Numeric)
     lng = db.Column(db.Numeric)
+
+
+class DeviceSettings(db.Model):
+    __tablename__ = 'device_settings'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    device_id = db.Column(db.Integer, db.ForeignKey('devices.id'), nullable=False)
+    key = db.Column(db.String(100), nullable=False)
+    type = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.String(100), nullable=False)
+    __table_args__ = (Index('settings_unique', 'device_id', 'key', unique=True),)
+
+
+class LBSQueue(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    coord_rec_id = db.Column(db.BigInteger, db.ForeignKey('coordinates.id'), nullable=False)
+    country_code = db.Column(db.Integer)
+    operator_id = db.Column(db.Integer)
+    lac = db.Column(db.Integer)
+    cell_id = db.Column(db.Integer)
+    signal_strength = db.Column(db.Numeric)

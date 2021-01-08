@@ -24,7 +24,7 @@ class AjaxForm {
         return o;
     }
 
-    onDone(data)
+    onDone = (data) =>
     {
         console.log(data);
         if (data.redirect) {
@@ -42,9 +42,9 @@ class AjaxForm {
 
         this.form.reset();
 
-    }
+    };
 
-    onFail(jqXHR) {
+    onFail = (jqXHR) => {
         this.form.find(".alert-danger").removeClass("d-none");
         if (jqXHR.responseJSON) {
             let data = jqXHR.responseJSON;
@@ -63,9 +63,9 @@ class AjaxForm {
         if (this.onFailCallback) {
             this.onFailCallback(); 
         }
-    }
+    };
 
-    onSubmit(e){
+    onSubmit = (e) => {
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
         if (!this.form[0].checkValidity()) {
@@ -82,13 +82,8 @@ class AjaxForm {
         this.form.find(".alert-success").addClass("d-none");
         this.form.find(".alert-danger").addClass("d-none");
 
-        let thisCopy = this;
-
-        this.modelCallback(this.serializeForm(), 
-                            function(data) {thisCopy.onDone(data)},
-                            function(jqXHR) {thisCopy.onFail(jqXHR)}
-        );
+        this.modelCallback(this.serializeForm(), this.onDone, this.onFail);
 
         return false;
-    }
+    };
 }

@@ -1,12 +1,14 @@
-import socket
-import os
-import model
-import datetime
 import asyncio
+import datetime
+import os
+import socket
 from urllib.parse import urlparse
+
 from aiomysql.sa import create_engine
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.sql import select
+
+import model
 from app import create_app
 
 PROC_COUNT = 5
@@ -17,6 +19,7 @@ queue = asyncio.Queue()
 known_devices = dict()
 
 app = create_app('')
+
 
 def create_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -71,7 +74,7 @@ async def process_queue(engine):
 
     while True:
         try:
-            coords = await asyncio.wait_for(queue.get(), timeout=int(TIMEOUT/2))
+            coords = await asyncio.wait_for(queue.get(), timeout=int(TIMEOUT / 2))
             buf.append(coords)
             queue.task_done()
 

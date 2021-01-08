@@ -64,6 +64,7 @@
                         <div class="card text-white" >
                             <div class="card-body">
                                 <form action="/auth" method="post" id="sign_in_form">
+                                    <input type="hidden" name="target" value="{{ target|e}}">
                                     <div class="alert alert-success d-none" role="alert">
                                         Success!
                                     </div>
@@ -97,6 +98,7 @@
                         <div class="card text-white">
                             <div class="card-body">
                                 <form action="/signup" method="post" id="sign_up_form" class="needs-validation" novalidate>
+                                    <input type="hidden" name="target" value="{{target|e}}">
                                     <div class="alert alert-success d-none" role="alert">
                                         Success!
                                     </div>

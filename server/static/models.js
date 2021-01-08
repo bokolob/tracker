@@ -4,6 +4,10 @@ class BaseModel {
     } 
 
     xhr(options) {
+        if (typeof options == "string") {
+            options = {'url': options};
+        }
+
         let prevBeforeSend = options['beforeSend'];
         let wrapper = null;
         let thisCopy=this;
@@ -26,6 +30,7 @@ class BaseModel {
         return result;
     }
 
+    
 }
 
 class UserSettings {
@@ -34,15 +39,15 @@ class UserSettings {
     }
 };
 
-class Friends {
-    constructor(onListUpdate, onRequestsUpdate) {
-        this.onListUpdateCallback = onListUpdate;
-        this.onRequestsUpdateCallback = onRequestsUpdate;
+class SharedDevices extends BaseModel {
+    constructor(csrf, onListUpdate) {
+        super(csrf);
+        this.onUpdateCallback = onListUpdate;
     }
 
     add = (description, onSuccess, onFail) => {
-        $.ajax({
-                'url': '/friends/add',
+        this.xhr({
+                'url': '/shared/link',
                 'method': "POST", 
                 'contentType': 'application/json;charset=UTF-8',
                 'dataType': 'json',
@@ -54,23 +59,24 @@ class Friends {
     };
 
     remove = (onSuccess, onFail)  => {
-        $.ajax('/friends/remove')
+        this.xhr('/shared/remove')
         .done(onSuccess)
         .fail(onFail)
     };
 
     list = (onSuccess, onFail ) => {
-        $.ajax({'url': '/friends'})
-        .done(onSuccess)
+        let thisCopy=this;
+        this.xhr({'url': '/shared/list'})
+        .done(
+            function(data) {
+                console.log(data)
+                thisCopy.onUpdateCallback(data);
+                if (onSuccess) {
+                    onSuccess(data); 
+                }
+            }
+        )
         .fail(onFail)
-    };
-
-    accept = (id) => {
-        alert("accept " + id);
-    };
-
-    reject = (id) => {
-        alert("reject " + id);
     };
 
 }
@@ -113,20 +119,22 @@ class User extends BaseModel {
     };
 }
 
-class Devices {
+class Devices extends BaseModel {
 
-    constructor(onUpdate, beforeUpdateCallback) {
+    constructor(csrf, onUpdate, beforeUpdateCallback) {
+        super(csrf);
         this.onUpdateCallback = onUpdate;
         this.beforeUpdateCallback = beforeUpdateCallback;
         this.devices = [] 
     }
 
     remove = function(imei) {
-    }.bind(this);
+
+    };
 
     add = (description, onSuccess, onFail) => {
         let thisCopy = this;
-        $.ajax({
+        this.xhr({
                 'url': '/devices/add',
                 'method': "POST", 
                 'contentType': 'application/json;charset=UTF-8',
@@ -148,7 +156,7 @@ class Devices {
     reload = (onSuccess, onFail) => {
         this.beforeUpdateCallback();
         let thisCopy = this;
-        $.ajax('/devices')
+        this.xhr('/devices')
             .done(function(data) {
                 console.log(data)
                 thisCopy.devices=data;
