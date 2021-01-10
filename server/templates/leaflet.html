@@ -43,6 +43,7 @@
     <script src="/static/models.js"></script>
     <script src="/static/coordinates.js"></script>
     <script src="/static/vue.js"></script>
+    <script src="/static/calendar.js"></script>
 
     <style>
         body {
@@ -326,6 +327,10 @@
         }
 
         let map = new Coordinates('mapid');
+        let tracker_bounds = new TrackersBounds(map);
+        let tracker = new Tracker(map, imei);
+        tracker_bounds.addTracker(tracker);
+
         let devicesModel = new Devices("{{ csrf_token() }}", renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
         let friendsModel = new SharedDevices("{{ csrf_token() }}", updateFriendsRequests);
 
@@ -346,7 +351,7 @@
 
                 });
         
-        setInterval(() => map.updateWaypoints(imei), 1000);
+        setInterval(tracker.updateWaypoints, 1000);
         setInterval(friendsModel.list, 10000);
         
         devicesModel.reload();

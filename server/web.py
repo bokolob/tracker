@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import flask_login
 from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory, Blueprint
 from flask_login import login_user, login_required, logout_user
-from sqlalchemy import and_, asc, or_
+from sqlalchemy import and_, asc, or_, desc
 from sqlalchemy.exc import IntegrityError
 
 import model
@@ -141,6 +141,7 @@ def index():
 def get_coordinates(imei=None):
     since = request.args.get('since', None, type=int)
     until = request.args.get('until', None, type=int)
+    direction = request.args.get('direction', 'asc', type=str)
 
     if since is not None:
         if since > 2 ** 31 or since < 0:
@@ -167,13 +168,18 @@ def get_coordinates(imei=None):
 
     if since is not None:
         since = shifted | since
-        where.append(model.Coordinates.id >= since)
+        where.append(model.Coordinates.id > since)
 
     if until is not None:
         until = shifted | until
         where.append(model.Coordinates.id <= until)
 
+    if direction == 'asc':
+        order_stm = asc(model.Coordinates.id)
+    else:
+        order_stm = desc(model.Coordinates.id)
+
     rs = model.Coordinates.query.with_entities(model.Coordinates.lat, model.Coordinates.lng, model.Coordinates.id) \
-        .filter(and_(*where)).order_by(asc(model.Coordinates.id)).limit(100).all()
+        .filter(and_(*where)).order_by(order_stm).limit(100).all()
 
     return jsonify(list(map(lambda x: {'lat': str(x.lat), 'lng': str(x.lng), 'ts': int(x.id & timestamp_mask)}, rs)))

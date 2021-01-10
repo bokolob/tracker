@@ -33,12 +33,12 @@ def send_coords(lat, long, timestamp):
 
 files = [join('./gpx_examples', f) for f in listdir('./gpx_examples') if isfile(join('./gpx_examples', f))]
 
-for file in files[4:5]:
+for file in files[5:6]:
     gpx_file = open(file, 'r')
     gpx = gpxpy.parse(gpx_file)
 
     iterator = get_point(gpx)
-    timestamp = int(datetime.now().timestamp())
+   # timestamp = int(datetime.now().timestamp())
 
     first = next(iterator)
 
@@ -65,10 +65,10 @@ for file in files[4:5]:
             position[1] = first.longitude + unit_vector[1] * progress
             print('Point at ({0},{1})'.format(position[0], position[1]))
 
-            send_coords(position[0], position[1], timestamp)
+            send_coords(position[0], position[1], int(datetime.now().timestamp()))
 
             progress = progress + SPEED
             sleep(1)
-            timestamp = timestamp + 10
+            #timestamp = timestamp + 10
 
         first = next_point
