@@ -55,10 +55,6 @@
             /* mobile viewport bug fix 
             min-height: -webkit-fill-available; */
         }
-
-        html1 {
-            height: 100vh;
-        }
         
         .map_container {
             height: calc(100% - 51px); 
@@ -142,48 +138,52 @@
                 {% raw %}
                     <div class="accordion" id="tracker_list">
                         <div class="accordion-item" v-for="item in devices">
-                            <h2 class="accordion-header" :id="'heading_' + item.imei">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse_'+ item.imei" aria-expanded="true" :aria-controls="'collapse_' + item.imei">
-                                    {{item.name}}
-                                </button>
-                              </h2>
-                            <div :id="'collapse_' + item.imei" class="accordion-collapse collapse" :aria-labelledby="'heading_' + item.imei" data-bs-parent="#tracker_list">
-                                <div class="accordion-body">
-                                    <div class="container-fluid">
-                                        <div class="row row-cols-2 mt-3"> 
-                                            <div class="col justify-content-start"> 
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" :id="item.imei + '_enabled'" onChange="console.log(devicesModel)">
+                            <device-item :device="item" :settings="devices_settings[item.imei]" inline-template>
+                                <div>
+                                <h2 class="accordion-header" :id="'heading_' + device.imei">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse_'+ device.imei" aria-expanded="true" :aria-controls="'collapse_' + device.imei">
+                                        {{device.name}}
+                                    </button>
+                                </h2>
+                                <div :id="'collapse_' + device.imei" class="accordion-collapse collapse" :aria-labelledby="'heading_' + device.imei" data-bs-parent="#tracker_list">
+                                    <div class="accordion-body">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-2 mt-3"> 
+                                                <div class="col justify-content-start"> 
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" :id="device.imei + '_enabled'" v-model="settings.enabled">
+                                                    </div>
+                                                </div>
+                                                <div class="col justify-content-start">  
+                                                        <label class="form-check-label" :for="device.imei + '_enabled'">Show on map</label>
                                                 </div>
                                             </div>
-                                            <div class="col justify-content-start">  
-                                                    <label class="form-check-label" :for="item.imei + '_enabled'">Show on map</label>
-                                            </div>
-                                        </div>
-                                           
-                                        <div class="row row-cols-2 mt-3">  
-                                            <div class="col justify-content-start"> 
-                                                <div class="form-check">
-                                                    <input type="color" class="form-control form-control-color" :id="item.imei+'_color'" onChange="console.log(devicesModel)">
+                                            
+                                            <div class="row row-cols-2 mt-3">  
+                                                <div class="col justify-content-start"> 
+                                                    <div class="form-check">
+                                                        <input type="color" class="form-control form-control-color" :id="device.imei+'_color'" v-model="settings.color">
+                                                    </div>
+                                                </div>
+                                                <div class="col justify-content-start">
+                                                        <label class="form-check-label" :for="device.imei+'_color'">Color</label>
                                                 </div>
                                             </div>
-                                             <div class="col justify-content-start">
-                                                    <label class="form-check-label" :for="item.imei+'_color'">Color</label>
-                                             </div>
-                                        </div>
-                                        <div class="row mt-3 justify-content-end"> 
-                                            <div class="col-md-auto"> 
-                                                <button type="button" class="btn btn-danger btn-sm">Remove</button>
+                                            <div class="row mt-3 justify-content-end"> 
+                                                <div class="col-md-auto"> 
+                                                    <button type="button" class="btn btn-danger btn-sm">Remove</button>
+                                                </div>
                                             </div>
+                                            <div class="row mt-3 justify-content-end"> 
+                                                <div class="col-md-auto">
+                                                    <button type="button" class="btn btn-secondary btn-sm">Settings</button>
+                                                </div>
+                                            </div> 
                                         </div>
-                                        <div class="row mt-3 justify-content-end"> 
-                                            <div class="col-md-auto">
-                                                <button type="button" class="btn btn-secondary btn-sm">Settings</button>
-                                            </div>
-                                        </div> 
                                     </div>
                                 </div>
-                            </div>
+                                </div>
+                                </device-item>
                        </div>
                    </div>
                  {% endraw %}
@@ -246,7 +246,7 @@
                               <div class="invalid-tooltip"></div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Offer friendship</button>
+                                <button type="submit" class="btn btn-primary">Get sharing link</button>
                             </div>
                         </form> 
                     </div>
@@ -308,16 +308,31 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        let imei = "{{ imei }}";
+        let map = new Coordinates('mapid');
+        let tracker_bounds = new TrackersBounds(map);
+        let trackerObjects = {};
 
         let vue_data = {
             devices: [],
+            devices_settings: {},
             shared_devices: [],
             last_shared_link: '',
         };
 
         function renderDevices(data) {
             console.log(data);
+
+            for (let i in data) {
+                let device = data[i];
+            
+                if (!trackerObjects[device.imei]) {
+                    trackerObjects[device.imei] = new Tracker(map, device.imei);
+                    tracker_bounds.addTracker(trackerObjects[device.imei]);
+                }   
+
+                Vue.set(vue_data.devices_settings, device.imei, {'enabled': false, 'color':'#ff0000'});
+            }
+
             vue_data.devices = data;
             $("#trackers_list_spinner").addClass("d-none");
         }
@@ -326,32 +341,51 @@
             vue_data.shared_devices = data;
         }
 
-        let map = new Coordinates('mapid');
-        let tracker_bounds = new TrackersBounds(map);
-        let tracker = new Tracker(map, imei);
-        tracker_bounds.addTracker(tracker);
-
         let devicesModel = new Devices("{{ csrf_token() }}", renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
         let friendsModel = new SharedDevices("{{ csrf_token() }}", updateFriendsRequests);
+
+        Vue.component('device-item', {
+                    props: ["device", "settings"],
+                    watch: {
+                        'settings.enabled': {
+                            handler: function(newValue, oldValue) {
+                                if (newValue) {
+                                    trackerObjects[this.device.imei].addToMap();
+                                }
+                                else {
+                                    trackerObjects[this.device.imei].removeFromMap();
+                                }
+                            },
+                            immediate: true,
+                        },
+                        'settings.color': {
+                            handler: function(newValue, oldValue) {
+                                trackerObjects[this.device.imei].set_color(newValue);
+                            },
+                            immediate: true,
+                        }, 
+                    }
+                });
+
 
         var vm = new Vue(
                 {
                     'el': '#app',
                     'data':  vue_data,
-                    methods: {
-                        removeFromFriends: function() {alert("xxx")}  
+                    'methods': {
+                        removeFromFriends: function() {alert("xxx")},
                     },
                     computed: {
                                 my_devices: function () {
                                     return this.devices.filter(function (device) {
                                         return device.is_shareable;
                                     })
-                                }
+                                },
                             },
-
                 });
         
-        setInterval(tracker.updateWaypoints, 1000);
+ 
+
         setInterval(friendsModel.list, 10000);
         
         devicesModel.reload();

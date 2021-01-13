@@ -133,7 +133,7 @@ def is_blank(s):
 @main_page.route('/map')
 @login_required
 def index():
-    return render_template('leaflet.html', imei="deadbeef")
+    return render_template('leaflet.html')
 
 
 @main_page.route('/<imei>/coordinates')
@@ -151,10 +151,8 @@ def get_coordinates(imei=None):
         with_entities(model.SharedDevices.device_id).filter_by(shared_with=flask_login.current_user.id).subquery()
 
     device = model.Device.query.with_entities(model.Device.id) \
-        .filter(imei == imei,
-                or_(model.Device.user_id.in_(subquery),
-                    model.Device.user_id == flask_login.current_user.id,
-                    )
+        .filter(model.Device.imei == imei,
+                or_(model.Device.id.in_(subquery), model.Device.user_id == flask_login.current_user.id)
                 ).first()
 
     if device is None:

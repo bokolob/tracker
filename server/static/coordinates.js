@@ -83,6 +83,7 @@ class Coordinates extends EventEmitter {
 
         this.mymap = L.map(id, 
             {
+                preferCanvas: true,
                 center: [55.750996996, 37.617330864],
                 zoom: 14,
                 layers: this.baseLayers['OSM']
@@ -253,7 +254,6 @@ class TrackersBounds extends EventEmitter {
         this.follow = false;
         this.mymap=mymap;
         this.group= L.featureGroup([]);
-        //this.group.addTo(mymap);
         mymap.on('follow_button_pressed', this.onFollowButtonPressed);
         mymap.on('center_button_pressed', this.onCenterButtonPressed);
     }
@@ -268,7 +268,14 @@ class TrackersBounds extends EventEmitter {
     }
 
     addTracker = (tracker) => {
-        this.group.addLayer(tracker.getMarker());
+        tracker.on('tracker_added', () => {
+            this.group.addLayer(tracker.getMarker());
+        });
+
+        tracker.on('tracker_removed', () => {
+            this.group.removeLayer(tracker.getMarker());
+        }); 
+        
         tracker.on('tracker_position', () => {
             if (this.follow) {
                 this.mymap.mymap.fitBounds(this.getBounds());
@@ -288,32 +295,43 @@ class Tracker extends EventEmitter {
         super();
         this.mymap = mymap;
         this.imei = imei;
+        this.follow_trail = true;
+        this.trail_length=1000;
+        this.color='red';
 
+        mymap.on('trail_mode', this.onTrailButtonPressed);
+        mymap.on('dates_selected', this.onDatesSelected);
+    }
+
+    _init() {
         this.currentPosition = L.latLng(55.750996996, 37.617330864);
-        this.marker = new L.Marker(this.currentPosition);
 
         this.segments = [];
         this.last_ts =  null;
         
         this.date_from = null;
         this.date_to = null;
+    }
 
-        this.loaded = false;
-        this.follow_trail = true;
-        this.trail_length=1000;
+    addToMap = () => {
+        this._init();
 
+        this.marker = new L.Marker(this.currentPosition);
         this.marker.addTo(this.mymap.mymap).bindPopup("<div> <div> <div>Hello</div> </div> <div><div>World</div></div>  </div>").openPopup();
 
         //<div style="position: relative;width: 100%;height: 100px;border: 1px solid black;margin: 0;"> <div style="position: absolute;top: 0; right:0"> <div>Hello</div> </div> <div style="height:30px; position: absolute;bottom: 0;"><div>World</div></div>  </div>
        
-        //let status = "<div class='container'> <div class='row justify-content-end'> <div class='col'> <span class='battery-warn fa fa-battery-quarter'>jjkj</span></div></div><div class='row justify-content-end'> <div class='col my-3'>tracker1</div></div></div></div>";
-
+        let status = "<div class='container'> <div class='row justify-content-end'> <div class='col'> <span class='battery-warn fa fa-battery-quarter'>jjkj</span></div></div><div class='row justify-content-end'> <div class='col my-3'>tracker1</div></div></div></div>";
         this.marker.setPopupContent(status);
+        this.timer = setInterval(this.updateWaypoints, 1000);
+        this.emit('tracker_added', [ thisCopy ]);
+    }
 
-        //mymap.register_tracker(this);
-
-        mymap.on('trail_mode', this.onTrailButtonPressed);
-        mymap.on('dates_selected', this.onDatesSelected);
+    removeFromMap = () => {
+        this.clear_segments();
+        this.mymap.mymap.removeLayer(this.getMarker());
+        clearInterval(this.timer);
+        this.emit('tracker_removed', [ thisCopy ]);
     }
 
     getMarker = () => {
@@ -342,11 +360,16 @@ class Tracker extends EventEmitter {
         }
     };
 
-    clear_segments() {
+    clear_segments = () => {
         while (this.segments.length > 0) {
             let s = this.segments.shift();
             this.mymap.mymap.removeLayer(s); 
         } 
+    }
+
+    set_color = (color) => {
+        this.color = color;
+        this.segments.forEach( el => el.setStyle({ 'color': this.color }) );
     }
 
     updateWaypoints = () => {
@@ -395,7 +418,7 @@ class Tracker extends EventEmitter {
                             
                             //TODO connect segments
 
-                            let track = L.polyline([], {color: 'red'});
+                            let track = L.polyline([], {color: thisCopy.color});
                             thisCopy.mymap.mymap.addLayer(track);
                             thisCopy.segments.push(track);
                             l = thisCopy.segments.length;
