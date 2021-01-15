@@ -1,46 +1,41 @@
-import utime
 import machine
+import utime
+
 
 class SoftI2C:
-    sda=None
-    scl=None
+    sda = None
+    scl = None
     delay = 1
 
     def __init__(self, scl=machine.Pin(20), sda=machine.Pin(19), delay=10):
-        self.scl=scl
-        self.sda=sda
-        self.delay=delay
+        self.scl = scl
+        self.sda = sda
+        self.delay = delay
         self.sdaHi()
         self.sclHi()
-    
 
     def i2cDelay(self):
         utime.sleep_us(self.delay)
 
-
     def sclHi(self):
         self.scl.init(machine.Pin.IN, 1)
-        
+
         while self.scl.value() != 1:
             continue
 
         self.i2cDelay();
 
-
     def sdaHi(self):
         self.sda.init(machine.Pin.IN, 1)
         self.i2cDelay()
-    
 
     def sclLo(self):
         self.scl.init(machine.Pin.OUT, 0)
         self.i2cDelay()
 
-
     def sdaLo(self):
         self.sda.init(machine.Pin.OUT, 0)
         self.i2cDelay()
-
 
     def start(self):
         self.sdaHi();
@@ -51,7 +46,6 @@ class SoftI2C:
         self.sclLo();
         self.i2cDelay();
 
-
     def stop(self):
         self.sdaLo();
         self.i2cDelay();
@@ -59,23 +53,20 @@ class SoftI2C:
         self.i2cDelay();
         self.sdaHi();
         self.i2cDelay();
-    
 
     def clockPulse(self):
         self.sclHi();
         self.i2cDelay();
         self.sclLo();
 
-
     def writeByte(self, data_byte):
         for i in range(8):
-            if data_byte & (1 << 7-i):
+            if data_byte & (1 << 7 - i):
                 self.sdaHi()
             else:
                 self.sdaLo()
 
             self.clockPulse()
-
 
     def writeNack(self):
         self.sdaHi()
@@ -92,7 +83,6 @@ class SoftI2C:
 
         return out_bit
 
-
     def readByte(self):
         out_byte = 0
         self.sdaHi()
@@ -104,10 +94,9 @@ class SoftI2C:
 
         return out_byte;
 
-
     def readAck(self):
         self.sdaHi()
-        return self.readBit() # 0 if ACK, 1 if NACK
+        return self.readBit()  # 0 if ACK, 1 if NACK
 
     def doStartWriteAckStop(self, data_byte):
         self.start()
@@ -120,11 +109,9 @@ class SoftI2C:
 
         return 0
 
-
     def readRegister(self, slave_addr, register):
         result = self.readSequence(slave_addr, register, 1)
         return result[0]
-
 
     def readSequence(self, slave_addr, register, length):
         self.start();
@@ -150,7 +137,6 @@ class SoftI2C:
         self.stop()
         return result
 
-
     def writeRegister(self, slave_addr, register, value):
         self.start();
         self.writeByte(slave_addr << 1);
@@ -160,4 +146,3 @@ class SoftI2C:
         self.writeByte(value)
         self.readAck()
         self.stop()
-

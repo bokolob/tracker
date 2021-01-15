@@ -1,8 +1,10 @@
-from settings import get_property,set_property
+from settings import get_property, set_property
+
 
 def check_admin_number(phone):
-    print("check "+phone+" "+str(get_property("admin_numbers")))
+    print("check " + phone + " " + str(get_property("admin_numbers")))
     return phone in get_property("admin_numbers")
+
 
 def inet(phone, args):
     if len(args) != 3:
@@ -14,28 +16,31 @@ def inet(phone, args):
 
     return "Ok"
 
-#TODO uniqueness
+
+# TODO uniqueness
 def add_admin(phone):
     get_property("admin_numbers").append(phone)
 
+
 def set_password(phone, args):
-    if len(args) > 0 :
+    if len(args) > 0:
         password = get_property("admin_password")
 
-        #Пароль был задан, значит менять его может только админ
+        # Пароль был задан, значит менять его может только админ
         if password is not None and password != "":
             if not check_admin_number(phone):
                 return None
 
         set_property("admin_password", args[0])
-        #TODO save()
+        # TODO save()
         return "Password was set to " + args[0];
 
     return None
 
+
 def auth_user(phone, args):
-    print(phone+""+str(args))
-    if len(args) > 0 :
+    print(phone + "" + str(args))
+    if len(args) > 0:
         password = get_property("admin_password")
 
         if password is None or password == "":
@@ -47,17 +52,19 @@ def auth_user(phone, args):
 
     return None
 
+
 COMMANDS = {
     "auth": auth_user,
     "password": set_password,
-    "inet":inet,
+    "inet": inet,
 }
+
 
 def run_cmd(phone, words):
     if len(words) == 0 or words[0] not in COMMANDS:
         raise ValueError("Bad command")
 
-    if words[0] != "auth" and  words[0] != "password" and not check_admin_number(phone):
+    if words[0] != "auth" and words[0] != "password" and not check_admin_number(phone):
         return None
 
     return COMMANDS[words[0]](phone, words[1:])

@@ -14,6 +14,7 @@
             integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
             crossorigin="anonymous"></script>
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/static/vue.js"></script>
     <script src="/static/forms.js"></script>
     <script src="/static/models.js"></script>
     <title>Login</title>
@@ -63,28 +64,32 @@
                     <div class="tab-pane show active" id="sign_in_tab" role="tabpanel" aria-labelledby="home-tab">
                         <div class="card text-white" >
                             <div class="card-body">
-                                <form action="/auth" method="post" id="sign_in_form">
-                                    <input type="hidden" name="target" value="{{ target|e}}">
-                                    <div class="alert alert-success d-none" role="alert">
-                                        Success!
-                                    </div>
-                                    <div class="alert alert-danger d-none" role="alert">
-                                        Failed :(
-                                    </div>
-                                    <div class="mb-3 position-relative">
-                                        <label for="email" class="form-label">Email address!</label>
-                                        <input type="email" class="form-control" placeholder="email" id="email" name="email" required>
-                                        <div class="invalid-tooltip"></div>
-                                    </div>
-                                    <div class="mb-3 position-relative">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" placeholder="password" id="password" name="password" required>
-                                        <div class="invalid-tooltip"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" value="Login" class="btn btn-light float-right">
-                                    </div>
-                                </form>
+                                {% raw %}
+                                <form-ajax inline-template v-on:process="auth">
+                                    <form action="/auth" method="post" id="sign_in_form" @submit.prevent="processForm">
+                                        <input type="hidden" name="target" value="{{ target|e}}">
+                                        <div class="alert alert-success" v-if="success" role="alert">
+                                            Success!
+                                        </div>
+                                        <div class="alert alert-danger" v-else-if="failed" role="alert">
+                                            Failed :(
+                                        </div>
+                                        <div class="mb-3 position-relative">
+                                            <label for="email" class="form-label">Email address!</label>
+                                            <input type="email" :class="(errors['email']) ? 'form-control is-invalid': 'form-control is-valid'"  placeholder="email" id="email" name="email" v-model.trim="requestFields['email']"  required>
+                                            <div class="invalid-tooltip" v-if="errors['email']">{{errors['email']}}</div>
+                                        </div>
+                                        <div class="mb-3 position-relative">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="password" :class="(errors['password']) ? 'form-control is-invalid': 'form-control is-valid'" placeholder="password" id="password" name="password" required>
+                                            <div class="invalid-tooltip" v-if="errors['password']">{{errors['password']}}</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Login" class="btn btn-light float-right">
+                                        </div>
+                                    </form>
+                                </form-ajax>
+                                {% endraw %}
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-center">
@@ -145,9 +150,19 @@
 
 var userModel = new User("{{ csrf_token() }}");
 
-new AjaxForm($("#sign_in_form")[0],userModel.login).init();
+//new AjaxForm($("#sign_in_form")[0],userModel.login).init();
 new AjaxForm($("#sign_up_form")[0],userModel.signup).init();     
-     
+
+var vm = new Vue(
+                {
+                    'el': '#intro-header',
+                    'data':  {},
+                    'methods': {
+                        auth: userModel.login,
+                    },
+                });
+        
+
 </script>
 </body>
 </html>

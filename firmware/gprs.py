@@ -1,11 +1,13 @@
 import cellular
 import machine
 import utime
+
 from delay import delay
-from settings import get_property,set_property
+from settings import get_property
 
 callbacks = None
 led2 = machine.Pin(28, machine.Pin.OUT, 0)
+
 
 class Callbacks:
     sms_handler = None
@@ -15,13 +17,16 @@ class Callbacks:
     def __init__(self):
         return
 
+
 def set_callbacks(ref):
     global callbacks
     callbacks = ref
 
+
 def reset_gsm():
     cellular.reset()
     init()
+
 
 def init():
     while not cellular.is_sim_present():
@@ -59,4 +64,3 @@ def wait_gprs():
 
         machine.watchdog_reset()
         machine.set_idle(False)
-

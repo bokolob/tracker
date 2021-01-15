@@ -1,6 +1,7 @@
+import time
+
 import cellular
 import machine
-import time
 
 # Built-in blue LED on the pudding board
 cellular.on()

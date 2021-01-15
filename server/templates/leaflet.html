@@ -38,11 +38,10 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
 
-
+    <script src="/static/vue.js"></script>
     <script src="/static/forms.js"></script>
     <script src="/static/models.js"></script>
     <script src="/static/coordinates.js"></script>
-    <script src="/static/vue.js"></script>
     <script src="/static/calendar.js"></script>
 
     <style>
@@ -196,27 +195,31 @@
                     <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-add-tracker" aria-expanded="false" aria-controls="nav-add-tracker" ></button>
                 </div>
                 <div class="card-body">
-                    <form action="/devices/add" method="post" id="add_device_form" class="needs-validation" novalidate>
-                        <div class="alert alert-success d-none" role="alert">
-                            Success!
-                        </div>
-                        <div class="alert alert-danger d-none" role="alert">
-                            Failed :(
-                        </div>
-                        <div class="mb-3 position-relative">
-                            <label for="imeiInput" class="form-label">Imei</label>
-                            <input type="text" class="form-control" id="imeiInput" placeholder="imei" name="imei" required>
-                            <div class="invalid-tooltip"></div>
-                        </div>
-                        <div class="mb-3 position-relative">
-                            <label for="nameInput" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="nameInput" placeholder="name" name="name" required>
-                            <div class="invalid-tooltip"></div>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">Add device</button>
-                        </div>
-                    </form> 
+                    {% raw %}
+                    <form-ajax inline-template v-on:process="add_device">
+                        <form id="add_device_form" class="needs-validation" @submit.prevent="processForm" novalidate>
+                            <div class="alert alert-success" v-if="success"  role="alert">
+                                Success!
+                            </div>
+                            <div class="alert alert-danger" v-else-if="failed" role="alert">
+                                Failed :(
+                            </div>
+                            <div class="mb-3 position-relative">
+                                <label for="imeiInput" class="form-label">Imei</label>
+                                <input type="text" :class="(errors['imei']) ? 'form-control is-invalid': 'form-control is-valid'" id="imeiInput" placeholder="imei" name="imei" v-model.trim="requestFields['imei']" required>
+                                <div class="invalid-tooltip" v-if="errors['imei']">{{ errors['imei'] }}</div>
+                            </div>
+                            <div class="mb-3 position-relative">
+                                <label for="nameInput" class="form-label">Name</label>
+                                <input type="text" :class="(errors['name']) ? 'form-control is-invalid': 'form-control is-valid'"  id="nameInput" placeholder="name" name="name" v-model.trim="requestFields['name']" required>
+                                <div class="invalid-tooltip" v-if="errors['name']">{{ errors['name'] }}</div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Add device</button>
+                            </div>
+                        </form>
+                    </form-ajax>
+                    {% endraw %}
                 </div>
             </div>    
         </div> 
@@ -227,28 +230,28 @@
                 </div>
                 <div class="card-body">
                     <div class="container">
-                        <form action="/shared/link" method="post" id="share_device_form" class="needs-validation" novalidate>
-                            <div class="alert alert-success d-none" role="alert">
-                                {% raw %}
-                                Success! <a :href="last_shared_link">Sharing link</a>
-                                {% endraw %} 
-                            </div>
-                            <div class="alert alert-danger d-none" role="alert">
-                                Failed :(
-                            </div>
-                            <div class="mb-3 position-relative">
-                            <label for="device_for_sharing" class="form-label">Device for sharing</label>
-                            <select class="form-select" aria-label="Available devices" name="device_id" id="device_for_sharing">
-                                {% raw %}
-                                <option v-for="item in my_devices" :value="item.id">{{item.name}}</option>
-                                {% endraw %}
-                              </select>
-                              <div class="invalid-tooltip"></div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Get sharing link</button>
-                            </div>
-                        </form> 
+                        {% raw %}
+                        <form-ajax inline-template v-on:process="share_device" :arguments="{'my_devices': my_devices}">
+                            <form  id="share_device_form" class="needs-validation" @submit.prevent="processForm" novalidate>
+                                <div class="alert alert-success" v-if="success"  role="alert">
+                                    Success! <a :href="response.link">Sharing link</a>
+                                </div>
+                                <div class="alert alert-danger" v-else-if="failed" role="alert">
+                                    Failed :(
+                                </div>
+                                <div class="mb-3 position-relative">
+                                    <label for="device_for_sharing" class="form-label">Device for sharing</label>
+                                    <select :class="(errors['name']) ? 'form-select is-invalid': 'form-select is-valid'" aria-label="Available devices" name="device_id" id="device_for_sharing" v-model.trim="requestFields['device_id']" >
+                                        <option v-for="item in arguments.my_devices" :value="item.id">{{item.name}}</option>
+                                    </select>
+                                    <div class="invalid-tooltip" v-if="errors['device_id']">{{errors['device_id']}}</div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Get sharing link</button>
+                                </div>
+                            </form> 
+                        </form-ajax>
+                        {% endraw %}
                     </div>
                     <hr>
                     <div class="container-fluid mt-3" id="friends_requests">
@@ -316,7 +319,6 @@
             devices: [],
             devices_settings: {},
             shared_devices: [],
-            last_shared_link: '',
         };
 
         function renderDevices(data) {
@@ -344,6 +346,7 @@
         let devicesModel = new Devices("{{ csrf_token() }}", renderDevices, function() {$("#trackers_list_spinner").removeClass("d-none");});
         let friendsModel = new SharedDevices("{{ csrf_token() }}", updateFriendsRequests);
 
+       
         Vue.component('device-item', {
                     props: ["device", "settings"],
                     watch: {
@@ -374,6 +377,8 @@
                     'data':  vue_data,
                     'methods': {
                         removeFromFriends: function() {alert("xxx")},
+                        add_device: devicesModel.add,
+                        share_device: friendsModel.add,
                     },
                     computed: {
                                 my_devices: function () {
@@ -392,8 +397,6 @@
         friendsModel.list();
 
         $('#trackers_list_refresh').on('click', function() { devicesModel.reload() });
-        new AjaxForm( $("#add_device_form"), devicesModel.add).init();
-        new AjaxForm( $("#share_device_form"), friendsModel.add, function(data){vue_data.last_shared_link = data.link}).init();
 
         let pages = {};
         $(".settings_page").each( function() { 

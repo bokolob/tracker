@@ -298,6 +298,7 @@ class Tracker extends EventEmitter {
         this.follow_trail = true;
         this.trail_length=1000;
         this.color='red';
+        this._init();
 
         mymap.on('trail_mode', this.onTrailButtonPressed);
         mymap.on('dates_selected', this.onDatesSelected);
@@ -329,9 +330,16 @@ class Tracker extends EventEmitter {
 
     removeFromMap = () => {
         this.clear_segments();
-        this.mymap.mymap.removeLayer(this.getMarker());
-        clearInterval(this.timer);
-        this.emit('tracker_removed', [ thisCopy ]);
+        
+        if (this.marker) {
+            this.mymap.mymap.removeLayer(this.getMarker());
+        }
+
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+
+        this.emit('tracker_removed', [ this ]);
     }
 
     getMarker = () => {
