@@ -1,3 +1,5 @@
+import * as $ from 'jquery'
+
 class BaseModel {
     constructor(csrf) {
         this.csrf = csrf;        
@@ -33,13 +35,32 @@ class BaseModel {
     
 }
 
-class UserSettings {
+export class UserSettings {
     updateSettings() {
 
     }
 };
 
-class SharedDevices extends BaseModel {
+export class DevicesSettings extends BaseModel {
+    constructor(csrf) {
+        super(csrf);
+    }
+
+    save = (imei, newValue, onDone, onFail) => {
+        this.xhr({
+            'url': '/devices/settings/'+imei,
+            'method': "POST", 
+            'contentType': 'application/json;charset=UTF-8',
+            'dataType': 'json',
+            'data': JSON.stringify(newValue)
+         }
+        )
+        .done(onDone)
+        .fail(onFail) 
+    }
+}
+
+export class SharedDevices extends BaseModel {
     constructor(csrf, onListUpdate) {
         super(csrf);
         this.onUpdateCallback = onListUpdate;
@@ -81,7 +102,7 @@ class SharedDevices extends BaseModel {
 
 }
 
-class User extends BaseModel {
+export class User extends BaseModel {
     constructor(csrf) {
         super(csrf);
     }
@@ -119,7 +140,7 @@ class User extends BaseModel {
     };
 }
 
-class Devices extends BaseModel {
+export class Devices extends BaseModel {
 
     constructor(csrf, onUpdate, beforeUpdateCallback) {
         super(csrf);

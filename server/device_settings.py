@@ -1,5 +1,3 @@
-import model
-
 SETTINGS_PROTOTYPE = [
     {'key': 'send_sms_on_call', 'type': 'boolean', 'value': 'true'},
     {'key': 'sms_template', 'type': 'string', 'value': 'http://www.google.com/maps/place/{lat},{lng}'},
@@ -9,16 +7,19 @@ SETTINGS_PROTOTYPE = [
 ]
 
 
-def default_settings():
-    buf = []
-    for setting in SETTINGS_PROTOTYPE:
-        buf.append(model.DeviceSettings(
-            key=setting['key'],
-            type=setting['type'],
-            value=setting['value']))
+def settings_to_web_format(data):
+    if data is None:
+        return SETTINGS_PROTOTYPE
 
-    return buf
+    result = []
+    by_key = {x['key']: x for x in data}
+
+    for row in SETTINGS_PROTOTYPE:
+        value = by_key.get(row['key'], row).get('value')
+        result.append({'key': row['key'], 'value': value, 'type': row['type']})
+
+    return result
 
 
-def convert_to_device_format(data):
+def settings_to_device_format(data):
     raise Exception('Not implemented')

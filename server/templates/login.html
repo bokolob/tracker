@@ -67,7 +67,7 @@
                                 {% raw %}
                                 <form-ajax inline-template v-on:process="auth">
                                     <form action="/auth" method="post" id="sign_in_form" @submit.prevent="processForm">
-                                        <input type="hidden" name="target" value="{{ target|e}}">
+                                        <input type="hidden" name="target" value="{{target|e}}">
                                         <div class="alert alert-success" v-if="success" role="alert">
                                             Success!
                                         </div>
@@ -75,13 +75,13 @@
                                             Failed :(
                                         </div>
                                         <div class="mb-3 position-relative">
-                                            <label for="email" class="form-label">Email address!</label>
-                                            <input type="email" :class="(errors['email']) ? 'form-control is-invalid': 'form-control is-valid'"  placeholder="email" id="email" name="email" v-model.trim="requestFields['email']"  required>
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" :class="(errors['email']) ? 'form-control is-invalid': 'form-control is-valid'"  placeholder="email" id="email" v-model.trim="requestFields['email']"  required>
                                             <div class="invalid-tooltip" v-if="errors['email']">{{errors['email']}}</div>
                                         </div>
                                         <div class="mb-3 position-relative">
                                             <label for="password" class="form-label">Password</label>
-                                            <input type="password" :class="(errors['password']) ? 'form-control is-invalid': 'form-control is-valid'" placeholder="password" id="password" name="password" required>
+                                            <input type="password" :class="(errors['password']) ? 'form-control is-invalid': 'form-control is-valid'" placeholder="password" id="password"  v-model.trim="requestFields['password']" required>
                                             <div class="invalid-tooltip" v-if="errors['password']">{{errors['password']}}</div>
                                         </div>
                                         <div class="form-group">
@@ -102,39 +102,44 @@
                     <div class="tab-pane" id="sign_up_tab" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="card text-white">
                             <div class="card-body">
-                                <form action="/signup" method="post" id="sign_up_form" class="needs-validation" novalidate>
-                                    <input type="hidden" name="target" value="{{target|e}}">
-                                    <div class="alert alert-success d-none" role="alert">
-                                        Success!
-                                    </div>
-                                    <div class="alert alert-danger d-none" role="alert">
-                                        Failed :(
-                                    </div>
-                                    <div class="mb-3 position-relative">
-                                        <label for="imei" class="form-label">Imei</label>
-                                        <input type="text" class="form-control" placeholder="imei" id="imei" name="imei" required>
-                                        <div class="invalid-tooltip"></div>
-                                    </div><div class="mb-3 position-relative">
-                                        <label for="email2" class="form-label">Email address</label>
-                                        <input type="email" class="form-control" placeholder="email" id="email2" name="email" required>
-                                        <div class="invalid-tooltip"></div>
-                                    </div>
-                                    <div class="mb-3 position-relative">
-                                        <label for="password2" class="form-label">Password</label>
-                                        <input type="password" class="form-control" placeholder="password" id="password2" name="password" required>
-                                        <div class="invalid-tooltip"></div>
-                                    </div>
-                                    <div class="mb-3 position-relative">
-                                        <label for="password2r" class="form-label">Repeat</label>
-                                        <input type="password" class="form-control" placeholder="password" id="password2r" name="password_confirm" required>
-                                        <div class="invalid-tooltip"></div>
-                                    </div>
+                                {% raw %}
+                                <form-ajax inline-template v-on:process="signup">
+                                    <form id="sign_up_form" class="needs-validation" @submit.prevent="processForm" novalidate>
+                                        <input type="hidden" name="target" value="{{target|e}}">
+                                        <div class="alert alert-success" v-if="success" role="alert">
+                                            Success!
+                                        </div>
+                                        <div class="alert alert-danger" v-else-if="failed" role="alert">
+                                            Failed :(
+                                        </div>
+                                        <div class="mb-3 position-relative">
+                                            <label for="imei" class="form-label">Imei</label>
+                                            <input type="text" :class="(errors['imei']) ? 'form-control is-invalid': 'form-control is-valid'" placeholder="imei" id="imei"  v-model.trim="requestFields['imei']"  required>
+                                            <div class="invalid-tooltip" v-if="errors['imei']">{{errors['imei']}}</div>
+                                        </div>
+                                        <div class="mb-3 position-relative">
+                                            <label for="email2" class="form-label">Email</label>
+                                            <input type="email" :class="(errors['email']) ? 'form-control is-invalid': 'form-control is-valid'"  placeholder="email" id="email2" v-model.trim="requestFields['email']" required>
+                                            <div class="invalid-tooltip" v-if="errors['email']">{{errors['email']}}</div>
+                                        </div>
+                                        <div class="mb-3 position-relative">
+                                            <label for="password2" class="form-label">Password</label>
+                                            <input type="password" :class="(errors['password']) ? 'form-control is-invalid': 'form-control is-valid'" placeholder="password" id="password2" v-model.trim="requestFields['password']" required>
+                                            <div class="invalid-tooltip" v-if="errors['password']">{{errors['password']}}</div>
+                                        </div>
+                                        <div class="mb-3 position-relative">
+                                            <label for="password2r" class="form-label">Repeat</label>
+                                            <input type="password" :class="(errors['password_confirm']) ? 'form-control is-invalid': 'form-control is-valid'" placeholder="repeat password" id="password2r" v-model.trim="requestFields['password_confirm']" required>
+                                            <div class="invalid-tooltip" v-if="errors['password_confirm']">{{errors['password_confirm']}}</div>
+                                        </div>
 
-                                    <div class="form-group">
-                                        <input type="submit" value="Login" class="btn btn-light float-right">
-                                    </div>
-                                </form>
-                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Login" class="btn btn-light float-right">
+                                        </div>
+                                    </form>
+                                </form-ajax>
+                                {% endraw %}
+                            </div>
                     </div>
                 </div>
 
@@ -150,15 +155,13 @@
 
 var userModel = new User("{{ csrf_token() }}");
 
-//new AjaxForm($("#sign_in_form")[0],userModel.login).init();
-new AjaxForm($("#sign_up_form")[0],userModel.signup).init();     
-
 var vm = new Vue(
                 {
                     'el': '#intro-header',
                     'data':  {},
                     'methods': {
                         auth: userModel.login,
+                        signup: userModel.signup
                     },
                 });
         

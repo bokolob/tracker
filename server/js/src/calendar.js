@@ -1,3 +1,5 @@
+import * as L from 'leaflet';
+
 L.Control.Calendar = L.Control.extend({
     onAdd: function(map) {
         var button = L.DomUtil.create('img');

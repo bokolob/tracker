@@ -1,3 +1,5 @@
+import * as L from 'leaflet';
+
 /* Polyfill indexOf. */
 var indexOf;
 
@@ -67,7 +69,7 @@ class EventEmitter {
 
 }
 
-class Coordinates extends EventEmitter {
+export class Coordinates extends EventEmitter {
 
     onLocationFound = (e) => {
         var radius = e.accuracy;
@@ -208,7 +210,7 @@ class Coordinates extends EventEmitter {
 
 }
 
-class Compass {
+export class Compass {
     toRadians (angle) {
         return angle * (Math.PI / 180);
     }
@@ -248,7 +250,7 @@ class Compass {
     }
 }
 
-class TrackersBounds extends EventEmitter {
+export class TrackersBounds extends EventEmitter {
     constructor(mymap) {
         super();
         this.follow = false;
@@ -290,7 +292,7 @@ class TrackersBounds extends EventEmitter {
     }
 }
 
-class Tracker extends EventEmitter {
+export class Tracker extends EventEmitter {
     constructor(mymap, imei) {
         super();
         this.mymap = mymap;

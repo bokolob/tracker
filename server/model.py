@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     devices = db.relationship('Device', backref='devices', lazy=True)
+    settings = db.relationship("UserSettings", uselist=False, lazy="joined")
 
     @property
     def password(self):
@@ -60,7 +61,7 @@ class Device(db.Model):
     imei = db.Column(db.String(16), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     is_shareable = db.Column(db.Boolean, nullable=False, default=False)
-    settings = db.relationship("DeviceSettings", lazy="joined")
+    settings = db.relationship("DeviceSettings", uselist=False, lazy="joined")
     user = db.relationship("User", back_populates="devices", uselist=False, lazy="joined")
     share = db.relationship("SharedDevices", back_populates="device", lazy="joined")
     # coordinates = db.relationship("Coordinates", back_populates="device", lazy=True)
@@ -75,14 +76,27 @@ class Coordinates(db.Model):
     lng = db.Column(db.Numeric)
 
 
+class DBDictMixin(object):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    dict_id = db.Column(db.Integer, nullable=False)
+    key = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.String(100), nullable=False)
+
+
 class DeviceSettings(db.Model):
     __tablename__ = 'device_settings'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     device_id = db.Column(db.Integer, db.ForeignKey('devices.id'), nullable=False)
-    key = db.Column(db.String(100), nullable=False)
-    type = db.Column(db.String(100), nullable=False)
-    value = db.Column(db.String(100), nullable=False)
-    __table_args__ = (Index('settings_unique', 'device_id', 'key', unique=True),)
+    settings = db.Column(db.JSON, nullable=False)
+    __table_args__ = (Index('Device', 'device_id', unique=True),)
+
+
+class UserSettings(db.Model):
+    __tablename__ = 'user_settings'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    settings = db.Column(db.JSON, nullable=False)
+    __table_args__ = (Index('User', 'user_id', unique=True),)
 
 
 class LBSQueue(db.Model):

@@ -2,14 +2,31 @@ import flask_login
 from flask import Blueprint, request, jsonify
 from flask_login import login_required
 from sqlalchemy import or_
+from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 import model
-from device_settings import default_settings
+from device_settings import settings_to_web_format
 from web import abort_json, is_blank
 
 devices_page = Blueprint('devices_page', __name__, template_folder='templates')
+
+
+@devices_page.route('/devices/settings/<imei>', methods=['POST'])
+def save_device_settings(imei=None):
+    args = request.get_json()  # TODO validation
+    device = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).first()
+
+    if device is None:
+        abort_json(404, errors={'imei': 'None found'})
+
+    stmt = insert(model.DeviceSettings).values(device_id=device.id, settings=args).prefix_with('IGNORE')
+
+    model.db.session.execute(stmt)
+    model.db.session.commit()
+
+    return jsonify({})
 
 
 @devices_page.route('/devices/add', methods=['POST'])
@@ -36,7 +53,6 @@ def add_device():
     device.imei = imei
     device.user_id = flask_login.current_user.id
     device.name = name
-    device.settings = default_settings()
 
     try:
         model.db.session().add(device)
@@ -52,15 +68,16 @@ def add_device():
 def get_devices():
     subquery = model.SharedDevices.query. \
         with_entities(model.SharedDevices.device_id).filter_by(shared_with=flask_login.current_user.id).subquery()
+
     devices = model.Device.query. \
-        options(joinedload(model.Device.user, innerjoin=True)) \
-        .filter(or_(model.Device.user_id.in_(subquery), model.Device.user_id == flask_login.current_user.id, )
-                ).all()
+        options(joinedload(model.Device.user, innerjoin=True), joinedload(model.Device.settings, innerjoin=False)) \
+        .filter(or_(model.Device.user_id.in_(subquery), model.Device.user_id == flask_login.current_user.id)).all()
 
     return jsonify(list(
         map(lambda x: {'name': x.name,
                        'id': x.id,
                        'imei': x.imei,
+                       'settings': (settings_to_web_format(x.settings.settings if x.settings else None)),
                        'is_shareable': x.user.id == flask_login.current_user.id and x.is_shareable,
                        'user': {'id': x.user.id, 'name': x.user.login,
                                 'shared': x.user.id != flask_login.current_user.id}},
