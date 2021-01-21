@@ -114,19 +114,25 @@
 
 
 <script>
-import {User} from '../models';
+import {API} from '../models';
 import AjaxForm from './AjaxForm.vue'
 
 export default {
-  data() {
-      return { userModel: new User() }
-  },
   name: 'LoginScreen',
   props: {},
   components: {AjaxForm},
   methods: {
-    auth: function(params, ok, fail) { this.userModel.login(params, ok, fail) },
-    signup: function(params) {this.userModel.signup(params) },
+    auth: function(params, ok, fail) { 
+        let promise = API.signIn()({}, params);
+        promise.then( (data) => ok(data.data));
+        promise.then(() => this.$emit('authorized'));
+        promise.catch( (err) => fail(err.response.data));
+    },
+    signup: function(params, ok, fail) { 
+        let promise = API.signUp({}, params);
+        promise.then((data) => ok(data.data));
+        promise.catch((err) => fail(err.response.data));
+    },
   }
 }
 

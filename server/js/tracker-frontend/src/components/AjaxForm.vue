@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['arguments'],
+    props: ['additional_data'],
     data() {
         return {
             success:false,
@@ -34,12 +34,13 @@ export default {
                                 this.failed = false;
                                 this.success = true;
                                 this.response = data;
+                                this.errors = {}; 
                             }, 
                             (jqXHR) => {
                                 this.failed = true;
                                 this.success = false;
-                                if (jqXHR.responseJSON) {
-                                    this.errors = jqXHR.responseJSON.errors;
+                                if (jqXHR.errors) {
+                                    this.errors = jqXHR.errors;
                                 }
                             });
        }

@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div style="height:100%">
         <div v-if="loading">
-        <SplashScreen v-on:csrf_loaded="csrf_loaded"></SplashScreen>
+        <SplashScreen v-on:csrf_loaded="init_app"></SplashScreen>
         </div>
     <header>
     <nav id="navbar" class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
@@ -14,16 +14,16 @@
           <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item active">
-                <a class="nav-link" data-bs-toggle="collapse" href="#nav-trackers-list" role="button" aria-expanded="false" aria-controls="nav-trackers-list">Devices</a>
+                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('DevicesList')">Devices</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#nav-add-tracker" role="button" aria-expanded="false" aria-controls="nav-add-tracker">Add device</a>
+                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('AddDevice')">Add device</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#nav-friends" role="button" aria-expanded="false" aria-controls="nav-friends">Shared devices</a> 
+                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('Shared')">Shared devices</a> 
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#nav-profile" role="button" aria-expanded="false" aria-controls="nav-profile">Profile</a> 
+                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container">Profile</a> 
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/logout" role="button">Logout</a>
@@ -32,123 +32,25 @@
           </div>
         </div>
     </nav>
-
-      <div class="collapse settings_page" id="nav-trackers-list">
-        <div class="card container overflow-auto h-100">
+      <div class="collapse settings_page" id="settings_page_container">
+        <div class="card container overflow-auto h-100" v-bind:style="{ height: map_height }">
             <div class="card-header">
                 <div class="container-fluid">
                 <span class="text-start">
                     Trackers list
                 </span>
                 <span class="text-end">
-                <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-trackers-list" aria-expanded="false" aria-controls="#nav-trackers-list" ></button>
+                <button type="button" class="btn-close" aria-label="Close"  aria-expanded="false" @click="close_settings()" ></button>
                 </span>
                 </div>
             </div>
             <div class="card-body">
-                    <div class="accordion" id="tracker_list">
-                        <div class="accordion-item" v-for="item in devices" :key="item.imei">
-                            <DeviceItem :device="item" :settings="devices_settings[item.imei]" v-on:state_changed="state_changed" v-on:color_changed="color_changed" :device_settings_model="deviceSettingsModel"></DeviceItem>
-                       </div>
-                   </div>
+                <component :is="currentSettingsComponent" v-bind="currentSettingsProperties" v-on:value_updated="update_settings">></component>
             </div>    
         </div>
-    </div>
-        <div class="collapse settings_page" id="nav-add-tracker" >
-            <div class="card container overflow-auto h-100">
-                <div class="card-header text-end">
-                    <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-add-tracker" aria-expanded="false" aria-controls="nav-add-tracker" ></button>
-                </div>
-                <div class="card-body">
-                     <AjaxForm inline-template v-on:process="add_device">
-                        <form id="add_device_form" class="needs-validation" @submit.prevent="processForm" novalidate>
-                            <div class="alert alert-success" v-if="success"  role="alert">
-                                Success!
-                            </div>
-                            <div class="alert alert-danger" v-else-if="failed" role="alert">
-                                Failed :(
-                            </div>
-                            <div class="mb-3 position-relative">
-                                <label for="imeiInput" class="form-label">Imei</label>
-                                <input type="text" :class="(errors['imei']) ? 'form-control is-invalid': 'form-control is-valid'" id="imeiInput" placeholder="imei" name="imei" v-model.trim="requestFields['imei']" required>
-                                <div class="invalid-tooltip" v-if="errors['imei']">{{ errors['imei'] }}</div>
-                            </div>
-                            <div class="mb-3 position-relative">
-                                <label for="nameInput" class="form-label">Name</label>
-                                <input type="text" :class="(errors['name']) ? 'form-control is-invalid': 'form-control is-valid'"  id="nameInput" placeholder="name" name="name" v-model.trim="requestFields['name']" required>
-                                <div class="invalid-tooltip" v-if="errors['name']">{{ errors['name'] }}</div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Add device</button>
-                            </div>
-                        </form>
-                    </AjaxForm>
-                </div>
-            </div>    
-        </div> 
-        <div class="collapse settings_page" id="nav-friends" >
-            <div class="card container overflow-auto h-100">
-                <div class="card-header text-end">
-                    <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-friends" aria-expanded="false" aria-controls="nav-friends" ></button>
-                </div>
-                <div class="card-body">
-                    <div class="container">
-                         <AjaxForm inline-template v-on:process="share_device" :arguments="{'my_devices': my_devices}">
-                            <form  id="share_device_form" class="needs-validation" @submit.prevent="processForm" novalidate>
-                                <div class="alert alert-success" v-if="success"  role="alert">
-                                    Success! <a :href="response.link">Sharing link</a>
-                                </div>
-                                <div class="alert alert-danger" v-else-if="failed" role="alert">
-                                    Failed :(
-                                </div>
-                                <div class="mb-3 position-relative">
-                                    <label for="device_for_sharing" class="form-label">Device for sharing</label>
-                                    <select :class="(errors['name']) ? 'form-select is-invalid': 'form-select is-valid'" aria-label="Available devices" name="device_id" id="device_for_sharing" v-model.trim="requestFields['device_id']" >
-                                        <option v-for="item in arguments.my_devices" :value="item.id" :key="item.name">{{item.name}}</option>
-                                    </select>
-                                    <div class="invalid-tooltip" v-if="errors['device_id']">{{errors['device_id']}}</div>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">Get sharing link</button>
-                                </div>
-                            </form> 
-                        </AjaxForm>
-                    </div>
-                    <hr>
-                    <div class="container-fluid mt-3" id="friends_requests">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="container-fluid">
-                                    Shared devices and requests
-                                </div>
-                            </div>
-                              <div class="card-body">
-                                     <div class="row row-cols-3 mt-3" v-for="item in shared_devices" :key="item.imei">
-                                        <div class="col justify-content-start">{{item.device_name}}</div>
-                                        <div class="col justify-content-start">{{item.owner}}</div>
-                                        <div class="col justify-content-end">
-                                            <button type="button" class="btn btn-danger"  v-on:click="removeFromFriends">Remove</button>
-                                        </div>
-                                    </div>
-                               </div>
-                        </div> 
-                    </div>
-                </div>
-            </div>    
-        </div> 
-        <div class="collapse settings_page" id="nav-profile" >
-            <div class="card container overflow-auto h-100">
-                <div class="card-header text-end">
-                    <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse" href="#nav-profile" aria-expanded="false" aria-controls="nav-profile" ></button>
-                </div>
-                <div class="card-body">
-                    <div class="container">
-                    </div>
-                </div>
-            </div>
-        </div>
+     </div>
 </header>
-    <div id="map_container" class="map_container">
+    <div id="map_container" class="map_container" v-bind:style="{ height: map_height }">
         <div id="mapid"></div>
     </div>
 </div>
@@ -156,87 +58,110 @@
 
 <script>
 import SplashScreen from './SplashScreen.vue'
-import DeviceItem from './DeviceItem.vue'
-import AjaxForm from './AjaxForm.vue'
+import DevicesList from './DevicesList.vue'
+import Shared from './Shared.vue'
+import AddDevice from './AddDevice.vue'
 
 import { Coordinates, Tracker, TrackersBounds } from '../coordinates';
-import { Devices, DevicesSettings, SharedDevices } from '../models';
+import {API} from '../models';
 import Vue from 'vue';
-const axios = require('axios');
+
+import { Collapse } from 'bootstrap'
 
 export default {
   name: 'Main',
   props: {},
-  components: {DeviceItem, SplashScreen, AjaxForm},
+  components: {DevicesList,Shared,AddDevice,SplashScreen},
   data() {
       return {
+        settings_collapse: null,  
         map: null,
         tracker_bounds: null, 
         trackerObjects: {},
         loading: true,  
         devices: [],
         devices_settings: {},
-        devicesModel: null,
-        friendsModel: null,
-        deviceSettingsModel: null,
-        shared_devices: []
+        shared_devices: [],
+        currentSettingsComponent: "DevicesList",
+        map_height:"calc(100vh-51px)",
       }
   },
   created() {
     window.addEventListener("resize", this.resize_handler);
   },
   mounted() {
-      this.map = new Coordinates('mapid');
-      this.tracker_bounds = new TrackersBounds(this.map); 
-      let thisCopy = this;
-      
-      axios.get('/csrf')
-            .then(function (response) {
-                // handle success
-                console.log(response);
-                thisCopy.csrf_loaded(response.data.csrf);
-                //thisCopy.$emit('csrf_loaded', response.data.csrf)
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-                
-                if (error.response.status == 403) {
-                    thisCopy.$emit('need_signup');
-                    //route_to_login_page
-                }
-                //thisCopy.$emit('csrf_failed', error)
-            });
+      this.settings_collapse = new Collapse(document.getElementById('settings_page_container'), {toggle:false});
+      this.resize_handler(); 
+
+      document.getElementById('settings_page_container').addEventListener('shown.bs.collapse', (e) => {
+             let navbar_height = document.getElementById('navbar').offsetHeight;
+             e.target.style.height= (window.innerHeight - navbar_height)+"px";
+      }, false);
+
+      API.getCSRF()
+      .then((response) => {
+         API.csrf=response.data.csrf;
+         this.init_app();
+      })
+      .catch( (error) => {
+         if (error.response.status == 403) {
+                this.$emit('need_signup');
+         }
+         //thisCopy.$emit('csrf_failed', error)
+      });
   },
   methods: {
-        removeFromFriends: function() {alert("xxx")},
-        add_device: function(data) { this.devicesModel.add(data) },
-        share_device: function(data) {this.friendsModel.add(data)},
-        resize_handler() {
-            document.body.style.height = window.innerHeight + "px"; 
-        },
-        csrf_loaded(csrf) {
-           axios.defaults.headers.common["X-CSRFToken"] = csrf;
-           this.devicesModel = new Devices(this.renderDevices);
-           this.friendsModel = new SharedDevices(this.updateFriendsRequests);
-           this.deviceSettingsModel = new DevicesSettings();
+        open_settings(component) {
+            this.currentSettingsComponent = component;
 
-           setInterval(this.friendsModel.list, 10000);
-           this.devicesModel.reload();
-           this.friendsModel.list(); 
+            let element = document.getElementById('settings_page_container'); 
+            let navbar_height = document.getElementById('navbar').offsetHeight;
+            element.style.height=(window.innerHeight - navbar_height)+"px";
+
+            this.settings_collapse.show();       
+        },
+        close_settings() {
+           this.settings_collapse.hide();  
+        },
+        resize_handler() {
+            document.body.style.height = window.innerHeight + "px";
+            let navbar_height = document.getElementById('navbar').offsetHeight;
+            this.map_height= (window.innerHeight - navbar_height)+"px";
+        },
+        init_app() {
+           this.map = new Coordinates('mapid');
+           this.tracker_bounds = new TrackersBounds(this.map);  
+
+           setInterval(this.updateFriendsRequests, 10000);
+
+           this.update_devices();
+           this.updateFriendsRequests();
 
            this.loading = false;
         },
-        state_changed(imei, newValue) {
-            if (newValue) {
-                this.trackerObjects[imei].addToMap();
+        update_settings(event) {
+            switch(event.event) {
+                case 'device_added':
+                    this.update_devices();
+                    break;
+                case 'state_changed':
+                    if (event.state) {
+                       this.trackerObjects[event.imei].addToMap();
+                    }
+                    else {
+                       this.trackerObjects[event.imei].removeFromMap();
+                    } 
+                    break;
+                case 'color_changed':
+                    this.trackerObjects[event.imei].set_color(event.color);
+                    break;
             }
-            else {
-                this.trackerObjects[imei].removeFromMap();
-            }
+
+            console.log(event);
         },
-        color_changed(imei, newValue) {
-            this.trackerObjects[imei].set_color(newValue);
+        update_devices() {
+            let promise = API.getDevicesList();
+            promise.then( (response) => this.renderDevices(response.data));
         },
         renderDevices(data) {
             console.log(data);
@@ -254,25 +179,32 @@ export default {
 
             this.devices = data;
         },
-        updateFriendsRequests(data) {
-            this.shared_devices = data;
+        updateFriendsRequests() {
+            API.listSharedDevices().then((response) => { this.shared_devices = response.data});
         }
     },
-                    computed: {
-                            my_devices: function () {
-                                return this.devices.filter(function (device) {
-                                    return device.is_shareable;
-                                })
-                            },
-                        },
+    computed: {
+        currentSettingsProperties: function() {
+            if (this.currentSettingsComponent === 'DevicesList') {
+                return {'devices': this.devices,
+                        'devices_settings': this.devices_settings,
+                    };
+            }
+            else if (this.currentSettingsComponent === 'Shared') {
+                return {'devices': this.devices, 'shared_devices':this.shared_devices};
+            }
+            else if (this.currentSettingsComponent === 'AddDevice') {
+                return {};
+            }
+            else {
+                throw "Unknown currentSettingsComponent "+ this.currentSettingsComponent;
+            }
+        },
+     },
 }
 </script>
 
 <style>
-    #map_container {
-        height: calc(100% - 51px); 
-    }
-
     #mapid {
         height: 100%;
         width: 100%;
