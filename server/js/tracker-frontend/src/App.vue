@@ -1,15 +1,12 @@
 <template>
   <div id="app">
-    <div v-if="signup" v-on:authorized="signup=false">
-        <LoginScreen/>
-    </div>
-    <div v-else>
-      <Main v-on:need_signup="signup=true"/>
-    </div>
+    <LoginScreen v-if="signup" v-on:authorized="signup=false"/>
+    <Main v-else v-on:need_signup="signup=true"/>
   </div>
 </template>
 
 <script>
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Main from './components/Main.vue'
 import LoginScreen from './components/LoginScreen.vue'
 

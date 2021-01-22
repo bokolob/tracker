@@ -4,10 +4,12 @@ from urllib.parse import urlparse
 import flask_login
 from flask import abort, jsonify, render_template, request, make_response, redirect, send_from_directory, Blueprint
 from flask_login import login_user, login_required, logout_user
+from flask_wtf.csrf import generate_csrf
 from sqlalchemy import and_, asc, or_, desc
 from sqlalchemy.exc import IntegrityError
 
 import model
+from app import csrf
 from model import db
 
 main_page = Blueprint('main_page', __name__, template_folder='templates')
@@ -33,6 +35,7 @@ def process_target_url(target):
 
 
 @main_page.route('/auth', methods=['POST', 'GET'])
+@csrf.exempt
 def login():
     args = request.get_json()
 
@@ -60,14 +63,30 @@ def send_js(path):
     return send_from_directory('static', path)
 
 
+@main_page.route('/app/<path:path>')
+def send_app(path):
+    return send_from_directory('js/tracker-frontend/dist', path)
+
+
 @main_page.route("/logout")
 @login_required
 def logout():
     logout_user()
+
+    if request.accept_mimetypes['application/json']:
+        return jsonify({})
+
     return redirect("/")
 
 
+@main_page.route("/csrf")
+@login_required
+def get_csrf():
+    return jsonify({"csrf": generate_csrf()});
+
+
 @main_page.route('/signup', methods=['POST'])
+@csrf.exempt
 def signup():
     args = request.get_json()
 

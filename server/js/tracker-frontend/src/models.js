@@ -1,174 +1,59 @@
 const axios = require('axios');
+const template = require('url-template');
 
-class BaseModel {
-    xhr(options) {
-        if (typeof options == "string") {
-            options = {'url': options};
+const API_METHODS = {
+    'getCSRF':               {'url':'/csrf'},
+    'saveDeviceSettings':    {'url': '/devices/settings/{imei}', 'method': 'post'},
+    'getSharingLink':        {'url': '/shared/link', 'method':"post"},
+    'unshareDevice':         {'url': '/shared/remove/{id}', 'method': 'delete'},
+    'listSharedDevices':     {'url': '/shared/list'},
+    'signIn':                {'url': '/auth', 'method': "post"},
+    'logout':                {'url': '/logout',},
+    'signUp':                {'url': '/signup', 'method': "post"},
+    'addNewDevice':          {'url': '/devices/add', 'method': 'post'},
+    'getDevicesList':        {'url': '/devices'},
+    'removeDevice':          {'url': '/devices/{imei}', 'method': 'delete'},
+};
+
+const handler = {
+    get: function(target, name) {
+       if (target['name']) {
+           return target['name']; 
+       }
+
+       let axios = target.client;
+       let description = API_METHODS[name];
+
+       if (description == null) {
+           throw "Unknown api method";
+       }
+        
+       var parsedUrl = template.parse(description.url);
+
+       return function(url_params, post_data) {
+           let url = parsedUrl.expand(url_params || {});
+
+           return axios.request({
+               'url' : url,
+               'responseType': 'json',
+               'method': description.method || 'get',
+               'contentType': 'application/json;charset=UTF-8',
+               'dataType': 'json',
+               'headers': {"X-CSRFToken": target['csrf']},
+               'data': post_data 
+           });
         }
-
-        options['responseType'] = 'json';
-        options['maxRedirects'] = 0;
-
-        return axios(options);
-    }
+     },
+     set: function(target, name, value) {
+        target[name] = value;
+        return true;
+      }
 }
 
-export class UserSettings {
-    updateSettings() {
+const _api = {
+    csrf: null,
+    client: axios.create({ timeout: 1000}),
+};
 
-    }
-}
+export let API = new Proxy(_api, handler);
 
-export class DevicesSettings extends BaseModel {
-    save = (imei, newValue, onDone, onFail) => {
-        this.xhr({
-            'url': '/devices/settings/'+imei,
-            'method': "POST", 
-            'contentType': 'application/json;charset=UTF-8',
-            'dataType': 'json',
-            'data': newValue
-         }
-        )
-        .then(onDone)
-        .catch(onFail) 
-    }
-}
-
-export class SharedDevices extends BaseModel {
-    constructor(onListUpdate) {
-        super();
-        this.onUpdateCallback = onListUpdate;
-    }
-
-    add = (description, onSuccess, onFail) => {
-        this.xhr({
-                'url': '/shared/link',
-                'method': "POST", 
-                'contentType': 'application/json;charset=UTF-8',
-                'dataType': 'json',
-                'data': description
-             }
-        )
-        .then( (data) => { onSuccess(data); this.list() })
-        .catch(onFail)
-    };
-
-    remove = (onSuccess, onFail)  => {
-        this.xhr('/shared/remove')
-        .then(onSuccess)
-        .catch(onFail)
-    };
-
-    list = (onSuccess, onFail ) => {
-        let thisCopy=this;
-        this.xhr({'url': '/shared/list'})
-        .then(
-            function(data) {
-                console.log(data)
-                thisCopy.onUpdateCallback(data.data);
-                if (onSuccess) {
-                    onSuccess(data.data); 
-                }
-            }
-        )
-        .catch(onFail)
-    };
-
-}
-
-export class User extends BaseModel {
-    constructor() {
-        super();
-    }
-
-    login = (description, onSuccess, onFail) => {
-        this.xhr({
-                'url': '/auth',
-                'method': "POST", 
-                'contentType': 'application/json;charset=UTF-8',
-                'dataType': 'json',
-                'data': description
-             }
-        )
-        .then(onSuccess)
-        .catch(onFail)
-    };
-
-    logout = (onSuccess, onFail)  => {
-        this.xhr('/logout')
-        .then(onSuccess)
-        .catch(onFail)
-    };
-
-    signup = (description, onSuccess, onFail ) => {
-        this.xhr({
-                'url': '/signup',
-                'method': "POST", 
-                'contentType': 'application/json;charset=UTF-8',
-                'dataType': 'json',
-                'data': description
-                }
-        )
-        .then(onSuccess)
-        .catch(onFail)
-    };
-}
-
-export class Devices extends BaseModel {
-
-    constructor(onUpdate, beforeUpdateCallback) {
-        super();
-        this.onUpdateCallback = onUpdate;
-        this.beforeUpdateCallback = beforeUpdateCallback;
-        this.devices = [] 
-    }
-
-    remove = function(/*imei*/) {
-
-    };
-
-    add = (description, onSuccess, onFail) => {
-        let thisCopy = this;
-        this.xhr({
-                'url': '/devices/add',
-                'method': "POST", 
-                'contentType': 'application/json;charset=UTF-8',
-                'dataType': 'json',
-                'data': description
-             }
-        )
-        .then(function(data) {
-            console.log(data);
-            thisCopy.reload(onSuccess, onFail); 
-        })
-        .catch(function(jqXHR) {
-                if (onFail) {
-                    onFail(jqXHR);
-                }
-         });
-    };
-
-    reload = (onSuccess, onFail) => {
-        if (this.beforeUpdateCallback) {
-            this.beforeUpdateCallback();
-        }
-        let thisCopy = this;
-
-        this.xhr('/devices')
-            .then(function(data) {
-                console.log(data)
-                thisCopy.devices=data;
-                thisCopy.onUpdateCallback(thisCopy.devices);
-
-                if (onSuccess) {
-                    onSuccess(data); 
-                }
-            })
-            .catch(function(jqXHR) { 
-                if(onFail){ 
-                    onFail(jqXHR);
-                } 
-            });
-    };
-
-}

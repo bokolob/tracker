@@ -1,8 +1,9 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
+from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
 import model
@@ -18,6 +19,9 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    if request.accept_mimetypes['application/json']:
+        return jsonify({}), 403
+
     return redirect('/?next=' + request.path)
 
 
@@ -27,6 +31,7 @@ def create_app(config_filename):
                 static_folder='/static')
 
     # app.config.from_object(os.environ['APP_SETTINGS'])
+    app.config['SQLALCHEMY_ECHO'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0

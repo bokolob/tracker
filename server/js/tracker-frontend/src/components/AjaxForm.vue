@@ -26,10 +26,6 @@ export default {
                 this.$emit('process',
                             this.requestFields, 
                             (data) => {
-                                if (data.redirect) {
-                                    window.location.href = data.redirect;
-                                }
-                                
                                 this.requestFields = {};
                                 this.failed = false;
                                 this.success = true;

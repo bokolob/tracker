@@ -4,9 +4,9 @@
         <hr/>
         <div class="row">
             <div class="col-md-4">Name</div>
-            <div class="col-sm-auto">Put on map</div>
-            <div class="col-sm-auto">Color</div>
-            <div class="col-sm-auto">Settings</div>
+            <div class="col-md-1">Put on map</div>
+            <div class="col-md-3">Color</div>
+            <div class="col-md-3">Settings</div>
         </div>
         <hr/>
     </div>

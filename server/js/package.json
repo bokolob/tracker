@@ -18,7 +18,8 @@
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
     "leaflet-easybutton": "^2.4.0",
-    "vue": "^2.6.12"
+    "vue": "^2.6.12",
+    "vue-cli": "^2.9.6"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",

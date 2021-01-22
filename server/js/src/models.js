@@ -175,7 +175,10 @@ export class Devices extends BaseModel {
     };
 
     reload = (onSuccess, onFail) => {
-        this.beforeUpdateCallback();
+        if (this.beforeUpdateCallback) {
+            this.beforeUpdateCallback();
+        }
+
         let thisCopy = this;
         this.xhr('/devices')
             .done(function(data) {

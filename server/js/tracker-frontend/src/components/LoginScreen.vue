@@ -123,7 +123,7 @@ export default {
   components: {AjaxForm},
   methods: {
     auth: function(params, ok, fail) { 
-        let promise = API.signIn()({}, params);
+        let promise = API.signIn({}, params);
         promise.then( (data) => ok(data.data));
         promise.then(() => this.$emit('authorized'));
         promise.catch( (err) => fail(err.response.data));

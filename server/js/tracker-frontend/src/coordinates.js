@@ -442,13 +442,15 @@ export class Tracker extends EventEmitter {
         let thisCopy = this;
 
         axios.get('/'+this.imei+'/coordinates',{
-            'since': this.date_from ? this.date_from : this.last_ts,
-            'until': this.date_to ? this.date_to : null,
-            'direction': directionCopy, 
+            params: {
+                'since': this.date_from ? this.date_from : this.last_ts,
+                'until': this.date_to ? this.date_to : null,
+                'direction': directionCopy, 
+            }
         })
         .then(function (response) {
             console.log(response);
-            thisCopy._handle_new_points(response, directionCopy);
+            thisCopy._handle_new_points(response.data, directionCopy);
         })
         .catch(function (error) {
             console.log(error);
