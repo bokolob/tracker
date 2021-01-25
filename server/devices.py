@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 import model
+from app import socketio
 from device_settings import settings_to_web_format
 from web import abort_json, is_blank
 
@@ -60,6 +61,8 @@ def add_device():
     except IntegrityError:
         return abort_json(400, errors={"imei": "Imei already registered"})
 
+    socketio.emit('new_device', {'data': {}}, room='__user_'+str(flask_login.current_user.id))
+
     return jsonify({})
 
 
@@ -89,4 +92,8 @@ def get_devices():
 def remove_device(imei):
     devices = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).delete()
     model.db.session.commit()
+
+    socketio.emit('removed_device', {'data': {}}, room='__user_'+str(flask_login.current_user.id))
+    socketio.emit('removed_device', {'data': {}}, room='__device_'+str(imei))
+
     return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))

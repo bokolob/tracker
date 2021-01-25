@@ -5,6 +5,7 @@ import socket
 from urllib.parse import urlparse
 
 from aiomysql.sa import create_engine
+from flask_socketio import SocketIO
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.sql import select
 
@@ -19,6 +20,8 @@ queue = asyncio.Queue()
 known_devices = dict()
 
 app = create_app('')
+
+socketio = SocketIO(message_queue=app.config['REDIS_URL'])
 
 
 def create_server():
@@ -84,8 +87,14 @@ async def process_queue(engine):
         except asyncio.TimeoutError:
             pass
 
+        devices = set()
+
         if len(buf) >= BULK_SIZE or (
                 len(buf) > 0 and timeout is not None and datetime.datetime.now().timestamp() >= timeout):
+
+            for item in buf:
+                devices.add(item['device_id'])
+
             async with engine.acquire() as conn:
                 trans = await conn.begin()
 
@@ -97,6 +106,13 @@ async def process_queue(engine):
 
                 await conn.execute(on_duplicate_key_stmt)
                 await trans.commit()
+
+                try:
+                    for item in devices:
+                        socketio.emit('coordinates_updated', {'data': {'id': item.id}}, room="__device_" + str(item))
+                except Exception:
+                    # TODO logging
+                    pass
 
             timeout = None
 

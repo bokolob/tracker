@@ -14,19 +14,19 @@
           <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item active">
-                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('DevicesList')">Devices</a>
+                <a class="nav-link"  href="#settings_page_container" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('DevicesList')">Devices</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('AddDevice')">Add device</a>
+                <a class="nav-link"  href="#settings_page_container" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('AddDevice')">Add device</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('Shared')">Shared devices</a> 
+                <a class="nav-link"  href="#settings_page_container" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" role="button" aria-expanded="false" aria-controls="settings_page_container" @click="open_settings('Shared')">Shared devices</a> 
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="#settings_page_container" role="button" aria-expanded="false" aria-controls="settings_page_container">Profile</a> 
+                <a class="nav-link"  href="#settings_page_container" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" role="button" aria-expanded="false" aria-controls="settings_page_container">Profile</a> 
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/logout" role="button">Logout</a>
+                <a class="nav-link" href="/logout" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" role="button">Logout</a>
               </li>
             </ul>
           </div>
@@ -67,6 +67,7 @@ import {API} from '../models';
 import Vue from 'vue';
 
 import { Collapse } from 'bootstrap'
+import { io } from 'socket.io-client';
 
 export default {
   name: 'Main',
@@ -74,6 +75,7 @@ export default {
   components: {DevicesList,Shared,AddDevice,SplashScreen},
   data() {
       return {
+        socket: io.connect(), //({transports: ['websocket']}),
         settings_collapse: null,  
         map: null,
         tracker_bounds: null, 
@@ -92,6 +94,9 @@ export default {
   mounted() {
       this.settings_collapse = new Collapse(document.getElementById('settings_page_container'), {toggle:false});
       this.resize_handler(); 
+
+      this.socket.on("new_device", this.update_devices);
+      this.socket.on("device_shared_with", this.updateFriendsRequests); 
 
       document.getElementById('settings_page_container').addEventListener('shown.bs.collapse', (e) => {
              let navbar_height = document.getElementById('navbar').offsetHeight;
@@ -132,8 +137,6 @@ export default {
            this.map = new Coordinates('mapid');
            this.tracker_bounds = new TrackersBounds(this.map);  
 
-           setInterval(this.updateFriendsRequests, 10000);
-
            this.update_devices();
            this.updateFriendsRequests();
 
@@ -142,7 +145,6 @@ export default {
         update_settings(event) {
             switch(event.event) {
                 case 'device_added':
-                    this.update_devices();
                     break;
                 case 'state_changed':
                     if (event.state) {
@@ -170,7 +172,7 @@ export default {
                 let device = data[i];
             
                 if (!this.trackerObjects[device.imei]) {
-                    this.trackerObjects[device.imei] = new Tracker(this.map, device.imei);
+                    this.trackerObjects[device.imei] = new Tracker(this.map, device.imei, this.socket);
                     this.tracker_bounds.addTracker(this.trackerObjects[device.imei]);
                 }   
 

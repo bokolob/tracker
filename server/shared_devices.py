@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 import model
-from app import csrf
+from app import csrf, socketio
 from model import db
 from web import abort_json, is_blank
 
@@ -74,6 +74,9 @@ def shared_accept(token):
         db.session.commit()
     except IntegrityError:
         pass
+
+    socketio.emit('new_device', {'data': {}}, room='__user_' + str(flask_login.current_user.id))
+    socketio.emit('device_shared_with', {'data': {}}, room='__user_' + str(device.user_id))
 
     return jsonify({})
 

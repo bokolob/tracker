@@ -52,7 +52,7 @@ const handler = {
 
 const _api = {
     csrf: null,
-    client: axios.create({ timeout: 1000}),
+    client: axios.create({ }),
 };
 
 export let API = new Proxy(_api, handler);

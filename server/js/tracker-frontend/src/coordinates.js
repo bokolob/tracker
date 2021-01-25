@@ -296,13 +296,15 @@ export class TrackersBounds extends EventEmitter {
 }
 
 export class Tracker extends EventEmitter {
-    constructor(mymap, imei) {
+    constructor(mymap, imei, socket) {
         super();
         this.mymap = mymap;
         this.imei = imei;
         this.follow_trail = true;
         this.trail_length=1000;
         this.color='red';
+        this.socket = socket;
+        this.on_map = false;
         this._init();
 
         mymap.on('trail_mode', this.onTrailButtonPressed);
@@ -321,6 +323,7 @@ export class Tracker extends EventEmitter {
 
     addToMap = () => {
         this._init();
+        this.on_map = true;
 
         this.marker = new L.Marker(this.currentPosition);
         this.marker.addTo(this.mymap.mymap).bindPopup("<div> <div> <div>Hello</div> </div> <div><div>World</div></div>  </div>").openPopup();
@@ -329,11 +332,12 @@ export class Tracker extends EventEmitter {
        
         let status = "<div class='container'> <div class='row justify-content-end'> <div class='col'> <span class='battery-warn fa fa-battery-quarter'>jjkj</span></div></div><div class='row justify-content-end'> <div class='col my-3'>tracker1</div></div></div></div>";
         this.marker.setPopupContent(status);
-        this.timer = setInterval(this.updateWaypoints, 1000);
+        //this.timer = setInterval(this.updateWaypoints, 1000);
         this.emit('tracker_added', [ this ]);
     }
 
     removeFromMap = () => {
+        this.on_map = false;
         this.clear_segments();
         
         if (this.marker) {
@@ -345,6 +349,7 @@ export class Tracker extends EventEmitter {
         }
 
         this.emit('tracker_removed', [ this ]);
+        this.socket.emit("unsubscribe_from_device", {imei: this.imei});
     }
 
     getMarker = () => {
@@ -352,24 +357,33 @@ export class Tracker extends EventEmitter {
     };
 
     onTrailButtonPressed =  () => {
-        if (!this.follow_trail) {
+        if ( this.on_map && !this.follow_trail) {
             this.follow_trail = true;
             this.last_ts=null;
             this.date_from = null;
             this.date_to = null; //8640000000000000;
+
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+
             this.clear_segments();
+            this.socket.on("coordinates_updated", this.updateWaypoints);
+            this.socket.emit("subscribe_on_device", {imei: this.imei});
         }
     } 
 
     onDatesSelected = (selectedDates, dateStr, instance) => {
         console.log([selectedDates, dateStr, instance]);
-        if (selectedDates.length == 2) {
+        if (this.on_map && selectedDates.length == 2) {
             this.date_from=selectedDates[0].getTime()/1000;
             this.date_to=selectedDates[1].getTime()/1000;
             this.last_ts = null;
 
             this.follow_trail = false;
             this.clear_segments();
+            this.socket.emit("unsubscribe_on_device", {imei: this.imei});
+            this.timer = setInterval(this.updateWaypoints, 200);
         }
     };
 

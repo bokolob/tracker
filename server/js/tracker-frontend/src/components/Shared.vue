@@ -3,7 +3,7 @@
         <AjaxForm inline-template v-on:process="share_device" :additional_data="my_devices">
             <div class="container">
                 <div class="alert alert-success" v-if="success"  role="alert">
-                    Success! <button class="btn btn-link btn-sm btn-warning" :data-clipboard-text="response.link" @click="share_link" id="sharing_link" data-bs-toggle="tooltip" data-bs-placement="right" title="Copied">Share!</button>                    
+                    Success!                
                 </div>
                 <div class="alert alert-danger" v-else-if="failed" role="alert">
                     Failed :(
@@ -47,32 +47,32 @@
 <script>
     import AjaxForm from './AjaxForm.vue';
     import {API} from '../models';
-    import ClipboardJS from 'clipboard';
 
     export default {
-        data() {
-            return { has_navigator_share: !!navigator.share,
-                     clipboard: null, }
-        },
-        destroyed() {
-            if (this.clipboard) {
-                this.clipboard.destroy();
-            }
-        },
         props: ['devices', 'shared_devices'],
         components: {AjaxForm},
         methods: {
-            share_link() {
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'WebShare API Demo',
-                        url: this.response.link,
-                        }).then(() => {
-                            alert("SSS");
-                            console.log('Thanks for sharing!');
-                        })
-                        .catch( (e) => alert(e));
-                }
+            sendlink(link) {
+                navigator.share({
+                    title: 'WebShare API Demo',
+                    text: 'Track my device here',
+                    url: link,
+                    },
+                    {
+                        copy: true,
+                        email: true,
+                        messenger: true,
+                        facebook: true,
+                        whatsapp: true,
+                        telegram: true,
+                        skype: true,
+                        language: 'ru' // specify the default language
+                    }
+                    ).then(() => {
+                        console.log('Thanks for sharing!');
+                    })
+                    .catch( (e) => alert(e));
+                    return false;
             }, 
             unshare(item) {
                 API.unshareDevice({'id':item.id})
@@ -82,13 +82,8 @@
             share_device(data, ok, fail) { 
                 API.getSharingLink({},data)
                     .then( (response) => { 
-                        ok(response.data); 
-                        
-                        if (!this.has_navigator_share && !this.clipboard) {
-                            this.clipboard = new ClipboardJS('#sharing_link');
-                        }
-
-                        this.$emit('value_updated', {'event': 'share_device'})
+                        ok(response.data);
+                        this.sendlink(response.data.link); 
                     })
                     .catch( (err) => {
                         fail(err.response.data);

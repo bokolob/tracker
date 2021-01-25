@@ -1,13 +1,13 @@
 <template>
 <div>
     <div class="row">
-            <div class="col-md-4 d-flex justify-content-start">{{device.name}}</div>
-            <div class="col-md-1">                        
+            <div class="col-5 d-flex justify-content-start">{{device.name}}</div>
+            <div class="col-1">                        
                 <div class="form-check form-switch d-flex justify-content-center">
                      <input class="form-check-input" type="checkbox" :id="device.imei + '_enabled'" v-model="settings.enabled">
                 </div>
             </div>
-            <div class="col-md-3">                        
+            <div class="col-3">                        
                 <div class="form-check  d-flex justify-content-center">
                     <input type="color" class="form-control form-control-color" :id="device.imei+'_color'" v-model="settings.color">
                  </div>
