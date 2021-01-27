@@ -1,4 +1,3 @@
-from email.utils import parseaddr
 from urllib.parse import urlparse
 
 import flask_login
@@ -11,6 +10,7 @@ from sqlalchemy.exc import IntegrityError
 import model
 from app import csrf
 from model import db
+from validators import validated
 
 main_page = Blueprint('main_page', __name__, template_folder='templates')
 
@@ -36,11 +36,9 @@ def process_target_url(target):
 
 @main_page.route('/auth', methods=['POST', 'GET'])
 @csrf.exempt
+@validated
 def login():
     args = request.get_json()
-
-    if args is None:
-        abort_json(400, message="No payload")
 
     email = args.get("email")
     pass1 = args.get("password")
@@ -87,11 +85,9 @@ def get_csrf():
 
 @main_page.route('/signup', methods=['POST'])
 @csrf.exempt
+@validated
 def signup():
     args = request.get_json()
-
-    if args is None:
-        return abort_json(400, message="No payload")
 
     imei = args.get("imei")
     email = args.get("email")
@@ -100,20 +96,8 @@ def signup():
 
     errors = {}
 
-    if is_blank(imei):
-        errors["imei"] = "Imei must be filled in"
-
-    if is_blank(email):
-        errors["email"] = "Email must be filled in"
-
-    if is_blank(pass1) or is_blank(pass2):
-        errors["password"] = "Password must be filled in"
-
     if pass1 != pass2:
         errors["password_confirm"] = "Passwords must be the same"
-
-    if not is_blank(email) and '@' not in parseaddr(email)[1]:
-        errors["email"] = "Invalid email"
 
     if not is_blank(imei):
         device = model.Device.query.filter_by(imei=imei).first()

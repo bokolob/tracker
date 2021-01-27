@@ -1,18 +1,15 @@
 <template>
-<div>
-    <div class="container">
-        <hr/>
-        <div class="row">
-            <div class="col-5">Name</div>
-            <div class="col-1">Put on map</div>
-            <div class="col-3">Color</div>
-            <div class="col-3">Settings</div>
-        </div>
-        <hr/>
+<div class="container">
+    <hr/>
+    <div class="row">
+        <div class="col-5">Name</div>
+        <div class="col-1">Put on map</div>
+        <div class="col-3">Color</div>
+        <div class="col-3">Settings</div>
     </div>
-
+    <hr/>
     <DeviceItem  v-for="item in devices" :key="item.imei" :device="item" :settings="devices_settings[item.imei]" v-on:state_changed="state_changed" v-on:color_changed="color_changed" />
-    </div>
+</div>
 </template>
 
 <script>

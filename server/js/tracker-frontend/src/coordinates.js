@@ -89,6 +89,7 @@ export class Coordinates extends EventEmitter {
 
         this.mymap = L.map(id, 
             {
+                tap: false,
                 preferCanvas: true,
                 center: [55.750996996, 37.617330864],
                 zoom: 14,

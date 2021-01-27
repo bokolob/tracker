@@ -50,19 +50,23 @@
         </div>
      </div>
 </header>
-    <div id="map_container" class="map_container" v-bind:style="{ height: map_height }">
-        <div id="mapid"></div>
-    </div>
+    <Map :map_height="map_height" :devices="devices" :socket="socket" :devices_settings="devices_settings"/>
 </div>
 </template>
 
 <script>
+/*
+    <div id="map_container" class="map_container" v-bind:style="{ height: map_height }">
+        <div id="mapid"></div>
+    </div>
+*/
 import SplashScreen from './SplashScreen.vue'
 import DevicesList from './DevicesList.vue'
 import Shared from './Shared.vue'
 import AddDevice from './AddDevice.vue'
+import Map from './Map.vue';
 
-import { Coordinates, Tracker, TrackersBounds } from '../coordinates';
+//import { TrackersBounds } from '../coordinates';
 import {API} from '../models';
 import Vue from 'vue';
 
@@ -72,14 +76,11 @@ import { io } from 'socket.io-client';
 export default {
   name: 'Main',
   props: {},
-  components: {DevicesList,Shared,AddDevice,SplashScreen},
+  components: {DevicesList,Shared,AddDevice,SplashScreen, Map},
   data() {
       return {
         socket: io.connect(), //({transports: ['websocket']}),
         settings_collapse: null,  
-        map: null,
-        tracker_bounds: null, 
-        trackerObjects: {},
         loading: true,  
         devices: [],
         devices_settings: {},
@@ -87,6 +88,9 @@ export default {
         currentSettingsComponent: "DevicesList",
         map_height:"calc(100vh-51px)",
       }
+  },
+  destroyed() {
+      this.socket.close();
   },
   created() {
     window.addEventListener("resize", this.resize_handler);
@@ -130,13 +134,12 @@ export default {
         },
         resize_handler() {
             document.body.style.height = window.innerHeight + "px";
-            let navbar_height = document.getElementById('navbar').offsetHeight;
-            this.map_height= (window.innerHeight - navbar_height)+"px";
+            if (document.getElementById('navbar')) {
+                let navbar_height = document.getElementById('navbar').offsetHeight;
+                this.map_height= (window.innerHeight - navbar_height)+"px";
+            }
         },
         init_app() {
-           this.map = new Coordinates('mapid');
-           this.tracker_bounds = new TrackersBounds(this.map);  
-
            this.update_devices();
            this.updateFriendsRequests();
 
@@ -145,17 +148,6 @@ export default {
         update_settings(event) {
             switch(event.event) {
                 case 'device_added':
-                    break;
-                case 'state_changed':
-                    if (event.state) {
-                       this.trackerObjects[event.imei].addToMap();
-                    }
-                    else {
-                       this.trackerObjects[event.imei].removeFromMap();
-                    } 
-                    break;
-                case 'color_changed':
-                    this.trackerObjects[event.imei].set_color(event.color);
                     break;
             }
 
@@ -170,14 +162,9 @@ export default {
 
             for (let i in data) {
                 let device = data[i];
-            
-                if (!this.trackerObjects[device.imei]) {
-                    this.trackerObjects[device.imei] = new Tracker(this.map, device.imei, this.socket);
-                    this.tracker_bounds.addTracker(this.trackerObjects[device.imei]);
-                }   
-
                 Vue.set(this.devices_settings, device.imei, {'enabled': false, 'color':'#ff0000'});
             }
+            //TODO Handle removing
 
             this.devices = data;
         },
@@ -190,7 +177,7 @@ export default {
             if (this.currentSettingsComponent === 'DevicesList') {
                 return {'devices': this.devices,
                         'devices_settings': this.devices_settings,
-                    };
+                  };
             }
             else if (this.currentSettingsComponent === 'Shared') {
                 return {'devices': this.devices, 'shared_devices':this.shared_devices};
@@ -206,21 +193,7 @@ export default {
 }
 </script>
 
-<style>
-    #mapid {
-        height: 100%;
-        width: 100%;
-    }
-    
-    .map_container {
-        height: calc(100% - 51px); 
-    }
-
-    #mapid {
-        height: 100%;
-        width: 100%;
-    }   
-    
+<style>    
     header.navbar {
         margin-bottom: 0px;
     }
