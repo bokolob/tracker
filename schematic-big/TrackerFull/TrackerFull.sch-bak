@@ -458,8 +458,8 @@ Wire Wire Line
 Connection ~ 5950 9350
 NoConn ~ 4100 7500
 Wire Wire Line
-	8550 6350 8750 6350
-Text Label 8750 6350 0    50   ~ 0
+	9800 5800 9800 5600
+Text Label 9800 5750 0    50   ~ 0
 +5V
 NoConn ~ 3450 5950
 NoConn ~ 3450 6050
@@ -536,7 +536,7 @@ Wire Wire Line
 	1550 7100 2400 7100
 Connection ~ 2400 7100
 Wire Wire Line
-	8250 6350 8150 6350
+	9800 6100 9800 6150
 Text Label 5800 6850 2    50   ~ 0
 GPS_POWER
 Wire Wire Line
@@ -2019,14 +2019,14 @@ $EndComp
 $Comp
 L Device:R R17
 U 1 1 5F85A184
-P 8400 6350
-F 0 "R17" V 8500 6400 50  0000 R CNN
-F 1 "10K" V 8400 6400 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8330 6441 50  0001 R CNN
-F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 8400 6350 50  0001 C CNN
-F 4 "RMCF0603FG10K0" H 8400 6350 50  0001 C CNN "Поле5"
-	1    8400 6350
-	0    1    1    0   
+P 9800 5950
+F 0 "R17" V 9900 6000 50  0000 R CNN
+F 1 "10K" V 9800 6000 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 9730 6041 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 9800 5950 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 9800 5950 50  0001 C CNN "Поле5"
+	1    9800 5950
+	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R R5
@@ -2117,4 +2117,40 @@ Wire Wire Line
 NoConn ~ 3450 6150
 NoConn ~ 3450 6450
 NoConn ~ 8150 5450
+NoConn ~ 4200 7500
+NoConn ~ 4300 7500
+$Comp
+L Device:R R?
+U 1 1 6016E277
+P 9800 6350
+F 0 "R?" V 9900 6400 50  0000 R CNN
+F 1 "10K" V 9800 6400 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 9730 6441 50  0001 R CNN
+F 3 "https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RMCF0603FG10K0/1761236" H 9800 6350 50  0001 C CNN
+F 4 "RMCF0603FG10K0" H 9800 6350 50  0001 C CNN "Поле5"
+	1    9800 6350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8150 6350 9000 6350
+Wire Wire Line
+	9000 6350 9000 6150
+Wire Wire Line
+	9000 6150 9800 6150
+Connection ~ 9800 6150
+Wire Wire Line
+	9800 6150 9800 6200
+$Comp
+L power:GNDD #PWR?
+U 1 1 60184AAA
+P 9800 6600
+F 0 "#PWR?" H 9800 6350 50  0001 C CNN
+F 1 "GNDD" H 9804 6445 50  0000 C CNN
+F 2 "" H 9800 6600 50  0001 C CNN
+F 3 "" H 9800 6600 50  0001 C CNN
+	1    9800 6600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9800 6500 9800 6600
 $EndSCHEMATC

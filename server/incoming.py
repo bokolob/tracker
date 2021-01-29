@@ -109,8 +109,9 @@ async def process_queue(engine):
 
                 try:
                     for item in devices:
-                        socketio.emit('coordinates_updated', {'data': {'id': item.id}}, room="__device_" + str(item))
-                except Exception:
+                        socketio.emit('coordinates_updated', {'data': {'id': item}},  room="__device_" + str(item))
+                except Exception as e:
+                    print(e)
                     # TODO logging
                     pass
 

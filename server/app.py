@@ -45,7 +45,8 @@ def create_app(config_filename):
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
     app.config['SHARED_DEVICES_SECRET_KEY'] = bytearray.fromhex(
         '754409aece52cc7c71c5ebd3e684e23ae2b288c25f70a1c91d86479920ebea76')
-    app.config['REDIS_URL'] = "redis://:den12345@192.168.1.41"
+    app.config[
+        'REDIS_URL'] = "redis://:den12345@192.168.1.41/?health_check_interval=30&socket_keepalive=TRUE&max_connections=64"
 
     from model import db
     db.init_app(app)

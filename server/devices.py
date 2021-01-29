@@ -76,13 +76,28 @@ def get_devices():
             devices)))
 
 
-@devices_page.route('/devices/remove/<imei>', methods=['DELETE'])
+@devices_page.route('/devices/<imei>', methods=['DELETE'])
 @login_required
 def remove_device(imei):
+    device = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).first()
+
+    if device is None:
+        return abort_json(404, errors={"imei": "Not found"})
+
+    shifted = device.id << 32
+    shifted_high = (device.id + 1) << 32
+
+    # Probably too long operation, should be enqueued and do in background
+    model.Coordinates.query.filter(model.Coordinates.id > shifted, model.Coordinates.id < shifted_high).delete()
+    model.DeviceSettings.query.filter_by(device_id=device.id).delete()
+    model.SharedDevices.query.filter_by(device_id=device.id).delete()
+
+    # TODO LBSQueue
+
     devices = model.Device.query.filter_by(user_id=flask_login.current_user.id, imei=imei).delete()
     model.db.session.commit()
 
     socketio.emit('removed_device', {'data': {}}, room='__user_' + str(flask_login.current_user.id))
     socketio.emit('removed_device', {'data': {}}, room='__device_' + str(imei))
 
-    return jsonify(list(map(lambda x: {'name': x.name, 'id': x.id, 'imei': x.imei}, devices)))
+    return jsonify({'removed': devices})

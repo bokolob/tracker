@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 const axios = require('axios');
 
 export default {
-    props:['imei', 'settings', 'map_settings', 'map_object', 'socket'],
+    props:['imei', 'device_id', 'settings', 'map_settings', 'map_object', 'socket'],
 
     data() {
         return {
@@ -16,13 +16,18 @@ export default {
             mode: null,
             promise: null,
             watchdog: null,
+            request_context_id: 1,
         }
     },
     mounted() {
         this.init();
+        this.socket.on("coordinates_updated", this.on_event);
+        this.socket.on("reconnect", this.on_reconnect);
     },
     beforeDestroy() {
         this.remove_from_map();
+        this.socket.off("coordinates_updated", this.on_event);
+        this.socket.off("reconnect", this.on_reconnect);
     },
     render() {
          return []
@@ -40,6 +45,8 @@ export default {
             if (this.promise) {
               //TODO  this.promise.cancel();
             }
+
+            this.request_context_id++;
 
             if (this.watchdog) {
                 clearTimeout(this.watchdog);
@@ -75,6 +82,7 @@ export default {
             this.$emit('tracker_added', this);
         },
         remove_from_map() {
+            this.request_context_id++;
             this.on_map = false;
             this.clear_segments();
             
@@ -140,6 +148,7 @@ export default {
         },
         updateWaypoints() {
             let directionCopy = this.mode === "follow_trail" ? 'desc' : 'asc'; 
+            let context_id = this.request_context_id;
             let thisCopy = this;
 
             this.promise = axios.get('/'+this.imei+'/coordinates',{
@@ -151,6 +160,12 @@ export default {
             })
             .then(function (response) {
                 console.log(response);
+
+                if (thisCopy.request_context_id != context_id) {
+                    console.log("Drop request, it's not needed anymore");
+                    return;
+                }
+
                 thisCopy._handle_new_points(response.data, directionCopy);
 
                 if (thisCopy.watchdog) {
@@ -170,6 +185,12 @@ export default {
             })
             .catch(function (error) {
                 console.log(error);
+
+                if (thisCopy.request_context_id != context_id) {
+                    console.log("Drop error, it's not needed anymore");
+                    return;
+                }
+
                 thisCopy.watchdog=setTimeout(thisCopy.updateWaypoints, 50);
             });
         },
@@ -181,8 +202,13 @@ export default {
                 this.show_track();
             }
         },
+        on_reconnect() {
+            if (this.mode === "follow_trail") {
+              this.socket.emit("subscribe_on_device", {imei: this.imei});
+            }
+        },
         on_event(ev) {
-            if (this.mode === "follow_trail"  && ev.id === this.imei) {
+            if (this.mode === "follow_trail"  && ev.data.id === this.device_id) {
               this.updateWaypoints();  
             }
         },
@@ -208,7 +234,6 @@ export default {
            }
            
            if (this.settings.enabled) {
-             this.socket.on("coordinates_updated", this.on_event);
              this.socket.emit("subscribe_on_device", {imei: this.imei});
              //TODO handle socket error and disconnect
              this.updateWaypoints();

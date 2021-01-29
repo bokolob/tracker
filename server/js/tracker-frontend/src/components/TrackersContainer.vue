@@ -6,6 +6,7 @@
                     :map_object="map_object" 
                     :socket="socket" 
                     :map_settings="map_settings"
+                    :device_id="item.id"
                     v-on:tracker_added="tracker_added"
                     v-on:tracker_removed="tracker_removed"
                     v-on:tracker_position="tracker_position"

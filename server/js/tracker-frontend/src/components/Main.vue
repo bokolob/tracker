@@ -100,6 +100,7 @@ export default {
       this.resize_handler(); 
 
       this.socket.on("new_device", this.update_devices);
+      this.socket.on("removed_device", this.update_devices);
       this.socket.on("device_shared_with", this.updateFriendsRequests); 
 
       document.getElementById('settings_page_container').addEventListener('shown.bs.collapse', (e) => {

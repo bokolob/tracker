@@ -6,7 +6,11 @@
 </template>
 
 <script>
+import 'flatpickr/dist/flatpickr.min.css'
+import 'leaflet/dist/leaflet.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'leaflet-easybutton/src/easy-button.css'
+
 import Main from './components/Main.vue'
 import LoginScreen from './components/LoginScreen.vue'
 

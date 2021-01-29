@@ -1,5 +1,6 @@
 <template>
 <div>
+    <Alert :body="'Are you sure to remove '+device.name+'?'" :show="show_removing_alert" :title="'Remove'" v-on:closed="show_removing_alert=false" v-on:accepted="remove"/>
     <div class="row">
             <div class="col-5 d-flex justify-content-start">{{device.name}}</div>
             <div class="col-1">                        
@@ -36,7 +37,7 @@
                                         <button type="button" class="btn btn-danger btn-sm" v-on:click="cancel">Cancel</button>
                                     </div>
                                     <div class="col-md-auto"> 
-                                        <button type="button" class="btn btn-danger btn-sm">Remove</button>
+                                        <button type="button" class="btn btn-danger btn-sm" @click="show_removing_alert=true">Remove</button>
                                     </div>
                                 </div>
                             </div>
@@ -50,42 +51,48 @@
 <script>
 
 import {API} from '../models';
+import Alert from './Alert.vue';
 
 function clone(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
 export default {
-     name: "DeviceItem",
-     props: ["device", "settings"],
-                data() {
-                    return { current_device_settings: clone(this.device.settings) }
-                },
-                methods: {
-                    cancel() {
-                        this.current_device_settings = clone(this.device.settings)
-                    },
-                    save() {
-                        this.device.settings = this.current_device_settings; 
+    name: "DeviceItem",
+    components: {Alert},
+    props: ["device", "settings"],
+    data() {
+        return { current_device_settings: clone(this.device.settings), show_removing_alert:false }
+    },
+    methods: {
+        remove() {
+           this.show_removing_alert = false;
+           API.removeDevice({'imei': this.device.imei});
+        },
+        cancel() {
+            this.current_device_settings = clone(this.device.settings)
+        },
+        save() {
+            this.device.settings = this.current_device_settings; 
 
-                        API.saveDeviceSettings({'imei': this.device.imei}, this.current_device_settings)
-                            .then( () => this.$emit('value_updated', {'event': 'settings_saved'}))
-                            .catch( (err) => console.log(err) );
-                    }
-                },
-                watch: {
-                    'settings.enabled': {
-                        handler: function(newValue) {
-                            this.$emit('state_changed', this.device.imei, newValue);
-                        },
-                        immediate: true,
-                    },
-                    'settings.color': {
-                        handler: function(newValue) {
-                            this.$emit('color_changed', this.device.imei, newValue);
-                        },
-                        immediate: true,
-                    },
-                }
+            API.saveDeviceSettings({'imei': this.device.imei}, this.current_device_settings)
+                .then( () => this.$emit('value_updated', {'event': 'settings_saved'}))
+                .catch( (err) => console.log(err) );
+        }
+    },
+    watch: {
+        'settings.enabled': {
+            handler: function(newValue) {
+                this.$emit('state_changed', this.device.imei, newValue);
+            },
+            immediate: true,
+        },
+        'settings.color': {
+            handler: function(newValue) {
+                this.$emit('color_changed', this.device.imei, newValue);
+            },
+            immediate: true,
+        },
+    }
 }
 </script>

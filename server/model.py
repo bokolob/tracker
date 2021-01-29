@@ -36,7 +36,8 @@ class SharedDevices(db.Model):
     device = db.relationship("Device", lazy="joined", uselist=False, back_populates="share")
     user = db.relationship("User", uselist=False, lazy=True)
 
-    __table_args__ = (Index('User_device', 'shared_with', 'device_id', unique=True),)
+    __table_args__ = (Index('User_device', 'shared_with', 'device_id', unique=True),
+                      Index('device_id_index', 'device_id'))
 
 
 class SubscriptionPlan(db.Model):
@@ -74,13 +75,6 @@ class Coordinates(db.Model):
     device = db.relationship("Device")
     lat = db.Column(db.Numeric)
     lng = db.Column(db.Numeric)
-
-
-class DBDictMixin(object):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    dict_id = db.Column(db.Integer, nullable=False)
-    key = db.Column(db.String(100), nullable=False)
-    value = db.Column(db.String(100), nullable=False)
 
 
 class DeviceSettings(db.Model):

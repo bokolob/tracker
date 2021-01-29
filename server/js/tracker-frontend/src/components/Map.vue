@@ -9,15 +9,30 @@
             :socket="socket" 
             v-on:bounds_changed="on_bounds_changed"
             />
+
+        <Compass
+           :target_coords="center"
+           :phone_coords="my_position" 
+            v-on:compass_rotation="rotate_compass"/>
     </div>
 </template>
 
 <script>
-import * as L from 'leaflet';
+import  L from 'leaflet';
+delete L.Icon.Default.prototype._getIconUrl;
+
+// https://github.com/Leaflet/Leaflet/issues/4968
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
+
 require('leaflet-easybutton')
 require('../calendar');
 import flatpickr from "flatpickr";
 import TrackersContainer from './TrackersContainer.vue';
+import Compass from './Compass.vue';
 
 const default_center=L.latLng(55.750996996, 37.617330864);
 
@@ -37,21 +52,25 @@ export default {
         this.init_map();
     },
 
-    components: {TrackersContainer},
+    components: {TrackersContainer, Compass},
 
     computed: {
         center() {
             if (this.view_bounds && this.view_bounds.isValid()) {
-                this.view_bounds.getCenter();
+                return this.view_bounds.getCenter();
             }
             return default_center;
         }
     },
     methods: {
+        rotate_compass(degrees) {
+            let arrow = document.getElementById("compass_div");
+            arrow.style['transform'] = 'rotate('+ (degrees) +'deg)'; 
+        },
         on_bounds_changed(bounds) {
             this.view_bounds = bounds;
             if (this.settings.follow_trackers) {
-                this.mymap.fitBounds(this.view_bounds); 
+                this.mymap.fitBounds(this.view_bounds,{maxZoom: this.mymap.getZoom()}); 
             }
         },
         init_map() {
@@ -107,9 +126,9 @@ export default {
                                             time_24hr: true, 
                                             clickOpens:false,
                                             onClose: (selectedDates) => {
-                                                    this.settings.mode="none";
                                                     this.settings.selectedDates = selectedDates; 
-                                                    this.settings.mode="show_full_track";
+                                                    this.settings.mode="none";
+                                                    this.$nextTick(() => this.settings.mode="show_full_track");
                                             },
                                         }); 
 
@@ -169,7 +188,7 @@ export default {
         init_center_button() {
             L.easyButton('fa fa-crosshairs', () => {
                 if (this.view_bounds) {
-                    this.mymap.fitBounds(this.view_bounds); 
+                    this.mymap.fitBounds(this.view_bounds, {maxZoom: this.mymap.getZoom()}); 
                 }
             }).addTo( this.mymap );
         },
